@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\iTest.Data\iTest.Data.csproj" />
+    <ProjectReference Include="..\iTest.Infrastructure\iTest.Infrastructure.csproj" />
     <ProjectReference Include="..\iTest.Services.External\iTest.Services.External.csproj" />
   </ItemGroup>
 
