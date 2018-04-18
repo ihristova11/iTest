@@ -29,6 +29,8 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\" />
+    <Folder Include="wwwroot\lib\materialize\dist\css\" />
+    <Folder Include="wwwroot\lib\materialize\dist\fonts\" />
   </ItemGroup>
 
 </Project>
