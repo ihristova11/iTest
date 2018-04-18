@@ -1,5 +1,4 @@
 ﻿using iTest.Data;
-using iTest.Services.External;
 using iTest.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,7 +28,7 @@ namespace iTest.Web
                 .AddEntityFrameworkStores<iTestDbContext>()
                 .AddDefaultTokenProviders();
 
-            //services.AddTransient<IEmailSender, EmailSender>();
+            // services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddRouting(routing => { routing.LowercaseUrls = true; }); // routing lowercase
 
