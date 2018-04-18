@@ -1,10 +1,12 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using iTest.Data.Models.Contracts;
 using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace iTest.Data.Models
+namespace iTest.Data.Models.Implementations
 {
-    public class User : IdentityUser//, IAuditable, IDeletable
+    public class User : IdentityUser, IAuditable, IDeletable
     {
         public bool IsDeleted { get; set; }
 
@@ -16,5 +18,7 @@ namespace iTest.Data.Models
 
         [DataType(DataType.DateTime)]
         public DateTime? ModifiedOn { get; set; }
+
+        public ICollection<UserTest> Tests { get; set; } = new List<UserTest>();
     }
 }
