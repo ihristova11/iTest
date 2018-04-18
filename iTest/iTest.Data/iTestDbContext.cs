@@ -16,7 +16,6 @@ namespace iTest.Data
         public DbSet<Result> Results { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
-        //public DbSet<UserTest> UserTest { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
