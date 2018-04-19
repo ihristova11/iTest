@@ -9,6 +9,10 @@ namespace iTest.Data.Models.Implementations
     {
         public string Id { get; set; }
 
+        public string Description { get; set; }
+
+        public ICollection<Answer> Answers { get; set; } = new List<Answer>();
+
         public DateTime? CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }
@@ -16,9 +20,5 @@ namespace iTest.Data.Models.Implementations
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
-
-        public string Description { get; set; }
-
-        public ICollection<Answer> Answers { get; set; } = new List<Answer>();
     }
 }

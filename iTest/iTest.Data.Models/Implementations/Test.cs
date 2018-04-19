@@ -10,14 +10,6 @@ namespace iTest.Data.Models.Implementations
     {
         public string Id { get; set; }
 
-        public DateTime? CreatedOn { get; set; }
-
-        public DateTime? ModifiedOn { get; set; }
-
-        public bool IsDeleted { get; set; }
-
-        public DateTime? DeletedOn { get; set; }
-
         public string Name { get; set; }
 
         public DateTime RequestedTime { get; set; }
@@ -31,5 +23,13 @@ namespace iTest.Data.Models.Implementations
         public ICollection<Result> Results { get; set; } = new List<Result>();
 
         public ICollection<UserTest> Users { get; set; } = new List<UserTest>();
+
+        public DateTime? CreatedOn { get; set; }
+
+        public DateTime? ModifiedOn { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public DateTime? DeletedOn { get; set; }
     }
 }
