@@ -1,15 +1,14 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using iTest.Services;
+﻿using iTest.Data.Models.Implementations;
 using iTest.Services.External;
-using iTest.Web.Models;
 using iTest.Web.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace iTest.Web.Controllers
 {
@@ -17,6 +16,7 @@ namespace iTest.Web.Controllers
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
+<<<<<<< HEAD
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         //private readonly IEmailSender _emailSender;
@@ -26,6 +26,17 @@ namespace iTest.Web.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             //IEmailSender emailSender,
+=======
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly IEmailSender _emailSender;
+        private readonly ILogger _logger;
+
+        public AccountController(
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            IEmailSender emailSender,
+>>>>>>> 4d71483740e03988f5a0c508ffcf6c548842d4ed
             ILogger<AccountController> logger)
         {
             _userManager = userManager;
@@ -217,7 +228,7 @@ namespace iTest.Web.Controllers
         //    ViewData["ReturnUrl"] = returnUrl;
         //    if (ModelState.IsValid)
         //    {
-        //        var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+        //        var user = new User { UserName = model.Email, Email = model.Email };
         //        var result = await _userManager.CreateAsync(user, model.Password);
         //        if (result.Succeeded)
         //        {
@@ -307,7 +318,7 @@ namespace iTest.Web.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new User { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
