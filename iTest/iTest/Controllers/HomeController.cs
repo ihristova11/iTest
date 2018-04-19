@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using iTest.Data;
 using iTest.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,6 +7,13 @@ namespace iTest.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly iTestDbContext ctx;
+
+        public HomeController(iTestDbContext ctx)
+        {
+            this.ctx = ctx;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -13,15 +21,11 @@ namespace iTest.Web.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 
