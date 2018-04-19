@@ -1,17 +1,16 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using iTest.Services;
+﻿using iTest.Data.Models.Implementations;
 using iTest.Services.External;
-using iTest.Web.Models;
 using iTest.Web.Models.ManageViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace iTest.Web.Controllers
 {
@@ -19,8 +18,8 @@ namespace iTest.Web.Controllers
     [Route("[controller]/[action]")]
     public class ManageController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
@@ -28,8 +27,8 @@ namespace iTest.Web.Controllers
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
         public ManageController(
-          UserManager<ApplicationUser> userManager,
-          SignInManager<ApplicationUser> signInManager,
+          UserManager<User> userManager,
+          SignInManager<User> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder)
@@ -121,8 +120,8 @@ namespace iTest.Web.Controllers
 
         //    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            
-        //   var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+
+        //    var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
         //    var email = user.Email;
         //    await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
 

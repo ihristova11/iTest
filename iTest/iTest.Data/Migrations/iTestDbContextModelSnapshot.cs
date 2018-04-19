@@ -12,7 +12,7 @@ using System;
 namespace iTest.Data.Migrations
 {
     [DbContext(typeof(iTestDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    partial class iTestDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

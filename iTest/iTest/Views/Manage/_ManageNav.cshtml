@@ -1,6 +1,6 @@
 ﻿@using iTest.Web.Models
 @using iTest.Web.Views.Manage
-@inject SignInManager<ApplicationUser> SignInManager
+@inject SignInManager<User> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

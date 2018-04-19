@@ -1,5 +1,6 @@
 ﻿using iTest.Data;
-using iTest.Web.Models;
+using iTest.Data.Models.Implementations;
+using iTest.Web.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -24,11 +25,16 @@ namespace iTest.Web
             services.AddDbContext<iTestDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("iTestDbConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(options =>
+                {
+                    // set password requirements
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                })
                 .AddEntityFrameworkStores<iTestDbContext>()
                 .AddDefaultTokenProviders();
-
-            // services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddRouting(routing => { routing.LowercaseUrls = true; }); // routing lowercase
 
@@ -40,6 +46,9 @@ namespace iTest.Web
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
+            app.UseDatabaseMigration(); // auto migrations
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

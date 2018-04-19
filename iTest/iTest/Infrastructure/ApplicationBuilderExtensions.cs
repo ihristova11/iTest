@@ -53,11 +53,10 @@ namespace iTest.Web.Infrastructure
                     {
                         admin = new User
                         {
-                            UserName = "admin@test.com",
-                            Email = "admin@test.com"
+                            UserName = "admin"
                         };
 
-                        await userManager.CreateAsync(admin, "admin");
+                        await userManager.CreateAsync(admin, "admin12");
 
                         await userManager.AddToRoleAsync(admin, UserRoles.AdminRole);
                     }
