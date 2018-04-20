@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTest.Web", "iTest\iTest.Web.csproj", "{4890B44F-9AC8-420F-B394-FE0CC0DBA861}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iTest.Web", "iTest\iTest.Web.csproj", "{4890B44F-9AC8-420F-B394-FE0CC0DBA861}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{734548DC-6FB8-4D5F-85FD-469E3C468E13}"
 EndProject
@@ -13,19 +13,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{67D87EE1-EC17-4E19-B153-EDBE4A0901D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTest.Data", "iTest.Data\iTest.Data.csproj", "{EE730E4E-F679-44AF-A4BD-053457998A76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iTest.Data", "iTest.Data\iTest.Data.csproj", "{EE730E4E-F679-44AF-A4BD-053457998A76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTest.Data.Models", "iTest.Data.Models\iTest.Data.Models.csproj", "{21FA2418-51D4-4E19-8FFD-2F4753B7D398}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iTest.Data.Models", "iTest.Data.Models\iTest.Data.Models.csproj", "{21FA2418-51D4-4E19-8FFD-2F4753B7D398}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTest.UnitTests", "iTest.UnitTests\iTest.UnitTests.csproj", "{B26C4743-C957-485D-84B5-C8B2F325BBE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iTest.UnitTests", "iTest.UnitTests\iTest.UnitTests.csproj", "{B26C4743-C957-485D-84B5-C8B2F325BBE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTest.DTO", "iTest.DTO\iTest.DTO.csproj", "{8315A0E7-109C-4F6B-B0D8-37DF55F239B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iTest.DTO", "iTest.DTO\iTest.DTO.csproj", "{8315A0E7-109C-4F6B-B0D8-37DF55F239B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTest.Services.Data", "iTest.Services.Data\iTest.Services.Data.csproj", "{2F081389-C5AA-4360-A108-861C35224DF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iTest.Services.Data", "iTest.Services.Data\iTest.Services.Data.csproj", "{2F081389-C5AA-4360-A108-861C35224DF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTest.Services.External", "iTest.Services.External\iTest.Services.External.csproj", "{2C99C905-A1BE-48BB-9670-C59F225A25BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iTest.Services.External", "iTest.Services.External\iTest.Services.External.csproj", "{2C99C905-A1BE-48BB-9670-C59F225A25BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTest.Infrastructure", "iTest.Infrastructure\iTest.Infrastructure.csproj", "{BA01C68D-08EE-4BDE-838B-FD21A606CAAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iTest.Infrastructure", "iTest.Infrastructure\iTest.Infrastructure.csproj", "{BA01C68D-08EE-4BDE-838B-FD21A606CAAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTest.Services", "iTest.Services\iTest.Services.csproj", "{5AA7EA73-5F6E-4C93-88F3-DF055E3649D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +67,10 @@ Global
 		{BA01C68D-08EE-4BDE-838B-FD21A606CAAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA01C68D-08EE-4BDE-838B-FD21A606CAAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA01C68D-08EE-4BDE-838B-FD21A606CAAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AA7EA73-5F6E-4C93-88F3-DF055E3649D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AA7EA73-5F6E-4C93-88F3-DF055E3649D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AA7EA73-5F6E-4C93-88F3-DF055E3649D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AA7EA73-5F6E-4C93-88F3-DF055E3649D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +84,7 @@ Global
 		{2F081389-C5AA-4360-A108-861C35224DF1} = {734548DC-6FB8-4D5F-85FD-469E3C468E13}
 		{2C99C905-A1BE-48BB-9670-C59F225A25BB} = {734548DC-6FB8-4D5F-85FD-469E3C468E13}
 		{BA01C68D-08EE-4BDE-838B-FD21A606CAAB} = {734548DC-6FB8-4D5F-85FD-469E3C468E13}
+		{5AA7EA73-5F6E-4C93-88F3-DF055E3649D5} = {734548DC-6FB8-4D5F-85FD-469E3C468E13}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E26AD840-153A-4B13-B5A8-0B2AFB64437C}
