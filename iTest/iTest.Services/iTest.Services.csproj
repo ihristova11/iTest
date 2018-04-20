@@ -7,10 +7,13 @@
   <ItemGroup>
     <Folder Include="Admin\Implementations\" />
     <Folder Include="Admin\Contracts\" />
-    <Folder Include="Admin\Models\" />
     <Folder Include="User\Implementations\" />
     <Folder Include="User\Contracts\" />
-    <Folder Include="User\Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\iTest.DTO\iTest.DTO.csproj" />
+    <ProjectReference Include="..\iTest.Infrastructure\iTest.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
