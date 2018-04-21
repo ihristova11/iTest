@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace iTest.DTO
+﻿namespace iTest.DTO
 {
     public class CategoryDTO
     {

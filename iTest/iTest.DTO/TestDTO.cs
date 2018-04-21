@@ -1,6 +1,6 @@
-﻿using System;
+﻿using iTest.Data.Models.Enums;
+using System;
 using System.Collections.Generic;
-using iTest.Data.Models.Enums;
 
 namespace iTest.DTO
 {
