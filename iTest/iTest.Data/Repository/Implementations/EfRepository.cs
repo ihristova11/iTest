@@ -23,7 +23,7 @@ namespace iTest.Data.Repository.Implementations
 
         public void Add(T entity)
         {
-            EntityEntry entry = this.context.Entry(entity);
+            EntityEntry entry = context.Entry(entity);
 
             if (entry.State != EntityState.Detached)
             {
