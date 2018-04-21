@@ -1,5 +1,4 @@
-﻿using iTest.Data.Models.Enums;
-using iTest.Data.Models.Implementations;
+﻿using iTest.Data.Models.Implementations;
 using iTest.Data.Repository.Contracts;
 using iTest.DTO;
 using iTest.Infrastructure.Providers;
@@ -39,6 +38,20 @@ namespace iTest.Services.Data.Admin.Implementations
             return this.mapper.ProjectTo<TestDTO>(tests);
         }
 
+        public async Task<IEnumerable<TestDTO>> FindByIdAsync(int id)
+        {
+            var tests = await this.tests
+                                  .All
+                                  .Where(x => x.Id == id)
+                                  .ToListAsync();
+            if (!tests.Any())
+            {
+                throw new ArgumentException($"Test with id:{id} couldn't be found!");
+            }
+
+            return this.mapper.ProjectTo<TestDTO>(tests);
+        }
+
         public async Task<bool> ExistsByIdAsync(int id)
         {
             return await this.tests.All.AnyAsync(x => x.Id == id);
@@ -50,19 +63,19 @@ namespace iTest.Services.Data.Admin.Implementations
         }
 
         // TODO map all props with automapper
-        public async Task CreateAsync(string name, DateTime requestedTime, DateTime executionTime, string status, CategoryDTO category, string authorId, User author, List<Question> questions, List<Result> results)
+        public async Task CreateAsync(string name, DateTime requestedTime, CategoryDTO category, List<Question> questions)
         {
             var dto = new Test
             {
                 Name = name,
                 RequestedTime = requestedTime,
-                ExecutionTime = executionTime,
-                Status = (Status)Enum.Parse(typeof(Status), status, true),
+                // ExecutionTime = executionTime,
+                // Status = (Status)Enum.Parse(typeof(Status), status, true),
                 Category = this.mapper.MapTo<Category>(category),
-                AuthorId = authorId,
-                Author = author,
+                //AuthorId = authorId,
+                // Author = author,
                 Questions = questions,
-                Results = results
+                // Results = results
 
             };
 
@@ -73,7 +86,7 @@ namespace iTest.Services.Data.Admin.Implementations
         }
 
         // TODO map all props with automapper
-        public async Task EditAsync(int id, string name, DateTime requestedTime, DateTime executionTime, string status, CategoryDTO category, string authorId, User author, List<Question> questions, List<Result> results)
+        public async Task EditAsync(int id, string name, DateTime requestedTime, CategoryDTO category, List<Question> questions)
         {
             var test = await this.tests.All.SingleAsync(x => x.Id == id);
 
@@ -84,13 +97,13 @@ namespace iTest.Services.Data.Admin.Implementations
 
             test.Name = name;
             test.RequestedTime = requestedTime;
-            test.ExecutionTime = executionTime;
-            test.Status = (Status)Enum.Parse(typeof(Status), status, true);
+            //test.ExecutionTime = executionTime;
+            //test.Status = (Status)Enum.Parse(typeof(Status), status, true);
             test.Category = this.mapper.MapTo<Category>(category);
-            test.AuthorId = authorId;
-            test.Author = author;
+            //test.AuthorId = authorId;
+            //test.Author = author;
             test.Questions = questions;
-            test.Results = results;
+            //test.Results = results;
 
             this.tests.Update(test);
             await this.saver.SaveChangesAsync();
