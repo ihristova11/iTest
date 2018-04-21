@@ -24,7 +24,7 @@ namespace iTest.Services.Admin.Implementations
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TestDTO> GetByPostId(int id)
+        public IEnumerable<TestDTO> GetByTestId(int id)
         {
             throw new NotImplementedException();
         }
