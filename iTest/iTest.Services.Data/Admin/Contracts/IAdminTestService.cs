@@ -10,11 +10,13 @@ namespace iTest.Services.Data.Admin.Contracts
     {
         Task<IEnumerable<TestDTO>> AllAsync();
 
+        Task<IEnumerable<TestDTO>> FindByIdAsync(int id)
+
         Task PublishAsync(TestDTO dto);
 
-        Task CreateAsync(string name, DateTime requestedTime, DateTime executionTime, string status, CategoryDTO category, string authorId, User author, List<Question> questions, List<Result> results);
+        Task CreateAsync(string name, DateTime requestedTime, CategoryDTO category, List<Question> questions);
 
-        Task EditAsync(int id, string name, DateTime requestedTime, DateTime executionTime, string status, CategoryDTO category, string authorId, User author, List<Question> questions, List<Result> results);
+        Task EditAsync(int id, string name, DateTime requestedTime, CategoryDTO category, List<Question> questions);
 
         Task DeleteAsync(int id);
 
