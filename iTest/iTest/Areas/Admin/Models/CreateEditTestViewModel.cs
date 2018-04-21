@@ -1,4 +1,5 @@
-﻿using iTest.DTO;
+﻿using iTest.Data.Models.Implementations;
+using iTest.DTO;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -26,5 +27,7 @@ namespace iTest.Web.Areas.Admin.Controllers.Models
         public CategoryDTO Category { get; set; }
 
         public IEnumerable<SelectListItem> Categories { get; set; }
+
+        public List<Question> Questions { get; set; }
     }
 }
