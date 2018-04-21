@@ -37,6 +37,8 @@ namespace iTest.Web
 
             services.AddRouting(routing => { routing.LowercaseUrls = true; }); // routing lowercase
 
+            services.AddMvc().AddNToastNotifyNoty();
+
             services.AddMvc(options =>
             {
                 options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>(); // auto AntiforgeryToken
@@ -62,6 +64,8 @@ namespace iTest.Web
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            app.UseNToastNotify(); // toastr
 
             app.UseMvc(routes =>
             {
