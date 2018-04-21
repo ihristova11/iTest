@@ -22,12 +22,12 @@
     <ProjectReference Include="..\iTest.Data.Models\iTest.Data.Models.csproj" />
     <ProjectReference Include="..\iTest.Data\iTest.Data.csproj" />
     <ProjectReference Include="..\iTest.Infrastructure\iTest.Infrastructure.csproj" />
+    <ProjectReference Include="..\iTest.Services.Data\iTest.Services.Data.csproj" />
     <ProjectReference Include="..\iTest.Services.External\iTest.Services.External.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\" />
     <Folder Include="Areas\User\Controllers\" />
     <Folder Include="Areas\User\Models\" />
