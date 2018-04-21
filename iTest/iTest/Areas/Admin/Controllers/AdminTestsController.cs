@@ -4,6 +4,7 @@ using iTest.Web.Areas.Admin.Controllers.Abstract;
 using iTest.Web.Areas.Admin.Controllers.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NToastNotify;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +17,14 @@ namespace iTest.Web.Areas.Admin.Controllers
         private readonly IAdminTestService tests;
         private readonly IAdminCategoryService categories;
         private readonly IMappingProvider mapper;
+        private readonly IToastNotification toastr;
 
-        public AdminTestsController(IAdminTestService tests, IAdminCategoryService categories, IMappingProvider mapper)
+        public AdminTestsController(IAdminTestService tests, IAdminCategoryService categories, IMappingProvider mapper, IToastNotification toastr)
         {
             this.tests = tests ?? throw new ArgumentNullException(nameof(tests));
             this.categories = categories ?? throw new ArgumentNullException(nameof(categories));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.toastr = toastr ?? throw new ArgumentNullException(nameof(toastr));
         }
 
         public async Task<IActionResult> CreateAsync()
@@ -45,13 +48,49 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             if (!(await test))
             {
-                //await this.tests.CreateAsync(
-                //model.Name = name;
-                //model.RequestedTime = requestedTime;
-                //model.Category = this.mapper.MapTo<Category>(category);
+                await this.tests.CreateAsync(
+                model.Name,
+                model.RequestedTime,
+                model.Category,
+                model.Questions);
             }
 
-            //Toastr.AddSuccessMessage($"Test {model.Name} created successfully!");
+            this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
+
+            return Redirect("/admin/");
+        }
+
+        public async Task<IActionResult> EditAsync(int id)
+        {
+            var tests = await this.tests.FindByIdAsync(id);
+
+            var test = tests.SingleOrDefault(x => x.Id == id);
+
+            if (test == null)
+            {
+                return NotFound();
+            }
+
+            return View(new CreateEditTestViewModel
+            {
+                Name = test.Name,
+                RequestedTime = test.RequestedTime,
+                Category = test.Category,
+                Questions = test.Questions.ToList()
+            });
+
+        }
+
+
+
+        public async Task<IActionResult> DeleteAsync(int id)
+            => await Task.Run(() => View(id));
+
+        public async Task<IActionResult> DeleteTestAsync(int id)
+        {
+            await this.tests.DeleteAsync(id);
+
+            this.toastr.AddAlertToastMessage($"Test deleted successfully!");
 
             return Redirect("/admin/");
         }
