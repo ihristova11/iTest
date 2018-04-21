@@ -22,18 +22,18 @@ namespace iTest.Data
 
             builder
                 .Entity<UserTest>()
-                .HasKey(x => new { x.UserId, x.TestId });
-
-            builder
-                .Entity<UserTest>()
-                .HasOne(x => x.User)
-                .WithMany(x => x.Tests)
-                .HasForeignKey(x => x.TestId);
+                .HasKey(x => new { x.UserId, x.TestId }); // composite primary key
 
             builder
                 .Entity<UserTest>()
                 .HasOne(x => x.Test)
                 .WithMany(x => x.Users)
+                .HasForeignKey(x => x.TestId);
+
+            builder
+                .Entity<UserTest>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.Tests)
                 .HasForeignKey(x => x.UserId);
 
             builder.Entity<Test>().ToTable("Tests");
