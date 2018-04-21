@@ -1,4 +1,5 @@
 ﻿using iTest.Data.Repository.Contracts;
+using System.Threading.Tasks;
 
 namespace iTest.Data.Repository.Implementations
 {
@@ -10,7 +11,7 @@ namespace iTest.Data.Repository.Implementations
 
         public void SaveChanges() => this.context.SaveChanges();
 
-        public async void SaveChangesAsync() => await this.context.SaveChangesAsync();
+        public async Task SaveChangesAsync() => await this.context.SaveChangesAsync();
     }
 
 }
