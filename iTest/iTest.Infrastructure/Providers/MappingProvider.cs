@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace iTest.Infrastructure.Providers
 {
