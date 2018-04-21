@@ -1,10 +1,11 @@
-﻿namespace iTest.Data.Repository.Contracts
+﻿using System.Threading.Tasks;
+
+namespace iTest.Data.Repository.Contracts
 {
     public interface ISaver
     {
         void SaveChanges();
 
-        void SaveChangesAsync();
+        Task SaveChangesAsync();
     }
-
 }
