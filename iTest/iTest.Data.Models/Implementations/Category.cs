@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace iTest.Data.Models.Implementations
 {
-    public class Category : IIdentifiable<string>, IAuditable, IDeletable
+    public class Category : IIdentifiable<int>, IAuditable, IDeletable
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime? CreatedOn { get; set; }
