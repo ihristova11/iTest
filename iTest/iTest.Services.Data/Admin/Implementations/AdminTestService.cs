@@ -2,12 +2,12 @@
 using iTest.Data.Repository.Contracts;
 using iTest.DTO;
 using iTest.Infrastructure.Providers;
-using iTest.Services.Admin.Contracts;
+using iTest.Services.Data.Admin.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace iTest.Services.Admin.Implementations
+namespace iTest.Services.Data.Admin.Implementations
 {
     public class AdminTestService : IAdminTestService
     {

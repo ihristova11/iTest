@@ -4,4 +4,15 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="User\Contracts\" />
+    <Folder Include="User\Implementations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\iTest.Data\iTest.Data.csproj" />
+    <ProjectReference Include="..\iTest.DTO\iTest.DTO.csproj" />
+    <ProjectReference Include="..\iTest.Infrastructure\iTest.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

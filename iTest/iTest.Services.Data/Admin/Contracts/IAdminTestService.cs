@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace iTest.Services.Admin.Contracts
+namespace iTest.Services.Data.Admin.Contracts
 {
     public interface IAdminTestService
     {
