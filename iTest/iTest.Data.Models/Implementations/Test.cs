@@ -7,9 +7,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace iTest.Data.Models.Implementations
 {
-    public class Test : IIdentifiable<string>, IAuditable, IDeletable
+    public class Test : IIdentifiable<int>, IAuditable, IDeletable
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime? CreatedOn { get; set; }
@@ -39,8 +39,15 @@ namespace iTest.Data.Models.Implementations
         [Required]
         public Category Category { get; set; }
 
-        public ICollection<Result> Results { get; set; } = new List<Result>();
+        public string AuthorId { get; set; }
+
+        public User Author { get; set; }
 
         public ICollection<UserTest> Users { get; set; } = new List<UserTest>();
+
+        public ICollection<Question> Questions { get; set; } = new List<Question>();
+
+        public ICollection<Result> Results { get; set; } = new List<Result>();
+
     }
 }
