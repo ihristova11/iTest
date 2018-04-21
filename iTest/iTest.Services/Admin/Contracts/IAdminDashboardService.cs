@@ -1,12 +1,15 @@
-﻿using iTest.Infrastructure.Providers;
-using System;
+﻿using iTest.DTO;
 using System.Collections.Generic;
-using System.Text;
 
 namespace iTest.Services.Admin.Contracts
 {
     public interface IAdminDashboardService
     {
-       
+        IEnumerable<TestDTO> GetByPostId(int id);
+
+        void Publish(TestDTO dto);
+
+        void Delete(int id);
+
     }
 }
