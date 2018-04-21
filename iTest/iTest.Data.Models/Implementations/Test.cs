@@ -33,7 +33,6 @@ namespace iTest.Data.Models.Implementations
         [DataType(DataType.Date)]
         public DateTime ExecutionTime { get; set; }
 
-        [Required]
         public Status Status { get; set; }
 
         [Required]
