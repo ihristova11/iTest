@@ -1,15 +1,14 @@
-﻿using iTest.Data.Models.Implementations;
-using iTest.DTO;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using iTest.Data.Models.Implementations;
+using iTest.DTO;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace iTest.Web.Areas.Admin.Controllers.Models
+namespace iTest.Web.Areas.Admin.Models
 {
     public class TestViewModel
     {
-
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? CreatedOn { get; set; }

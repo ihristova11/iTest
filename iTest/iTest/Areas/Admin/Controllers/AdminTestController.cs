@@ -3,7 +3,6 @@ using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
 using iTest.Web.Areas.Admin.Controllers.Abstract;
-using iTest.Web.Areas.Admin.Controllers.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using iTest.Web.Areas.Admin.Models;
 
 namespace iTest.Web.Areas.Admin.Controllers
 {
@@ -46,7 +46,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             if (!this.ModelState.IsValid)
             {
                 //model.Categories = await this.GetCategoriesAsync();
-                return View(model);
+                return View("Create", model);
             }
 
             var test = this.testsServices.ExistsByNameAsync(model.Name);
