@@ -33,14 +33,14 @@ namespace iTest.Web.Areas.Admin.Controllers
         }
 
         public async Task<IActionResult> CreateAsync()
-            => View(new CreateEditTestViewModel
+            => View(new TestViewModel
             {
                 CreatedOn = DateTime.UtcNow,
                 Categories = await this.GetCategoriesAsync()
             });
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CreateEditTestViewModel model)
+        public async Task<IActionResult> CreateAsync(TestViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -70,7 +70,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             => await Task.Run(() => View());
 
         [HttpPost]
-        public async Task<IActionResult> PublishAsync(CreateEditTestViewModel model)
+        public async Task<IActionResult> PublishAsync(TestViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -97,7 +97,7 @@ namespace iTest.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            return View(new CreateEditTestViewModel
+            return View(new TestViewModel
             {
                 Name = test.Name,
                 RequestedTime = test.RequestedTime,

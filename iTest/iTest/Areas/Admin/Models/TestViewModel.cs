@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace iTest.Web.Areas.Admin.Controllers.Models
 {
-    public class CreateEditTestViewModel
+    public class TestViewModel
     {
 
         [DataType(DataType.Date)]
