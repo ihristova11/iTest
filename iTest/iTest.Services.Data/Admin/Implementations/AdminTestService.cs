@@ -28,7 +28,7 @@ namespace iTest.Services.Data.Admin.Implementations
         {
             var tests = await this.tests
                                   .All
-                                  .Include(x => x.Author)
+                                  //.Include(x => x.Author)
                                   .Where(x => x.AuthorId == authorId)
                                   .ToListAsync();
 
@@ -50,7 +50,7 @@ namespace iTest.Services.Data.Admin.Implementations
         }
 
 
-        // TODO map all props with automapper
+        // TODO with automapper
         public async Task CreateAsync(string name, DateTime requestedTime, string authorId, CategoryDTO category, List<Question> questions)
         {
             var dto = new Test
@@ -73,7 +73,7 @@ namespace iTest.Services.Data.Admin.Implementations
             await this.saver.SaveChangesAsync();
         }
 
-        // TODO map all props with automapper
+        // TODO with automapper
         public async Task EditAsync(int id, string name, DateTime requestedTime, CategoryDTO category, List<Question> questions)
         {
             var test = await this.tests.All.SingleAsync(x => x.Id == id);
