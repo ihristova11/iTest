@@ -6,10 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Admin\Data\**" />
-    <Content Remove="Areas\Admin\Data\**" />
-    <EmbeddedResource Remove="Areas\Admin\Data\**" />
-    <None Remove="Areas\Admin\Data\**" />
+    <Content Remove="Areas\Admin\Views\AdminTests\Create.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Areas\Admin\Views\AdminTests\Create.cshtml" />
   </ItemGroup>
 
 
@@ -35,13 +36,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Views\" />
+    <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\User\Controllers\" />
     <Folder Include="Areas\User\Models\" />
     <Folder Include="Areas\User\Data\" />
     <Folder Include="Areas\User\Views\" />
-    <Folder Include="wwwroot\lib\materialize\dist\css\" />
-    <Folder Include="wwwroot\lib\materialize\dist\fonts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Areas\Admin\Views\AdminTests\Create.cshtml" />
   </ItemGroup>
 
 </Project>
