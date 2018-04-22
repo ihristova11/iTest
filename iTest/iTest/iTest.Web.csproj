@@ -37,7 +37,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\User\Controllers\" />
     <Folder Include="Areas\User\Models\" />
     <Folder Include="Areas\User\Data\" />
