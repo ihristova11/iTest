@@ -8,11 +8,13 @@ namespace iTest.Services.Data.Admin.Contracts
     {
         Task<IEnumerable<CategoryDTO>> AllAsync();
 
+        Task<IEnumerable<CategoryDTO>> FindByNameAsync(string name);
+
+        Task CreateAsync(CategoryDTO dto);
+
+        Task UpdateAsync(CategoryDTO dto);
+
         Task PublishAsync(CategoryDTO dto);
-
-        Task CreateAsync(string name);
-
-        Task EditAsync(int id, string name);
 
         Task DeleteAsync(int id);
 

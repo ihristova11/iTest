@@ -31,47 +31,43 @@ namespace iTest.Services.Data.Admin.Implementations
 
             if (!categories.Any())
             {
-                throw new ArgumentException($"Categories couldn't be found!");
+                throw new ArgumentException($"No categories created! Please create one first");
             }
 
             return this.mapper.ProjectTo<CategoryDTO>(categories);
         }
 
-        public async Task<bool> ExistsByIdAsync(int id)
+        public async Task<IEnumerable<CategoryDTO>> FindByNameAsync(string name)
         {
-            return await this.categories.All.AnyAsync(x => x.Id == id);
-        }
+            var categories = await this.categories
+                                  .All
+                                  .Where(predicate: x => x.Name == name)
+                                  .ToListAsync();
 
-        public async Task<bool> ExistsByNameAsync(string name)
-        {
-            return await this.categories.All.AnyAsync(x => x.Name == name);
-        }
-
-        // TODO map all props with automapper
-        public async Task CreateAsync(string name)
-        {
-            var dto = new Category
+            if (!categories.Any())
             {
-                Name = name,
-            };
+                throw new ArgumentException($"Category with name:{name} couldn't be found!");
+            }
 
+            return this.mapper.ProjectTo<CategoryDTO>(categories);
+        }
+
+        public async Task CreateAsync(CategoryDTO dto)
+        {
             var category = this.mapper.MapTo<Category>(dto);
 
             this.categories.Add(category);
             await this.saver.SaveChangesAsync();
         }
 
-        // TODO map all props with automapper
-        public async Task EditAsync(int id, string name)
+        public async Task UpdateAsync(CategoryDTO dto)
         {
-            var category = await this.categories.All.SingleAsync(x => x.Id == id);
+            var category = await this.categories.All.SingleAsync(x => x.Id == dto.Id);
 
             if (category == null)
             {
-                throw new ArgumentException($"Category with id:{id} was not found!");
+                throw new ArgumentException($"Category with name:{dto.Name} was not found!");
             }
-
-            category.Name = name;
 
             this.categories.Update(category);
             await this.saver.SaveChangesAsync();
@@ -87,15 +83,25 @@ namespace iTest.Services.Data.Admin.Implementations
 
         public async Task DeleteAsync(int id)
         {
-            var test = await this.categories.All.SingleAsync(x => x.Id == id);
+            var category = await this.categories.All.SingleAsync(x => x.Id == id);
 
-            if (test == null)
+            if (category == null)
             {
                 throw new ArgumentException($"Category with id:{id} was not found!");
             }
 
-            this.categories.Delete(test);
+            this.categories.Delete(category);
             await this.saver.SaveChangesAsync();
+        }
+
+        public async Task<bool> ExistsByIdAsync(int id)
+        {
+            return await this.categories.All.AnyAsync(x => x.Id == id);
+        }
+
+        public async Task<bool> ExistsByNameAsync(string name)
+        {
+            return await this.categories.All.AnyAsync(x => x.Name == name);
         }
     }
 }
