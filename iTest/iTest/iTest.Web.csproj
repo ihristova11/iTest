@@ -7,13 +7,13 @@
 
   <ItemGroup>
     <Compile Remove="Areas\Admin\Data\**" />
-    <Compile Remove="Areas\User\Data\**" />
+    <Compile Remove="Areas\Users\Data\**" />
     <Content Remove="Areas\Admin\Data\**" />
-    <Content Remove="Areas\User\Data\**" />
+    <Content Remove="Areas\Users\Data\**" />
     <EmbeddedResource Remove="Areas\Admin\Data\**" />
-    <EmbeddedResource Remove="Areas\User\Data\**" />
+    <EmbeddedResource Remove="Areas\Users\Data\**" />
     <None Remove="Areas\Admin\Data\**" />
-    <None Remove="Areas\User\Data\**" />
+    <None Remove="Areas\Users\Data\**" />
   </ItemGroup>
 
 
@@ -39,9 +39,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\User\Controllers\" />
-    <Folder Include="Areas\User\Models\" />
-    <Folder Include="Areas\User\Views\" />
+    <Folder Include="Areas\Users\Models\" />
+    <Folder Include="Areas\Users\Views\" />
   </ItemGroup>
 
   <ItemGroup>
