@@ -31,7 +31,7 @@ namespace iTest.Services.Data.Admin.Implementations
 
             if (!categories.Any())
             {
-                throw new ArgumentException($"No categories created! Please create one first");
+                throw new ArgumentException($"No categories created! Please create one first!");
             }
 
             return this.mapper.ProjectTo<CategoryDTO>(categories);

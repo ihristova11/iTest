@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using iTest.Data;
 using iTest.Data.Models.Implementations;
+using iTest.Data.Repository.Contracts;
+using iTest.Data.Repository.Implementations;
+using iTest.Infrastructure.Providers;
 using iTest.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,7 +42,14 @@ namespace iTest.Web
 
             services.AddRouting(routing => { routing.LowercaseUrls = true; }); // routing lowercase
 
-            services.AddAutoMapper();
+            services.AddAutoMapper(); // reg automapper
+
+            services.AddScoped<IMappingProvider, MappingProvider>();
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            services.AddScoped<ISaver, EntitySaver>();
+
+
+            services.AddServices(); // reg all services
 
             services.AddMvc().AddNToastNotifyNoty(); // toastr
 
@@ -85,6 +95,11 @@ namespace iTest.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        private void RegisterMappingProvider(IMappingProvider provider)
+        {
+
         }
     }
 }
