@@ -69,7 +69,6 @@ namespace iTest.Web.Areas.Admin.Controllers
             return this.Redirect("/admin/");
         }
 
-
         public async Task<IActionResult> PublishAsync()
             => await Task.Run(() => View());
 
