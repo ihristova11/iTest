@@ -24,16 +24,13 @@ namespace iTest.Services.Data.Admin.Implementations
             this.saver = saver ?? throw new ArgumentNullException(nameof(saver));
         }
 
-        public async Task<IEnumerable<TestDTO>> AllAsync()
+        public async Task<IEnumerable<TestDTO>> AllByAuthorAsync(string authorId)
         {
             var tests = await this.tests
                                   .All
+                                  .Include(x => x.Author)
+                                  .Where(x => x.AuthorId == authorId)
                                   .ToListAsync();
-
-            if (!tests.Any())
-            {
-                throw new ArgumentException($"Tests couldn't be found!");
-            }
 
             return this.mapper.ProjectTo<TestDTO>(tests);
         }
@@ -52,15 +49,6 @@ namespace iTest.Services.Data.Admin.Implementations
             return this.mapper.ProjectTo<TestDTO>(tests);
         }
 
-        public async Task<bool> ExistsByIdAsync(int id)
-        {
-            return await this.tests.All.AnyAsync(x => x.Id == id);
-        }
-
-        public async Task<bool> ExistsByNameAsync(string name)
-        {
-            return await this.tests.All.AnyAsync(x => x.Name == name);
-        }
 
         // TODO map all props with automapper
         public async Task CreateAsync(string name, DateTime requestedTime, string authorId, CategoryDTO category, List<Question> questions)
@@ -128,6 +116,16 @@ namespace iTest.Services.Data.Admin.Implementations
 
             this.tests.Delete(test);
             await this.saver.SaveChangesAsync();
+        }
+
+        public async Task<bool> ExistsByIdAsync(int id)
+        {
+            return await this.tests.All.AnyAsync(x => x.Id == id);
+        }
+
+        public async Task<bool> ExistsByNameAsync(string name)
+        {
+            return await this.tests.All.AnyAsync(x => x.Name == name);
         }
     }
 }
