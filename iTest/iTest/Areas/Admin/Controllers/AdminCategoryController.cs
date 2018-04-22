@@ -27,7 +27,7 @@ namespace iTest.Web.Areas.Admin.Controllers
                 => await Task.Run(() => View());
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CategoryViewModel model)
+        public async Task<IActionResult> CreateAsync(AdminCategoryViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -56,7 +56,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             => await Task.Run(() => View());
 
         [HttpPost]
-        public async Task<IActionResult> PublishAsync(CategoryViewModel model)
+        public async Task<IActionResult> PublishAsync(AdminCategoryViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace iTest.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            return View(new CategoryViewModel
+            return View(new AdminCategoryViewModel
             {
                 Name = category.Name,
             });
