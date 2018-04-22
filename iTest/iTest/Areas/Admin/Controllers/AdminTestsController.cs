@@ -28,7 +28,7 @@ namespace iTest.Web.Areas.Admin.Controllers
         }
 
         public async Task<IActionResult> CreateAsync()
-            => View(new CreateEditTestViewModel
+            => View("Create", new CreateEditTestViewModel
             {
                 CreatedOn = DateTime.UtcNow,
                 Categories = await this.GetCategoriesAsync()
@@ -71,7 +71,7 @@ namespace iTest.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            return View(new CreateEditTestViewModel
+            return View("Create", new CreateEditTestViewModel
             {
                 Name = test.Name,
                 RequestedTime = test.RequestedTime,
