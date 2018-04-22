@@ -6,6 +6,7 @@ using iTest.Services.Data.User.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace iTest.Services.Data.User.Implementations
@@ -28,6 +29,16 @@ namespace iTest.Services.Data.User.Implementations
             var tests = await this.testsRepo
                                   .All
                                   .ToListAsync();
+
+            return this.mapper.ProjectTo<TestDTO>(tests);
+        }
+
+        public async Task<IEnumerable<TestDTO>> AllByCategoryAsync(Category category)
+        {
+            var tests = await this.testsRepo
+                                        .All
+                                        .Where(x => x.Category.Name == category.Name)
+                                        .ToListAsync();
 
             return this.mapper.ProjectTo<TestDTO>(tests);
         }
