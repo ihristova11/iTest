@@ -37,19 +37,18 @@ namespace iTest.Services.Data.Admin.Implementations
             return this.mapper.ProjectTo<CategoryDTO>(categories);
         }
 
-        public async Task<IEnumerable<CategoryDTO>> FindByNameAsync(string name)
+        public async Task<CategoryDTO> FindByNameAsync(string name)
         {
-            var categories = await this.categories
+            var category = await this.categories
                                   .All
-                                  .Where(predicate: x => x.Name == name)
-                                  .ToListAsync();
+                                  .FirstOrDefaultAsync(x => x.Name == name);
 
-            if (!categories.Any())
+            if (category == null)
             {
                 throw new ArgumentException($"Category with name:{name} couldn't be found!");
             }
 
-            return this.mapper.ProjectTo<CategoryDTO>(categories);
+            return this.mapper.MapTo<CategoryDTO>(category);
         }
 
         public async Task CreateAsync(CategoryDTO dto)

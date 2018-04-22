@@ -17,15 +17,15 @@ namespace iTest.Web.Areas.Admin.Controllers
 {
     public class AdminTestController : AdminController
     {
-        private readonly IAdminTestService tests;
+        private readonly IAdminTestService testsServices;
         private readonly IAdminCategoryService categories;
         private readonly IMappingProvider mapper;
         private readonly UserManager<User> userManager;
         private readonly IToastNotification toastr;
 
-        public AdminTestController(IAdminTestService tests, IAdminCategoryService categories, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
+        public AdminTestController(IAdminTestService testsServices, IAdminCategoryService categories, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
         {
-            this.tests = tests ?? throw new ArgumentNullException(nameof(tests));
+            this.testsServices = testsServices ?? throw new ArgumentNullException(nameof(testsServices));
             this.categories = categories ?? throw new ArgumentNullException(nameof(categories));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
@@ -48,7 +48,7 @@ namespace iTest.Web.Areas.Admin.Controllers
                 return View(model);
             }
 
-            var test = this.tests.ExistsByNameAsync(model.Name);
+            var test = this.testsServices.ExistsByNameAsync(model.Name);
 
             if (!(await test))
             {
@@ -61,7 +61,7 @@ namespace iTest.Web.Areas.Admin.Controllers
                     Questions = model.Questions
                 };
 
-                await this.tests.CreateAsync(dto);
+                await this.testsServices.CreateAsync(dto);
             }
 
             this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
@@ -84,7 +84,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             var dto = this.mapper.MapTo<TestDTO>(model);
             dto.AuthorId = this.userManager.GetUserId(this.HttpContext.User);
 
-            await this.tests.PublishAsync(dto);
+            await this.testsServices.PublishAsync(dto);
 
             this.toastr.AddSuccessToastMessage($"Test {model.Name} published successfully!");
             return this.Redirect("/admin/");
@@ -92,9 +92,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> EditAsync(int id)
         {
-            var tests = await this.tests.FindByIdAsync(id);
-
-            var test = tests.SingleOrDefault(x => x.Id == id);
+            var test = await this.testsServices.FindByIdAsync(id);
 
             if (test == null)
             {
@@ -116,7 +114,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteTestAsync(int id)
         {
-            await this.tests.DeleteAsync(id);
+            await this.testsServices.DeleteAsync(id);
 
             this.toastr.AddAlertToastMessage($"Test deleted successfully!");
 

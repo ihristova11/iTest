@@ -8,7 +8,7 @@ namespace iTest.Services.Data.Admin.Contracts
     {
         Task<IEnumerable<CategoryDTO>> AllAsync();
 
-        Task<IEnumerable<CategoryDTO>> FindByNameAsync(string name);
+        Task<CategoryDTO> FindByNameAsync(string name);
 
         Task CreateAsync(CategoryDTO dto);
 

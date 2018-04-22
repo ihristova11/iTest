@@ -6,7 +6,6 @@ using iTest.Web.Areas.Admin.Models;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace iTest.Web.Areas.Admin.Controllers
@@ -73,9 +72,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> EditAsync(string name)
         {
-            var categories = await this.categories.FindByNameAsync(name);
-
-            var category = categories.SingleOrDefault(x => x.Name == name);
+            var category = await this.categories.FindByNameAsync(name);
 
             if (category == null)
             {

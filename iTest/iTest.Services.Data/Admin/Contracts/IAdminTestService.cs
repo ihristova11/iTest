@@ -8,7 +8,7 @@ namespace iTest.Services.Data.Admin.Contracts
     {
         Task<IEnumerable<TestDTO>> AllByAuthorAsync(string authorId);
 
-        Task<IEnumerable<TestDTO>> FindByIdAsync(int id);
+        Task<TestDTO> FindByIdAsync(int id);
 
         Task PublishAsync(TestDTO dto);
 
