@@ -29,10 +29,10 @@ namespace iTest.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            this.RegisterInfrastructure(services);
             this.RegisterData(services);
             this.RegisterAuthentication(services);
             this.RegisterServices(services);
-            this.RegisterInfrastructure(services);
             this.Routing(services);
         }
 
@@ -103,15 +103,17 @@ namespace iTest.Web
 
         private void RegisterInfrastructure(IServiceCollection services)
         {
+            services.AddMvcCore();
+
             services.AddMvc(options =>
             {
                 options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
             });
 
-            services.AddMvc().AddNToastNotifyNoty(); // toastr
-
             services.AddAutoMapper();
             services.AddScoped<IMappingProvider, MappingProvider>();
+
+            services.AddMvc().AddNToastNotifyNoty(); // toastr
         }
 
         private void RegisterData(IServiceCollection services)
