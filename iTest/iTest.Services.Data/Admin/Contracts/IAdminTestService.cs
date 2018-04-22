@@ -14,7 +14,7 @@ namespace iTest.Services.Data.Admin.Contracts
 
         Task PublishAsync(TestDTO dto);
 
-        Task CreateAsync(string name, DateTime requestedTime, CategoryDTO category, List<Question> questions);
+        Task CreateAsync(string name, DateTime requestedTime, string authorId, CategoryDTO category, List<Question> questions);
 
         Task EditAsync(int id, string name, DateTime requestedTime, CategoryDTO category, List<Question> questions);
 
