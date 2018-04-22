@@ -28,7 +28,7 @@ namespace iTest.Services.Data.Admin.Implementations
         {
             var tests = await this.tests
                                   .All
-                                  //.Include(x => x.Author)
+                                  .Include(x => x.Author)
                                   .Where(x => x.AuthorId == authorId)
                                   .ToListAsync();
 
@@ -48,7 +48,6 @@ namespace iTest.Services.Data.Admin.Implementations
 
             return this.mapper.ProjectTo<TestDTO>(tests);
         }
-
 
         public async Task CreateAsync(TestDTO dto)
         {
@@ -70,7 +69,6 @@ namespace iTest.Services.Data.Admin.Implementations
             this.tests.Update(test);
             await this.saver.SaveChangesAsync();
         }
-
 
         public async Task PublishAsync(TestDTO dto)
         {
