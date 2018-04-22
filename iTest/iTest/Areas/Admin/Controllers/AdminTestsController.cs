@@ -1,7 +1,10 @@
-﻿using iTest.Infrastructure.Providers;
+﻿using iTest.Data.Models.Implementations;
+using iTest.DTO;
+using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
 using iTest.Web.Areas.Admin.Controllers.Abstract;
 using iTest.Web.Areas.Admin.Controllers.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NToastNotify;
@@ -17,13 +20,15 @@ namespace iTest.Web.Areas.Admin.Controllers
         private readonly IAdminTestService tests;
         private readonly IAdminCategoryService categories;
         private readonly IMappingProvider mapper;
+        private readonly UserManager<User> userManager;
         private readonly IToastNotification toastr;
 
-        public AdminTestsController(IAdminTestService tests, IAdminCategoryService categories, IMappingProvider mapper, IToastNotification toastr)
+        public AdminTestsController(IAdminTestService tests, IAdminCategoryService categories, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
         {
             this.tests = tests ?? throw new ArgumentNullException(nameof(tests));
             this.categories = categories ?? throw new ArgumentNullException(nameof(categories));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             this.toastr = toastr ?? throw new ArgumentNullException(nameof(toastr));
         }
 
@@ -34,11 +39,10 @@ namespace iTest.Web.Areas.Admin.Controllers
                 Categories = await this.GetCategoriesAsync()
             });
 
-
         [HttpPost]
-        public async Task<IActionResult> Create(CreateEditTestViewModel model)
+        public async Task<IActionResult> CreateAsync(CreateEditTestViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 model.Categories = await this.GetCategoriesAsync();
                 return View(model);
@@ -57,7 +61,27 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
 
-            return Redirect("/admin/");
+            return Redirect("/admin/"); //this.RedirectToAction
+        }
+
+
+        public async Task<IActionResult> PublishAsync() => await Task.Run(() => View());
+
+        [HttpPost]
+        public async Task<IActionResult> PublishAsync(CreateEditTestViewModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var dto = this.mapper.MapTo<TestDTO>(model);
+            dto.AuthorId = this.userManager.GetUserId(this.HttpContext.User);
+
+            await this.tests.PublishAsync(dto);
+
+            this.toastr.AddSuccessToastMessage($"Test {model.Name} published successfully!");
+            return this.RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> EditAsync(int id)
