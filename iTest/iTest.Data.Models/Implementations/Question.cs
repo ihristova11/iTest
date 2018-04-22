@@ -27,5 +27,8 @@ namespace iTest.Data.Models.Implementations
         public string Description { get; set; }
 
         public ICollection<Answer> Answers { get; set; } = new List<Answer>();
+
+        public bool IsCorrect { get; set; }
+        
     }
 }

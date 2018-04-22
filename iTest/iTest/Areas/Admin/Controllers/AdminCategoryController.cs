@@ -22,7 +22,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.toastr = toastr ?? throw new ArgumentNullException(nameof(toastr));
         }
-
+        
         public async Task<IActionResult> CreateAsync()
                 => await Task.Run(() => View());
 

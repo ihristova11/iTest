@@ -1,6 +1,7 @@
 ﻿using iTest.Data.Models.Contracts;
 using Microsoft.TeamFoundation.TestManagement.Client;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace iTest.Data.Models.Implementations
@@ -24,5 +25,7 @@ namespace iTest.Data.Models.Implementations
         [MinLength(2)]
         [MaxLength(50)]
         public string Name { get; set; }
+
+        public ICollection<Test> Tests { get; set; } = new List<Test>();
     }
 }

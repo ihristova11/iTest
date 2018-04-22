@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Azure.KeyVault.Models;
 
 namespace iTest.Web.Areas.Admin.Controllers
 {
@@ -32,15 +33,18 @@ namespace iTest.Web.Areas.Admin.Controllers
             this.toastr = toastr ?? throw new ArgumentNullException(nameof(toastr));
         }
 
-        public async Task<IActionResult> CreateAsync()
+
+        [ActionName("Create")]
+        public async Task<IActionResult> Create()
             => View(new TestViewModel
             {
                 CreatedOn = DateTime.UtcNow,
                 Categories = await this.GetCategoriesAsync()
             });
 
+        [ActionName("Create")]
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(TestViewModel model)
+        public async Task<IActionResult> Create(TestViewModel model)
         {
             if (!this.ModelState.IsValid)
             {

@@ -1,5 +1,7 @@
-﻿using iTest.Data;
+﻿using AutoMapper;
+using iTest.Data;
 using iTest.Data.Models.Implementations;
+using iTest.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -37,6 +39,8 @@ namespace iTest.Web
 
             services.AddRouting(routing => { routing.LowercaseUrls = true; }); // routing lowercase
 
+            services.AddAutoMapper();
+
             services.AddMvc().AddNToastNotifyNoty(); // toastr
 
             services.AddMvc(options =>
@@ -48,7 +52,7 @@ namespace iTest.Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
 
-            //app.UseDatabaseMigration(); // auto migrations
+            app.UseDatabaseMigration(); // auto migrations
 
             if (env.IsDevelopment())
             {

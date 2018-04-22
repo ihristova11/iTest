@@ -24,5 +24,7 @@ namespace iTest.Data.Models.Implementations
         [MinLength(4)]
         [MaxLength(500)]
         public string Description { get; set; }
+
+        public bool IsCorrect { get; set; }
     }
 }
