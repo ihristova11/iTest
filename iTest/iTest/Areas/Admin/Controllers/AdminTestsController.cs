@@ -55,17 +55,19 @@ namespace iTest.Web.Areas.Admin.Controllers
                 await this.tests.CreateAsync(
                 model.Name,
                 model.RequestedTime,
+                model.AuthorId = this.userManager.GetUserId(this.HttpContext.User),
                 model.Category,
                 model.Questions);
             }
 
             this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
 
-            return Redirect("/admin/"); //this.RedirectToAction
+            return this.Redirect("/admin/");
         }
 
 
-        public async Task<IActionResult> PublishAsync() => await Task.Run(() => View());
+        public async Task<IActionResult> PublishAsync()
+            => await Task.Run(() => View());
 
         [HttpPost]
         public async Task<IActionResult> PublishAsync(CreateEditTestViewModel model)
@@ -81,7 +83,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             await this.tests.PublishAsync(dto);
 
             this.toastr.AddSuccessToastMessage($"Test {model.Name} published successfully!");
-            return this.RedirectToAction("Index", "Home");
+            return this.Redirect("/admin/");
         }
 
         public async Task<IActionResult> EditAsync(int id)
@@ -105,8 +107,6 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         }
 
-
-
         public async Task<IActionResult> DeleteAsync(int id)
             => await Task.Run(() => View(id));
 
@@ -116,10 +116,8 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             this.toastr.AddAlertToastMessage($"Test deleted successfully!");
 
-            return Redirect("/admin/");
+            return this.Redirect("/admin/");
         }
-
-
 
         private async Task<IEnumerable<SelectListItem>> GetCategoriesAsync()
         {

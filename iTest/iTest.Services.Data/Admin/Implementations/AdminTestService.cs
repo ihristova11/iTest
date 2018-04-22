@@ -63,7 +63,7 @@ namespace iTest.Services.Data.Admin.Implementations
         }
 
         // TODO map all props with automapper
-        public async Task CreateAsync(string name, DateTime requestedTime, CategoryDTO category, List<Question> questions)
+        public async Task CreateAsync(string name, DateTime requestedTime, string authorId, CategoryDTO category, List<Question> questions)
         {
             var dto = new Test
             {
@@ -72,7 +72,7 @@ namespace iTest.Services.Data.Admin.Implementations
                 // ExecutionTime = executionTime,
                 // Status = (Status)Enum.Parse(typeof(Status), status, true),
                 Category = this.mapper.MapTo<Category>(category),
-                //AuthorId = authorId,
+                AuthorId = authorId,
                 // Author = author,
                 Questions = questions,
                 // Results = results

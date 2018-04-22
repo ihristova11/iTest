@@ -24,6 +24,9 @@ namespace iTest.Web.Areas.Admin.Controllers.Models
         public DateTime RequestedTime { get; set; }
 
         [Required]
+        public string AuthorId { get; set; }
+
+        [Required]
         public CategoryDTO Category { get; set; }
 
         public IEnumerable<SelectListItem> Categories { get; set; }
