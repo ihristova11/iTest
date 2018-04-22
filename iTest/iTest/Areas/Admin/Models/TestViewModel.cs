@@ -31,6 +31,6 @@ namespace iTest.Web.Areas.Admin.Controllers.Models
 
         public IEnumerable<SelectListItem> Categories { get; set; }
 
-        public List<Question> Questions { get; set; }
+        public ICollection<Question> Questions { get; set; }
     }
 }

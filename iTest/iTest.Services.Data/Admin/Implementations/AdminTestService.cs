@@ -50,48 +50,22 @@ namespace iTest.Services.Data.Admin.Implementations
         }
 
 
-        // TODO with automapper
-        public async Task CreateAsync(string name, DateTime requestedTime, string authorId, CategoryDTO category, List<Question> questions)
+        public async Task CreateAsync(TestDTO dto)
         {
-            var dto = new Test
-            {
-                Name = name,
-                RequestedTime = requestedTime,
-                // ExecutionTime = executionTime,
-                // Status = (Status)Enum.Parse(typeof(Status), status, true),
-                Category = this.mapper.MapTo<Category>(category),
-                AuthorId = authorId,
-                // Author = author,
-                Questions = questions,
-                // Results = results
-
-            };
-
             var test = this.mapper.MapTo<Test>(dto);
 
             this.tests.Add(test);
             await this.saver.SaveChangesAsync();
         }
 
-        // TODO with automapper
-        public async Task EditAsync(int id, string name, DateTime requestedTime, CategoryDTO category, List<Question> questions)
+        public async Task UpdateAsync(TestDTO dto)
         {
-            var test = await this.tests.All.SingleAsync(x => x.Id == id);
+            var test = await this.tests.All.SingleAsync(x => x.Id == dto.Id);
 
             if (test == null)
             {
-                throw new ArgumentException($"Test with id:{id} was not found!");
+                throw new ArgumentException($"{dto.Name} was not found!");
             }
-
-            test.Name = name;
-            test.RequestedTime = requestedTime;
-            //test.ExecutionTime = executionTime;
-            //test.Status = (Status)Enum.Parse(typeof(Status), status, true);
-            test.Category = this.mapper.MapTo<Category>(category);
-            //test.AuthorId = authorId;
-            //test.Author = author;
-            test.Questions = questions;
-            //test.Results = results;
 
             this.tests.Update(test);
             await this.saver.SaveChangesAsync();

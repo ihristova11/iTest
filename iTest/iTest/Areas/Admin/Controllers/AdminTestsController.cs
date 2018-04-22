@@ -52,12 +52,16 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             if (!(await test))
             {
-                await this.tests.CreateAsync(
-                model.Name,
-                model.RequestedTime,
-                model.AuthorId = this.userManager.GetUserId(this.HttpContext.User),
-                model.Category,
-                model.Questions);
+                var dto = new TestDTO
+                {
+                    Name = model.Name,
+                    RequestedTime = model.RequestedTime,
+                    AuthorId = model.AuthorId = this.userManager.GetUserId(this.HttpContext.User),
+                    Category = model.Category,
+                    Questions = model.Questions
+                };
+
+                await this.tests.CreateAsync(dto);
             }
 
             this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");

@@ -1,6 +1,4 @@
-﻿using iTest.Data.Models.Implementations;
-using iTest.DTO;
-using System;
+﻿using iTest.DTO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,9 +12,9 @@ namespace iTest.Services.Data.Admin.Contracts
 
         Task PublishAsync(TestDTO dto);
 
-        Task CreateAsync(string name, DateTime requestedTime, string authorId, CategoryDTO category, List<Question> questions);
+        Task CreateAsync(TestDTO dto);
 
-        Task EditAsync(int id, string name, DateTime requestedTime, CategoryDTO category, List<Question> questions);
+        Task UpdateAsync(TestDTO dto);
 
         Task DeleteAsync(int id);
 
