@@ -72,8 +72,8 @@ namespace iTest.Services.Data.Admin.Implementations
 
         public async Task PublishAsync(TestDTO dto)
         {
-            var model = this.mapper.MapTo<Test>(dto);
-            this.testsRepo.Add(model);
+            var test = this.mapper.MapTo<Test>(dto);
+            this.testsRepo.Add(test);
             await this.saver.SaveChangesAsync();
         }
 

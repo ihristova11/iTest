@@ -23,7 +23,6 @@ namespace iTest.Web.Areas.Admin.Controllers.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime RequestedTime { get; set; }
 
-        [Required]
         public string AuthorId { get; set; }
 
         [Required]

@@ -37,7 +37,7 @@ namespace iTest.Web
 
             services.AddRouting(routing => { routing.LowercaseUrls = true; }); // routing lowercase
 
-            services.AddMvc().AddNToastNotifyNoty();
+            services.AddMvc().AddNToastNotifyNoty(); // toastr
 
             services.AddMvc(options =>
             {

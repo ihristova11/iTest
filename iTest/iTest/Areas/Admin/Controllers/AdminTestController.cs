@@ -56,7 +56,7 @@ namespace iTest.Web.Areas.Admin.Controllers
                 {
                     Name = model.Name,
                     RequestedTime = model.RequestedTime,
-                    AuthorId = model.AuthorId = this.userManager.GetUserId(this.HttpContext.User),
+                    AuthorId = model.AuthorId = this.userManager.GetUserId(this.HttpContext.User), // TODO required??
                     Category = model.Category,
                     Questions = model.Questions
                 };
@@ -106,7 +106,6 @@ namespace iTest.Web.Areas.Admin.Controllers
                 Category = test.Category,
                 Questions = test.Questions.ToList()
             });
-
         }
 
         public async Task<IActionResult> DeleteAsync(int id)
@@ -121,7 +120,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             return this.Redirect("/admin/");
         }
 
-        private async Task<IEnumerable<SelectListItem>> GetCategoriesAsync()
+        protected async Task<IEnumerable<SelectListItem>> GetCategoriesAsync()
         {
             var categories = await this.categories.AllAsync();
 
