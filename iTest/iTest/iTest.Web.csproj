@@ -42,8 +42,4 @@
     <Folder Include="Areas\Users\Views\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="Areas\Admin\Views\AdminTest\Create.cshtml" />
-  </ItemGroup>
-
 </Project>
