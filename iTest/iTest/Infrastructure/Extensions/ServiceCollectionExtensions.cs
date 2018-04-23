@@ -1,4 +1,4 @@
-﻿using iTest.Services.Data.Admin.Contracts;
+﻿using iTest.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Reflection;
