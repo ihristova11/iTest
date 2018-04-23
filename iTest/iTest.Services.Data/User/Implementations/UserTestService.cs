@@ -30,6 +30,11 @@ namespace iTest.Services.Data.User.Implementations
                                   .All
                                   .ToListAsync();
 
+            if (!tests.Any())
+            {
+                throw new ArgumentException($"No tests created yet! Please create one first!");
+            }
+
             return this.mapper.ProjectTo<TestDTO>(tests);
         }
 
