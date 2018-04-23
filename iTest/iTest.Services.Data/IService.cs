@@ -1,4 +1,4 @@
-﻿namespace iTest.Infrastructure
+﻿namespace iTest.Services.Data
 {
     public interface IService
     {
