@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace iTest.Data.Repository.Implementations
 {
@@ -23,7 +24,11 @@ namespace iTest.Data.Repository.Implementations
 
         public void Delete(TEntity entity)
         {
-            this.context.Entry(entity).State = EntityState.Deleted;
+            entity.IsDeleted = true;
+            entity.DeletedOn = DateTime.Now;
+
+            var entry = this.context.Entry(entity);
+            entry.State = EntityState.Modified;
         }
 
         public void Delete(int id)
@@ -74,12 +79,27 @@ namespace iTest.Data.Repository.Implementations
 
         public void Insert(TEntity entity)
         {
-            this.context.Entry(entity).State = EntityState.Added;
+            EntityEntry entry = context.Entry(entity);
+
+            if (entry.State != EntityState.Detached)
+            {
+                entry.State = EntityState.Added;
+            }
+            else
+            {
+                this.context.Set<TEntity>().Add(entity);
+            }
         }
 
         public void Update(TEntity entity)
         {
-            this.Context.Entry(entity).State = EntityState.Modified;
+            EntityEntry entry = this.context.Entry(entity);
+            if (entry.State == EntityState.Detached)
+            {
+                this.context.Set<TEntity>().Attach(entity);
+            }
+
+            entry.State = EntityState.Modified;
         }
 
         public IEnumerable<TEntity> SearchFor(Expression<Func<TEntity, bool>> predicate)
@@ -88,6 +108,5 @@ namespace iTest.Data.Repository.Implementations
                 .Where(predicate)
                 .AsEnumerable();
         }
-
     }
 }
