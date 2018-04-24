@@ -1,4 +1,5 @@
-﻿using iTest.DTO;
+﻿using iTest.Data.Models.Implementations;
+using iTest.DTO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,6 +8,8 @@ namespace iTest.Services.Data.Admin.Contracts
     public interface IAdminCategoryService
     {
         Task<IEnumerable<CategoryDTO>> AllAsync();
+
+        Task<IEnumerable<Category>> AllDomainAsync();
 
         Task<CategoryDTO> FindByNameAsync(string name);
 

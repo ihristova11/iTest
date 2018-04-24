@@ -23,6 +23,12 @@ namespace iTest.Services.Data.Admin.Implementations
             this.categories = categories ?? throw new ArgumentNullException(nameof(categories));
             this.saver = saver ?? throw new ArgumentNullException(nameof(saver));
         }
+
+        public async Task<IEnumerable<Category>> AllDomainAsync()
+            => await this.categories
+                                  .All
+                                  .ToListAsync();
+
         public async Task<IEnumerable<CategoryDTO>> AllAsync()
         {
             var categories = await this.categories

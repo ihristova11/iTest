@@ -3,6 +3,7 @@ using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
 using iTest.Web.Areas.Admin.Controllers.Abstract;
+using iTest.Web.Areas.Admin.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,44 +12,43 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using iTest.Web.Areas.Admin.Models;
 
 namespace iTest.Web.Areas.Admin.Controllers
 {
     public class AdminTestController : AdminController
     {
-        private readonly IAdminTestService testsServices;
-        private readonly IAdminCategoryService categories;
+        private readonly IAdminTestService testServices;
+        private readonly IAdminCategoryService categoryService;
         private readonly IMappingProvider mapper;
         private readonly UserManager<User> userManager;
         private readonly IToastNotification toastr;
 
-        public AdminTestController(IAdminTestService testsServices, IAdminCategoryService categories, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
+        public AdminTestController(IAdminTestService testServices, IAdminCategoryService categoryService, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
         {
-            this.testsServices = testsServices ?? throw new ArgumentNullException(nameof(testsServices));
-            this.categories = categories ?? throw new ArgumentNullException(nameof(categories));
+            this.testServices = testServices ?? throw new ArgumentNullException(nameof(testServices));
+            this.categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             this.toastr = toastr ?? throw new ArgumentNullException(nameof(toastr));
         }
 
         public async Task<IActionResult> Create()
-            => await Task.Run(() => View(new AdminTestViewModel
+            => View(new AdminTestViewModel
             {
                 CreatedOn = DateTime.UtcNow,
-                //Categories = await this.GetCategoriesAsync()
-            }));
+                Categories = await this.GetCategoriesAsync()
+            });
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(AdminTestViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
-                //model.Categories = await this.GetCategoriesAsync();
+                model.Categories = await this.GetCategoriesAsync();
                 return View("Create", model);
             }
 
-            var test = this.testsServices.ExistsByNameAsync(model.Name);
+            var test = this.testServices.ExistsByNameAsync(model.Name);
 
             if (!(await test))
             {
@@ -61,7 +61,7 @@ namespace iTest.Web.Areas.Admin.Controllers
                     Questions = model.Questions
                 };
 
-                await this.testsServices.CreateAsync(dto);
+                await this.testServices.CreateAsync(dto);
             }
 
             this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
@@ -72,7 +72,7 @@ namespace iTest.Web.Areas.Admin.Controllers
         // added to test view
         public async Task<IActionResult> Home()
             => await Task.Run(() => View("Dashboard"));
-        
+
         public async Task<IActionResult> PublishAsync()
             => await Task.Run(() => View());
 
@@ -87,7 +87,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             var dto = this.mapper.MapTo<TestDTO>(model);
             dto.AuthorId = this.userManager.GetUserId(this.HttpContext.User);
 
-            await this.testsServices.PublishAsync(dto);
+            await this.testServices.PublishAsync(dto);
 
             this.toastr.AddSuccessToastMessage($"Test {model.Name} published successfully!");
             return this.Redirect("/admin/");
@@ -95,7 +95,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> EditAsync(int id)
         {
-            var test = await this.testsServices.FindByIdAsync(id);
+            var test = await this.testServices.FindByIdAsync(id);
 
             if (test == null)
             {
@@ -116,7 +116,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteTestAsync(int id)
         {
-            await this.testsServices.DeleteAsync(id);
+            await this.testServices.DeleteAsync(id);
 
             this.toastr.AddAlertToastMessage($"Test deleted successfully!");
 
@@ -125,7 +125,9 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         protected async Task<IEnumerable<SelectListItem>> GetCategoriesAsync()
         {
-            var categories = await this.categories.AllAsync();
+            //var categories = await this.categories.AllAsync();
+            var categories = await this.categoryService
+                                  .AllDomainAsync();
 
             var categoriesList = categories.Select(c => new SelectListItem
             {
