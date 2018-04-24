@@ -71,7 +71,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         // added to test view
         public async Task<IActionResult> Home()
-            => await Task.Run(() => View("Dashboard"));
+            => await Task.Run(() => View("Index"));
 
         public async Task<IActionResult> PublishAsync()
             => await Task.Run(() => View());
