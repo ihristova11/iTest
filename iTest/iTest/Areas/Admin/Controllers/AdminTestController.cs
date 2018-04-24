@@ -69,6 +69,10 @@ namespace iTest.Web.Areas.Admin.Controllers
             return this.Redirect("/admin/");
         }
 
+        // added to test view
+        public async Task<IActionResult> Home()
+            => await Task.Run(() => View("Dashboard"));
+        
         public async Task<IActionResult> PublishAsync()
             => await Task.Run(() => View());
 
@@ -98,7 +102,7 @@ namespace iTest.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            return View(new AdminTestViewModel
+            return View("Create", new AdminTestViewModel
             {
                 Name = test.Name,
                 RequestedTime = test.RequestedTime,
