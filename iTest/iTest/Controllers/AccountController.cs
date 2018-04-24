@@ -1,14 +1,12 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using iTest.Services;
-using iTest.Services.External;
-using iTest.Web.Models;
-using iTest.Web.Models.AccountViewModels;
-using Microsoft.AspNetCore.Authentication;
+﻿using iTest.Web.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using iTest.Data.Models.Implementations;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 
 namespace iTest.Web.Controllers
@@ -17,20 +15,20 @@ namespace iTest.Web.Controllers
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        //private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
         public AccountController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            //IEmailSender emailSender,
             ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailSender = emailSender;
+            //_emailSender = emailSender;
             _logger = logger;
         }
 
@@ -58,7 +56,7 @@ namespace iTest.Web.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -217,7 +215,7 @@ namespace iTest.Web.Controllers
         //    ViewData["ReturnUrl"] = returnUrl;
         //    if (ModelState.IsValid)
         //    {
-        //        var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+        //        var user = new User { UserName = model.Email, Email = model.Email };
         //        var result = await _userManager.CreateAsync(user, model.Password);
         //        if (result.Succeeded)
         //        {
@@ -244,7 +242,7 @@ namespace iTest.Web.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return this.Redirect("/");
         }
 
         [HttpPost]
@@ -307,7 +305,7 @@ namespace iTest.Web.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new User { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -452,7 +450,8 @@ namespace iTest.Web.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                //return RedirectToAction(nameof(HomeController.Index), "Home");
+                return Redirect("/");
             }
         }
 

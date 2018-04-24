@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\iTest.Data.Models\iTest.Data.Models.csproj" />
+  </ItemGroup>
+
 </Project>

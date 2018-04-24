@@ -1,11 +1,8 @@
-﻿@using System.Collections.Generic
-@using System.Linq
-@using iTest.Web.Models
+﻿@using System.Linq
+@using iTest.Data.Models.Implementations
 @using iTest.Web.Models.AccountViewModels
-@using Microsoft.AspNetCore.Http
-@using Microsoft.AspNetCore.Http.Authentication
 @model iTest.Web.Models.AccountViewModels.LoginViewModel
-@inject SignInManager<ApplicationUser> SignInManager
+@inject SignInManager<User> SignInManager
 
 @{
     ViewData["Title"] = "Log in";
@@ -20,9 +17,9 @@
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Email"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
+                    <label asp-for="UserName"></label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Password"></label>

@@ -1,0 +1,48 @@
+﻿@model iTest.Web.Areas.Admin.Models.AdminTestViewModel
+
+<p class="well">
+    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Simple collapsible</button>
+    <div id="demo" class="collapse well">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </div>
+    something here
+
+    <button class="right btn btn-success">Add new answer</button>
+</p>
+
+<div class="row">
+    <div id="questions-body" class="row">
+        @{
+        if (Model.Questions != null && Model.Questions.Count != 0)
+        {
+            for (int q = 0; q < Model.Questions.Count; q++)
+            {
+                <div id="question-@q" class="question-container panel panel-default">
+                    <button class="delete-question btn btn-danger btn-xs pull-right" type="button">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                    <a href="#collapse-@q" data-toggle="collapse" data-parent="#accordion">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Question @string.Format("{0}", q + 1)</h4>
+                        </div>
+                    </a>
+                  
+                </div>
+        }
+    }
+    else
+    {
+        <div class="mx-auto">
+            <h1 class="w-100 p-3">NO QUESTIONS!!!</h1>
+        </div>
+}
+        }
+
+
+        <button id="IsPublished" name="IsPublished" class="create-test btn btn-default" type="submit" value="false">Save as Draft</button>
+        <button id="IsPublished" name="IsPublished" class="create-test btn btn-default" type="submit" value="true">Publish</button>
+    </div>
+    <span asp-validation-for="Questions" class="text-danger"></span>
+</div>
