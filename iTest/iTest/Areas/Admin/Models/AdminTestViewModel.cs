@@ -29,6 +29,6 @@ namespace iTest.Web.Areas.Admin.Models
 
         public IEnumerable<SelectListItem> Categories { get; set; }
 
-        public ICollection<Question> Questions { get; set; }
+        public IList<Question> Questions { get; set; }
     }
 }

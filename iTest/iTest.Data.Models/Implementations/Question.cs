@@ -26,7 +26,7 @@ namespace iTest.Data.Models.Implementations
         [MaxLength(500)]
         public string Description { get; set; }
 
-        public ICollection<Answer> Answers { get; set; } = new List<Answer>();
+        public IList<Answer> Answers { get; set; } = new List<Answer>();
 
         public bool IsCorrect { get; set; }
         
