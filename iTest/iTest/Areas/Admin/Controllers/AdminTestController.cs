@@ -40,7 +40,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             });
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(AdminTestViewModel model)
+        public async Task<IActionResult> Create(AdminTestViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -69,7 +69,6 @@ namespace iTest.Web.Areas.Admin.Controllers
             return this.Redirect("/admin/");
         }
 
-        // added to test view
         public async Task<IActionResult> Home()
             => await Task.Run(() => View("Index"));
 
@@ -77,7 +76,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             => await Task.Run(() => View());
 
         [HttpPost]
-        public async Task<IActionResult> PublishAsync(AdminTestViewModel model)
+        public async Task<IActionResult> Publish(AdminTestViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -93,7 +92,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             return this.Redirect("/admin/");
         }
 
-        public async Task<IActionResult> EditAsync(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var test = await this.testServices.FindByIdAsync(id);
 
@@ -102,7 +101,7 @@ namespace iTest.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            return View("Create", new AdminTestViewModel
+            return View(new AdminTestViewModel
             {
                 Name = test.Name,
                 RequestedTime = test.RequestedTime,
@@ -111,10 +110,34 @@ namespace iTest.Web.Areas.Admin.Controllers
             });
         }
 
-        public async Task<IActionResult> Delete(int id)
-            => await Task.Run(() => View(id));
+        [HttpPost]
+        public async Task<IActionResult> Edit(AdminTestViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
-        public async Task<IActionResult> DeleteTestAsync(int id)
+            var dto = this.mapper.MapTo<TestDTO>(model);
+
+            var test = await this.testServices.ExistsByNameAsync(model.Name);
+
+            if (!test)
+            {
+                return NotFound();
+            }
+
+            await this.testServices.UpdateAsync(dto);
+
+            this.toastr.AddSuccessToastMessage($"Test {model.Name} updated successfully!");
+
+            return this.Redirect("/admin/");
+        }
+
+        public async Task<IActionResult> Delete()
+        => await Task.Run(() => View());
+
+        public async Task<IActionResult> Delete(int id)
         {
             await this.testServices.DeleteAsync(id);
 
@@ -125,7 +148,6 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         protected async Task<IEnumerable<SelectListItem>> GetCategoriesAsync()
         {
-            //var categories = await this.categories.AllAsync();
             var categories = await this.categoryService
                                   .AllDomainAsync();
 

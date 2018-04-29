@@ -27,7 +27,7 @@ namespace iTest.Web.Areas.Admin.Controllers
                 => await Task.Run(() => View());
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(AdminCategoryViewModel model)
+        public async Task<IActionResult> Create(AdminCategoryViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -56,7 +56,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             => await Task.Run(() => View());
 
         [HttpPost]
-        public async Task<IActionResult> PublishAsync(AdminCategoryViewModel model)
+        public async Task<IActionResult> Publish(AdminCategoryViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace iTest.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditAsync(string name, AdminCategoryViewModel model)
+        public async Task<IActionResult> Edit(AdminCategoryViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -98,25 +98,25 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             var dto = this.mapper.MapTo<CategoryDTO>(model);
 
-            var category = await this.categories.FindByNameAsync(name);
+            var category = await this.categories.ExistsByNameAsync(model.Name);
 
-            if (category == null)
+            if (!category)
             {
                 return NotFound();
             }
 
-            await this.categories.UpdateAsync(name, dto);
+            await this.categories.UpdateAsync(dto);
 
             this.toastr.AddSuccessToastMessage($"Category {model.Name} updated successfully!");
 
             return this.Redirect("/admin/");
         }
 
+        public async Task<IActionResult> Delete()
+            => await Task.Run(() => View());
+
+
         public async Task<IActionResult> Delete(int id)
-            => await Task.Run(() => View(id));
-
-
-        public async Task<IActionResult> DeleteAsync(int id)
         {
             await this.categories.DeleteAsync(id);
 
