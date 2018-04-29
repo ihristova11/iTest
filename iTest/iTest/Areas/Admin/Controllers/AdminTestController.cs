@@ -32,15 +32,16 @@ namespace iTest.Web.Areas.Admin.Controllers
             this.toastr = toastr ?? throw new ArgumentNullException(nameof(toastr));
         }
 
+        [HttpGet]
         public async Task<IActionResult> Create()
-            => View(new AdministerTestViewModel
+            => View(new AdminTestViewModel
             {
                 CreatedOn = DateTime.UtcNow,
                 Categories = await this.GetCategoriesAsync()
             });
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(AdministerTestViewModel model)
+        public async Task<IActionResult> CreateAsync(AdminTestViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -58,9 +59,8 @@ namespace iTest.Web.Areas.Admin.Controllers
                     RequestedTime = model.RequestedTime,
                     AuthorId = model.AuthorId = this.userManager.GetUserId(this.HttpContext.User), // TODO required??
                     Category = model.Category,
-                    Questions = model.Questions
+                    Questions = this.mapper.MapTo<IList<QuestionDTO>>(model.Questions)
                 };
-
                 await this.testServices.CreateAsync(dto);
             }
 
@@ -69,15 +69,13 @@ namespace iTest.Web.Areas.Admin.Controllers
             return this.Redirect("/admin/");
         }
 
-        // added to test view
-        public async Task<IActionResult> Home()
-            => await Task.Run(() => View("Index"));
-
+        [HttpGet]
+        [ActionName("Publish")]
         public async Task<IActionResult> PublishAsync()
             => await Task.Run(() => View());
 
         [HttpPost]
-        public async Task<IActionResult> PublishAsync(AdministerTestViewModel model)
+        public async Task<IActionResult> PublishAsync(AdminTestViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -93,6 +91,8 @@ namespace iTest.Web.Areas.Admin.Controllers
             return this.Redirect("/admin/");
         }
 
+        [HttpGet]
+        [ActionName("Edit")]
         public async Task<IActionResult> EditAsync(int id)
         {
             var test = await this.testServices.FindByIdAsync(id);
@@ -102,18 +102,40 @@ namespace iTest.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            return View("Create", new AdministerTestViewModel
+            return View("Create", new AdminTestViewModel
             {
                 Name = test.Name,
                 RequestedTime = test.RequestedTime,
                 Category = test.Category,
-                Questions = test.Questions.ToList()
+                Questions = this.mapper.MapTo<IList<AdminQuestionViewModel>>(test.Questions)
             });
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> EditAsync(AdminTestViewModel model)
+        //{
+        //    var test = await this.testServices.FindByIdAsync(id);
+
+        //    if (test == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View("Create", new AdminTestViewModel
+        //    {
+        //        Name = test.Name,
+        //        RequestedTime = test.RequestedTime,
+        //        Category = test.Category,
+        //        Questions = this.mapper.MapTo<IList<AdminQuestionViewModel>>(test.Questions)
+        //    });
+        //}
+
+        [HttpGet]
+        [ActionName("Delete")]
         public async Task<IActionResult> DeleteAsync(int id)
             => await Task.Run(() => View(id));
 
+        [HttpPost]
         public async Task<IActionResult> DeleteTestAsync(int id)
         {
             await this.testServices.DeleteAsync(id);

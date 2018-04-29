@@ -27,7 +27,7 @@ namespace iTest.DTO
 
         public ICollection<UserTest> Users { get; set; } = new List<UserTest>();
 
-        public ICollection<Question> Questions { get; set; } = new List<Question>();
+        public ICollection<QuestionDTO> Questions { get; set; } = new List<QuestionDTO>();
 
         public ICollection<Result> Results { get; set; } = new List<Result>();
     }

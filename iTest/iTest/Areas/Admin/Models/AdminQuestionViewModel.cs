@@ -4,7 +4,7 @@ using iTest.Web.Areas.Admin.Models.CustomValidationAttributes;
 
 namespace iTest.Web.Areas.Admin.Models
 {
-    public class AdministerQuestionViewModel
+    public class AdminQuestionViewModel
     {
         [Required(ErrorMessage = "Please enter the Question's description!")]
         [StringLength(500, ErrorMessage = "Question description's length must be maximum 500 symbols!")]
@@ -15,6 +15,6 @@ namespace iTest.Web.Areas.Admin.Models
 
         [Required(ErrorMessage = "Please add Answers to your Question!")]
         [CollectionCount(2, ErrorMessage = "Please add atleast two Aswers to your Question!")]
-        public IList<AdministerAnswerViewModel> Answers { get; set; }
+        public IList<AdminAnswerViewModel> Answers { get; set; }
     }
 }
