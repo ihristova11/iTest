@@ -43,7 +43,7 @@ namespace iTest.Web.Areas.Admin.Controllers
                 Category = new CategoryDTO() { Name = "some category here" },
                 CreatedOn = DateTime.Now,
                 ExecutionTime = 2,
-                ModifiedOn=DateTime.Now,
+                ModifiedOn = DateTime.Now,
                 IsDeleted = false,
                 DeletedOn = DateTime.Now,
                 Questions = new List<QuestionDTO>()
