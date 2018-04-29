@@ -1,16 +1,11 @@
 ﻿@*@model iTest.Web.Areas.Admin.Models.AdminQuestionViewModel*@
-
 <div class="row">
-    <h4>Description</h4>
-    <div class="form-group">
-        <textarea class="form-control" rows="3"></textarea>
+    <div class="well">
+
     </div>
-
-
-    @Html.Partial("_Answer")
-
     <div class="pull-right">
-        <button class="btn btn-success" type="submit" value="false">Add New Answer</button>
+        <button class="btn btn-info" type="submit" value="false">Add New Answer</button>
     </div>
+
     @*<span asp-validation-for="Answers" class="text-danger"></span>*@
 </div>
