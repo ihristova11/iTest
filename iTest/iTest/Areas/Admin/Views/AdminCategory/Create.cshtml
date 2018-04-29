@@ -1,0 +1,17 @@
+﻿@model iTest.Web.Areas.Admin.Models.AdminCategoryViewModel
+@{
+    ViewData["Title"] = "Create Category";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row create-product">
+    <div class="col-md-4">
+        @await Html.PartialAsync("_CreateOrEdit", Model)
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
