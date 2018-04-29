@@ -34,11 +34,104 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Create()
-            => View(new AdminTestViewModel
+        {
+            var dto = new TestDTO()
+            {
+                Name = "some test name here",
+                RequestedTime = 2,
+                AuthorId = this.userManager.GetUserId(this.HttpContext.User),
+                Category = new CategoryDTO() { Name = "some category here" },
+                CreatedOn = DateTime.Now,
+                ExecutionTime = 2,
+                ModifiedOn=DateTime.Now,
+                IsDeleted = false,
+                DeletedOn = DateTime.Now,
+                Questions = new List<QuestionDTO>()
+                {
+                    new QuestionDTO()
+                    {
+                        Description = "description 1",
+                        Answers = new List<AnswerDTO>()
+                        {
+                            new AnswerDTO()
+                            {
+                                Description = "answer 1"
+                            },
+                            new AnswerDTO()
+                            {
+                                Description = "answer 2"
+                            },
+                            new AnswerDTO()
+                            {
+                                Description = "answer 3"
+                            },
+                            new AnswerDTO()
+                            {
+                                Description = "answer 4"
+                            },
+                        }
+                    },
+
+                    new QuestionDTO()
+                    {
+                        Description = "description 2",
+                        Answers = new List<AnswerDTO>()
+                        {
+                            new AnswerDTO()
+                            {
+                                Description = "answer 1"
+                            },
+                            new AnswerDTO()
+                            {
+                                Description = "answer 2"
+                            },
+                            new AnswerDTO()
+                            {
+                                Description = "answer 3"
+                            },
+                            new AnswerDTO()
+                            {
+                                Description = "answer 4"
+                            },
+                        }
+                    },
+
+                    new QuestionDTO()
+                    {
+                        Description = "description 3",
+                        Answers = new List<AnswerDTO>()
+                        {
+                            new AnswerDTO()
+                            {
+                                Description = "answer 1"
+                            },
+                            new AnswerDTO()
+                            {
+                                Description = "answer 2"
+                            },
+                            new AnswerDTO()
+                            {
+                                Description = "answer 3"
+                            },
+                            new AnswerDTO()
+                            {
+                                Description = "answer 4"
+                            },
+                        }
+                    },
+                }
+            };
+
+            await this.testServices.CreateAsync(dto);
+
+            this.toastr.AddSuccessToastMessage($"Test IRINAAAAA created successfully!");
+
+            return View(new AdminTestViewModel
             {
                 CreatedOn = DateTime.UtcNow,
                 Categories = await this.GetCategoriesAsync()
             });
+        }
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(AdminTestViewModel model)
@@ -51,23 +144,108 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             var test = this.testServices.ExistsByNameAsync(model.Name);
 
-            if (!(await test))
-            {
-                var dto = new TestDTO
-                {
-                    Name = model.Name,
-                    RequestedTime = model.RequestedTime,
-                    AuthorId = model.AuthorId = this.userManager.GetUserId(this.HttpContext.User), // TODO required??
-                    Category = model.Category,
-                    Questions = this.mapper.MapTo<IList<QuestionDTO>>(model.Questions)
-                };
-                await this.testServices.CreateAsync(dto);
-            }
+            //if (!(await test))
+            //{
+            //    var dto = new TestDTO
+            //    {
+            //        Name = model.Name,
+            //        RequestedTime = model.RequestedTime,
+            //        AuthorId = model.AuthorId = this.userManager.GetUserId(this.HttpContext.User), // TODO required??
+            //        Category = model.Category,
+            //        Questions = this.mapper.MapTo<IList<QuestionDTO>>(model.Questions)
+            //    };
+            //    await this.testServices.CreateAsync(dto);
+            //}
 
-            this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
+            //var dto = new TestDTO()
+            //{
+            //    Name = "some test name here",
+            //    RequestedTime = 2,
+            //    AuthorId = this.userManager.GetUserId(this.HttpContext.User),
+            //    Category = new CategoryDTO() {Name = "some category here"},
+            //    Questions = new List<QuestionDTO>()
+            //    {
+            //        new QuestionDTO()
+            //        {
+            //            Description = "description 1",
+            //            Answers = new List<AnswerDTO>()
+            //            {
+            //                new AnswerDTO()
+            //                {
+            //                    Description = "answer 1"
+            //                },
+            //                new AnswerDTO()
+            //                {
+            //                    Description = "answer 2"
+            //                },
+            //                new AnswerDTO()
+            //                {
+            //                    Description = "answer 3"
+            //                },
+            //                new AnswerDTO()
+            //                {
+            //                    Description = "answer 4"
+            //                },
+            //            }
+            //        },
+
+            //        new QuestionDTO()
+            //        {
+            //            Description = "description 2",
+            //            Answers = new List<AnswerDTO>()
+            //            {
+            //                new AnswerDTO()
+            //                {
+            //                    Description = "answer 1"
+            //                },
+            //                new AnswerDTO()
+            //                {
+            //                    Description = "answer 2"
+            //                },
+            //                new AnswerDTO()
+            //                {
+            //                    Description = "answer 3"
+            //                },
+            //                new AnswerDTO()
+            //                {
+            //                    Description = "answer 4"
+            //                },
+            //            }
+            //        },
+
+            //        new QuestionDTO()
+            //        {
+            //            Description = "description 3",
+            //            Answers = new List<AnswerDTO>()
+            //            {
+            //                new AnswerDTO()
+            //                {
+            //                    Description = "answer 1"
+            //                },
+            //                new AnswerDTO()
+            //                {
+            //                    Description = "answer 2"
+            //                },
+            //                new AnswerDTO()
+            //                {
+            //                    Description = "answer 3"
+            //                },
+            //                new AnswerDTO()
+            //                {
+            //                    Description = "answer 4"
+            //                },
+            //            }
+            //        },
+            //    }
+            //};
+
+            //await this.testServices.CreateAsync(dto);
+
+            //this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
 
             return this.Redirect("/admin/");
         }
+
 
         [HttpGet]
         [ActionName("Publish")]

@@ -31,8 +31,8 @@ namespace iTest.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            this.RegisterInfrastructure(services);
             this.RegisterData(services);
+            this.RegisterInfrastructure(services);
             this.RegisterAuthentication(services);
             this.RegisterServices(services);
             this.Routing(services);
@@ -40,9 +40,9 @@ namespace iTest.Web
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //app.UseDatabaseMigration(); // auto migrations
+            app.UseDatabaseMigration(); // auto migration
 
-            DataSeeder.InitializeAsync(app.ApplicationServices).Wait();
+            //DataSeeder.InsertTestData(app.ApplicationServices.GetService<iTestDbContext>()).Wait();
 
             if (env.IsDevelopment())
             {
@@ -74,7 +74,7 @@ namespace iTest.Web
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
-       
+
         private void RegisterAuthentication(IServiceCollection services)
         {
             services.AddIdentity<User, IdentityRole>()
