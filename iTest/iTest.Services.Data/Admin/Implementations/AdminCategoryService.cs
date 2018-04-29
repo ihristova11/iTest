@@ -65,7 +65,7 @@ namespace iTest.Services.Data.Admin.Implementations
             await this.saver.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(CategoryDTO dto)
+        public async Task UpdateAsync(string name, CategoryDTO dto)
         {
             var category = await this.categories.All.SingleAsync(x => x.Id == dto.Id);
 
@@ -74,6 +74,7 @@ namespace iTest.Services.Data.Admin.Implementations
                 throw new ArgumentException($"Category with name:{dto.Name} was not found!");
             }
 
+            category.Name = name;
             this.categories.Update(category);
             await this.saver.SaveChangesAsync();
         }

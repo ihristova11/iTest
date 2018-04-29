@@ -15,7 +15,7 @@ namespace iTest.Services.Data.Admin.Contracts
 
         Task CreateAsync(CategoryDTO dto);
 
-        Task UpdateAsync(CategoryDTO dto);
+        Task UpdateAsync(string name, CategoryDTO dto);
 
         Task PublishAsync(CategoryDTO dto);
 
