@@ -73,7 +73,7 @@ namespace iTest.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Home()
             => await Task.Run(() => View("Index"));
 
-        public async Task<IActionResult> PublishAsync()
+        public async Task<IActionResult> Publish()
             => await Task.Run(() => View());
 
         [HttpPost]
@@ -111,7 +111,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             });
         }
 
-        public async Task<IActionResult> DeleteAsync(int id)
+        public async Task<IActionResult> Delete(int id)
             => await Task.Run(() => View(id));
 
         public async Task<IActionResult> DeleteTestAsync(int id)
