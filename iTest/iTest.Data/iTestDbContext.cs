@@ -45,10 +45,5 @@ namespace iTest.Data
 
             base.OnModelCreating(builder);
         }
-
-        //private void AddCategories(ModelBuilder builder)
-        //{
-        //    builder.Entity<Category>().HasData
-        //}
     }
 }

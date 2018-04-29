@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace iTest.Web
 {
@@ -38,7 +40,9 @@ namespace iTest.Web
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseDatabaseMigration(); // auto migrations
+            //app.UseDatabaseMigration(); // auto migrations
+
+            DataSeeder.InitializeAsync(app.ApplicationServices).Wait();
 
             if (env.IsDevelopment())
             {
@@ -70,7 +74,7 @@ namespace iTest.Web
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
-
+       
         private void RegisterAuthentication(IServiceCollection services)
         {
             services.AddIdentity<User, IdentityRole>()

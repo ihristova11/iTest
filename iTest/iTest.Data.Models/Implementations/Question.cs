@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace iTest.Data.Models.Implementations
 {
-    public class Question : DataModel, IIdentifiable<int>, IEditable, IDeletable
+    public class Question : IIdentifiable<int>, IEditable, IDeletable
     {
         public int Id { get; set; }
 
