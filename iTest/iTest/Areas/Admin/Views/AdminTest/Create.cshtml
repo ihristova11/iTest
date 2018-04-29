@@ -25,7 +25,48 @@
                     <h3 class="col-md-6">Add questions to your Test</h3>
                     <button id="add-question" class="btn btn-success pull-right" type="button">Add Question</button>
                 </div>
-                @Html.Partial("_AddQuestion")
+
+                <div class="row">
+                    <div class="well">
+
+
+                        @{
+                            if (Model.Questions != null && Model.Questions.Count != 0)
+                            {
+                                for (int q = 0; q < Model.Questions.Count; q++)
+                                {
+                                    <div id="question-@q" class="panel panel-default">
+                                        <button class="delete-question btn btn-danger btn-xs pull-right" type="button">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </button>
+                                        <a href="#collapse-@q" data-toggle="collapse" data-parent="#accordion">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">Question @string.Format("{0}", q + 1)</h4>
+                                            </div>
+                                        </a>
+                                        @Html.Partial("_Question")
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="text-center">
+                                    <div>You need to add Questions to your Test</div>
+                                </div>
+                                @Html.Partial("_Question")
+
+                            }
+                        }
+                    </div>
+                    <div class="pull-right">
+                        <button asp-action="" class="btn btn-default" type="submit" value="false">Save as Draft</button>
+                        <button asp-action="" class="btn btn-default" type="submit" value="true">Publish</button>
+                    </div>
+
+                    <span asp-validation-for="Questions" class="text-danger"></span>
+                </div>
+
+
             </div>
         </div>
     </form>
