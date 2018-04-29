@@ -33,3 +33,8 @@
         display: none;
     }
 }
+
+/*Textarea should no be resized by the user*/
+textarea {
+    resize: none;
+}
