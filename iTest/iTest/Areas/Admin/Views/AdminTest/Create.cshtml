@@ -35,7 +35,7 @@
                             {
                                 for (int q = 0; q < Model.Questions.Count; q++)
                                 {
-                                    <div id="question-@q" class="panel panel-default">
+                                    <div id="question-@q" class="question-container panel panel-default">
                                         <button class="delete-question btn btn-danger btn-xs pull-right" type="button">
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </button>
@@ -44,7 +44,7 @@
                                                 <h4 class="panel-title">Question @string.Format("{0}", q + 1)</h4>
                                             </div>
                                         </a>
-                                        @Html.Partial("_Question")
+
                                     </div>
                                 }
                             }
@@ -54,19 +54,16 @@
                                     <div>You need to add Questions to your Test</div>
                                 </div>
                                 @Html.Partial("_Question")
-
                             }
                         }
                     </div>
                     <div class="pull-right">
-                        <button asp-action="" class="btn btn-default" type="submit" value="false">Save as Draft</button>
-                        <button asp-action="" class="btn btn-default" type="submit" value="true">Publish</button>
+                        <button name="IsPublished" class="create-test btn btn-default" type="submit" value="false">Save as Draft</button>
+                        <button name="IsPublished" class="create-test btn btn-default" type="submit" value="true">Publish</button>
                     </div>
 
                     <span asp-validation-for="Questions" class="text-danger"></span>
                 </div>
-
-
             </div>
         </div>
     </form>
