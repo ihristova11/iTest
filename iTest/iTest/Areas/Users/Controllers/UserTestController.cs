@@ -27,7 +27,7 @@ namespace iTest.Web.Areas.Users.Controllers
             this.toastr = toastr ?? throw new ArgumentNullException(nameof(toastr));
         }
 
-        public async Task<IActionResult> AllAsync()
+        public async Task<IActionResult> All()
             => await Task.Run(() => View());
 
         public async Task<IActionResult> AllByCategoryAsync(Category category)
