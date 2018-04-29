@@ -26,12 +26,10 @@ namespace iTest.Data.Models.Implementations
         [MinLength(2)]
         [MaxLength(50)]
         public string Name { get; set; }
-
-        [DataType(DataType.Date)]
-        public DateTime RequestedTime { get; set; }
-
-        [DataType(DataType.Date)]
-        public DateTime ExecutionTime { get; set; }
+        
+        public int RequestedTime { get; set; }
+        
+        public int ExecutionTime { get; set; }
 
         public Status Status { get; set; }
 

@@ -17,10 +17,8 @@ namespace iTest.Web.Areas.Admin.Models
         [MinLength(2)]
         [MaxLength(50)]
         public string Name { get; set; }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime RequestedTime { get; set; }
+        
+        public int RequestedTime { get; set; }
 
         public string AuthorId { get; set; }
 

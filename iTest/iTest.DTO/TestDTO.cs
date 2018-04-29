@@ -13,9 +13,9 @@ namespace iTest.DTO
 
         public DateTime? CreatedOn { get; set; }
 
-        public DateTime RequestedTime { get; set; }
+        public int RequestedTime { get; set; }
 
-        public DateTime ExecutionTime { get; set; }
+        public int ExecutionTime { get; set; }
 
         public Status Status { get; set; }
 
