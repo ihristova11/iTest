@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace iTest.Data.Models.Implementations
 {
-    public class User : IdentityUser, IAuditable, IDeletable
+    public class User : IdentityUser, IEditable, IDeletable
     {
         public bool IsDeleted { get; set; }
 
