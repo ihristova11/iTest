@@ -39,35 +39,35 @@ namespace iTest.Web.Areas.Admin.Controllers
                 Categories = await this.GetCategoriesAsync()
             });
 
-        [HttpPost]
-        public async Task<IActionResult> CreateAsync(AdminTestViewModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                model.Categories = await this.GetCategoriesAsync();
-                return View("Create", model);
-            }
+        //[HttpPost]
+        //public async Task<IActionResult> CreateAsync(AdminTestViewModel model)
+        //{
+        //    if (!this.ModelState.IsValid)
+        //    {
+        //        model.Categories = await this.GetCategoriesAsync();
+        //        return View("Create", model);
+        //    }
 
-            var test = this.testServices.ExistsByNameAsync(model.Name);
+        //    var test = this.testServices.ExistsByNameAsync(model.Name);
 
-            if (!(await test))
-            {
-                var dto = new TestDTO
-                {
-                    Name = model.Name,
-                    RequestedTime = model.RequestedTime,
-                    AuthorId = model.AuthorId = this.userManager.GetUserId(this.HttpContext.User), // TODO required??
-                    Category = model.Category,
-                    Questions = model.Questions
-                };
+        //    if (!(await test))
+        //    {
+        //        var dto = new TestDTO
+        //        {
+        //            Name = model.Name,
+        //            RequestedTime = model.RequestedTime,
+        //            AuthorId = model.AuthorId = this.userManager.GetUserId(this.HttpContext.User), // TODO required??
+        //            Category = model.Category,
+        //            Questions = model.Questions
+        //        };
 
-                await this.testServices.CreateAsync(dto);
-            }
+        //        await this.testServices.CreateAsync(dto);
+        //    }
 
-            this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
+        //    this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
 
-            return this.Redirect("/admin/");
-        }
+        //    return this.Redirect("/admin/");
+        //}
 
         // added to test view
         public async Task<IActionResult> Home()
@@ -93,23 +93,23 @@ namespace iTest.Web.Areas.Admin.Controllers
             return this.Redirect("/admin/");
         }
 
-        public async Task<IActionResult> EditAsync(int id)
-        {
-            var test = await this.testServices.FindByIdAsync(id);
+        //public async Task<IActionResult> EditAsync(int id)
+        //{
+        //    var test = await this.testServices.FindByIdAsync(id);
 
-            if (test == null)
-            {
-                return NotFound();
-            }
+        //    if (test == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View("Create", new AdminTestViewModel
-            {
-                Name = test.Name,
-                RequestedTime = test.RequestedTime,
-                Category = test.Category,
-                Questions = test.Questions.ToList()
-            });
-        }
+        //    return View("Create", new AdminTestViewModel
+        //    {
+        //        Name = test.Name,
+        //        RequestedTime = test.RequestedTime,
+        //        Category = test.Category,
+        //        Questions = test.Questions.ToList()
+        //    });
+        //}
 
         public async Task<IActionResult> DeleteAsync(int id)
             => await Task.Run(() => View(id));
