@@ -1,0 +1,30 @@
+﻿<div class="answer-container">
+    <div class="answer-header">
+
+        <div class="">
+            <button class="delete-answer btn btn-danger btn-xs pull-right">
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
+        </div>
+
+        <div class="pull-right">
+            <label class="btn btn-success btn-xs pull-right">
+                <input type="radio" value="true" autocomplete="off" checked />
+                <span class="glyphicon glyphicon-ok">Correct</span>
+            </label>
+        </div>
+
+        <input type="hidden" value="" />
+        <h4>Answer id</h4>
+        <textarea class="answer-content summernote form-control"></textarea>
+    </div>
+
+</div>
+
+<script>
+    $('.summernote').summernote({
+        placeholder: 'Hello stand alone ui',
+        tabsize: 2,
+        height: 100
+    });
+</script>
