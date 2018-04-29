@@ -22,8 +22,8 @@ namespace iTest.Web.Areas.Admin.Controllers
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.toastr = toastr ?? throw new ArgumentNullException(nameof(toastr));
         }
-        
-        public async Task<IActionResult> CreateAsync()
+
+        public async Task<IActionResult> Create()
                 => await Task.Run(() => View());
 
         [HttpPost]
@@ -52,7 +52,7 @@ namespace iTest.Web.Areas.Admin.Controllers
         }
 
 
-        public async Task<IActionResult> PublishAsync()
+        public async Task<IActionResult> Publish()
             => await Task.Run(() => View());
 
         [HttpPost]
@@ -67,10 +67,12 @@ namespace iTest.Web.Areas.Admin.Controllers
             await this.categories.PublishAsync(dto);
 
             this.toastr.AddSuccessToastMessage($"Category {model.Name} published successfully!");
+
             return this.Redirect("/admin/");
         }
 
-        public async Task<IActionResult> EditAsync(string name)
+
+        public async Task<IActionResult> Edit(string name)
         {
             var category = await this.categories.FindByNameAsync(name);
 
@@ -81,15 +83,40 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             return View(new AdminCategoryViewModel
             {
-                Name = category.Name,
+                Name = category.Name
             });
 
         }
 
-        public async Task<IActionResult> DeleteAsync(int id)
+        [HttpPost]
+        public async Task<IActionResult> EditAsync(string name, AdminCategoryViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var dto = this.mapper.MapTo<CategoryDTO>(model);
+
+            var category = await this.categories.FindByNameAsync(name);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            await this.categories.UpdateAsync(name, dto);
+
+            this.toastr.AddSuccessToastMessage($"Category {model.Name} updated successfully!");
+
+            return this.Redirect("/admin/");
+        }
+
+        public async Task<IActionResult> Delete(int id)
             => await Task.Run(() => View(id));
 
-        public async Task<IActionResult> DeleteTestAsync(int id)
+
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             await this.categories.DeleteAsync(id);
 
