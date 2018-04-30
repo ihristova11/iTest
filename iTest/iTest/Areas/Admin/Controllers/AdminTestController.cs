@@ -32,44 +32,52 @@ namespace iTest.Web.Areas.Admin.Controllers
             this.toastr = toastr ?? throw new ArgumentNullException(nameof(toastr));
         }
 
+        [HttpGet]
         public async Task<IActionResult> Create()
-            => View(new AdminTestViewModel
+        {
+            return View(new AdminTestViewModel
             {
                 CreatedOn = DateTime.UtcNow,
                 Categories = await this.GetCategoriesAsync()
             });
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> CreateAsync(AdminTestViewModel model)
-        //{
-        //    if (!this.ModelState.IsValid)
-        //    {
-        //        model.Categories = await this.GetCategoriesAsync();
-        //        return View("Create", model);
-        //    }
 
-        //    var test = this.testServices.ExistsByNameAsync(model.Name);
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync(AdminTestViewModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                model.Categories = await this.GetCategoriesAsync();
+                return View("Create", model);
+            }
 
-        //    if (!(await test))
-        //    {
-        //        var dto = new TestDTO
-        //        {
-        //            Name = model.Name,
-        //            RequestedTime = model.RequestedTime,
-        //            AuthorId = model.AuthorId = this.userManager.GetUserId(this.HttpContext.User), // TODO required??
-        //            Category = model.Category,
-        //            Questions = model.Questions
-        //        };
+            var test = this.testServices.ExistsByNameAsync(model.Name);
 
-        //        await this.testServices.CreateAsync(dto);
-        //    }
+            if (!(await test))
+            {
+                //var dto = new TestDTO
+                //{
+                //    Name = model.Name,
+                //    RequestedTime = model.RequestedTime,
+                //    AuthorId = model.AuthorId = this.userManager.GetUserId(this.HttpContext.User), // TODO required??
+                //    Category = model.Category,
+                //    Questions = this.mapper.MapTo<ICollection<QuestionDTO>>(model.Questions)
+                //};
 
-        //    this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
+                var dto = this.mapper.MapTo<TestDTO>(model);
 
-        //    return this.Redirect("/admin/");
-        //}
+                await this.testServices.CreateAsync(dto);
+            }
+
+            this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
+
+            return this.Redirect("/admin/");
+        }
 
         // added to test view
+        [HttpGet]
+        [ActionName("Home")]
         public async Task<IActionResult> Home()
             => await Task.Run(() => View("Index"));
 

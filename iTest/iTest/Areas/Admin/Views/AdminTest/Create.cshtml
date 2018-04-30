@@ -3,7 +3,7 @@
 
 <h2>New Test</h2>
 <div class="row">
-    <form method="post">
+    <form asp-area="Admin" asp-controller="AdminTest" asp-action="Create" method="post">
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group col-md-6">
             <label asp-for="Name"></label>
@@ -21,301 +21,465 @@
             <span asp-validation-for="Category" class="text-danger"></span>
         </div>
         <div class="col-md-12">
-            <div class="container">
+            <div id="questions-container">
+
                 <div class="row">
                     <h3 class="col-md-6">Add questions to your Test</h3>
-                    <button id="add-question" class="btn btn-success pull-right" type="button">Add Question</button>
+                    <div class="pull-right">
+                        <button id="collapse-questions" class="btn btn-default" type="button">Collapse All</button>
+                        <button id="add-question" class="btn btn-success" type="button">Add Question</button>
+                    </div>
                 </div>
-
                 <div class="row">
                     <div class="well">
-
-
-
-
-                        @{
+                        <div class="row">
+                            <div id="questions-body">
+                                @{
                             if (Model.Questions != null && Model.Questions.Count != 0)
                             {
                                 for (int q = 0; q < Model.Questions.Count; q++)
                                 {
-                                    <div id="question-@q" class="question-container1 panel panel-default">
-                                        <button class="delete-question btn btn-danger btn-xs pull-right" type="button">
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </button>
-                                        <a href="#collapse-@q" data-toggle="collapse" data-parent="#accordion">
-                                            <div class="panel-heading">
-                                                <h4 class="panel-title">Question @string.Format("{0}", q + 1)</h4>
+                                <div id="question-@q" class="question-container panel panel-default">
+                                    <button class="delete-question btn btn-danger btn-xs pull-right" type="button">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                    <button class="edit-question btn btn-danger btn-xs pull-right" type="button">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>
+                                    <a href="#collapse-@q" data-toggle="collapse" data-parent="#accordion">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">Question @string.Format("{0}", q + 1)</h4>
+                                        </div>
+                                    </a>
+                                    <div id="collapse-@q" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <div class="question-description">
+                                                <h3>Description</h3>
+                                                <input type="hidden" id="@string.Format("Questions_{0}__BodyPlaintext", q)" name="Questions[@q].BodyPlaintext" value="" />
+                                                <textarea id="@string.Format("Questions_{0}__Body", q)" name="Questions[@q].Body" class="summernote form-control">@Model.Questions[q].Body</textarea>
+                                                <span asp-validation-for="Questions[@q].Body" class="text-danger"></span>
                                             </div>
-                                        </a>
-                                        <div id="collapse-@q" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <div class="question-description">
-                                                    <h3>Description</h3>
-                                                    <input type="hidden" id="@string.Format("Questions_{0}__DescriptionPlainText", q)" name="Questions[@q].DescriptionPlainText" value="" />
-                                                    <textarea id="@string.Format("Questions_{0}__Description", q)" name="Questions[@q].Body" class="summernote form-control">@Model.Questions[q].Description</textarea>
-                                                    <span asp-validation-for="Questions[@q].DescriptionPlainText" class="text-danger"></span>
-                                                </div>
-                                                <div class="answers-container">
-                                                    @if (Model.Questions[q].Answers != null)
-                                                    {
-                                                        for (int a = 0; a < Model.Questions[q].Answers.Count; a++)
-                                                        {
-                                                            <div id="question-@q-answer-@a" class="answer-container">
-                                                                <div class="row answer-header">
-                                                                    <div class="col">
-                                                                        <h3>Answer @string.Format("{0}", a + 1)</h3>
-                                                                    </div>
-                                                                    <div class="col">
-                                                                        <button class="delete-answer btn btn-danger btn-xs pull-right" type="button">
-                                                                            <span class="glyphicon glyphicon-remove"></span>
-                                                                        </button>
-                                                                        <label class="btn btn-success pull-right">
-                                                                            @if (Model.Questions[q].Answers[a].IsCorrect)
-                                                                            {
-                                                                                <input id="@string.Format("Questions_{0}__Answers_{1}__IsCorrect", q, a)" name="radio-@q" class="answer-is-correct" type="radio" value="true" autocomplete="off" checked>
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                <input id="@string.Format("Questions_{0}__Answers_{1}__IsCorrect", q, a)" name="radio-@q" class="answer-is-correct" type="radio" value="true" autocomplete="off">
-                                                                            }
-                                                                            <span class="glyphicon glyphicon-ok"></span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                                <input type="hidden" id="@string.Format("Questions_{0}__Answers_{1}__DescriptionPlainText", q, a)" name="Questions[@q].Answers[@a].DescriptionPlainText" value="" />
-                                                                <textarea id="@string.Format("Questions_{0}__Answers_{1}__Content", q, a)" name="Questions[@q].Answers[@a].Description" class="answer-content summernote form-control">@Model.Questions[q].Answers[a].Description</textarea>
-                                                                <span asp-validation-for="Questions[q].Answers[a].Description" class="text-danger"></span>
-                                                            </div>
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        <div class="no-answers">
-                                                            <h4 class="w-100 p-3">You need to add Answers to your Question</h4>
-                                                        </div>
-                                                    }
-                                                </div>
-                                                <span asp-validation-for="Questions[q].Answers" class="text-danger"></span>
-                                            </div>
-                                            <div class="panel-body">
-                                                <button class="add-answer btn btn-default pull-right" name="collapse-@q" type="button">Add Answer</button>
-                                            </div>
+                                            <div class="answers-container">
+                                                @if (Model.Questions[q].Answers != null)
+                {
+                    for (int a = 0; a < Model.Questions[q].Answers.Count; a++)
+                    {
+                                <div id="question-@q-answer-@a" class="answer-container">
+                                    <div class="row answer-header">
+                                        <div class="col">
+                                            <h3>Answer @string.Format("{0}", a + 1)</h3>
+                                        </div>
+                                        <div class="col">
+                                            <button class="delete-answer btn btn-danger btn-xs pull-right" type="button">
+                                                <span class="glyphicon glyphicon-trash"></span>
+                                            </button>
+                                            <label class="btn btn-success pull-right">
+                                                @if (Model.Questions[q].Answers[a].IsCorrect)
+                {
+                                <input id="@string.Format("Questions_{0}__Answers_{1}__IsCorrect", q, a)" name="radio-@q" class="answer-is-correct" type="radio" value="true" autocomplete="off" checked>
+}
+else
+{
+                                <input id="@string.Format("Questions_{0}__Answers_{1}__IsCorrect", q, a)" name="radio-@q" class="answer-is-correct" type="radio" value="true" autocomplete="off">
+}
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                            </label>
                                         </div>
                                     </div>
-                                }
-                            }
-                            else
-                            {
-                                <div class="question-container1">
-                                    <h4 class="w-100 p-3">You need to add Questions to your Test</h4>
+                                    <input type="hidden" id="@string.Format("Questions_{0}__Answers_{1}__ContentPlaintext", q, a)" name="Questions[@q].Answers[@a].ContentPlaintext" value="" />
+                                    <textarea id="@string.Format("Questions_{0}__Answers_{1}__Content", q, a)" name="Questions[@q].Answers[@a].Content" class="answer-content summernote form-control">@Model.Questions[q].Answers[a].Content</textarea>
+                                    <span asp-validation-for="Questions[q].Answers[a].Content" class="text-danger"></span>
                                 </div>
-                            }
+}
+}
+else
+{
+                                <div class="no-answers">
+                                    <h4 class="w-100 p-3">You need to add Answers to your Question</h4>
+                                </div>
+}
+                                            </div>
+                                            <span asp-validation-for="Questions[q].Answers" class="text-danger"></span>
+                                        </div>
+                                        <div class="panel-body">
+                                            <button class="add-answer btn btn-default pull-right" name="collapse-@q" type="button">Add Answer</button>
+                                        </div>
+                                    </div>
+                                </div>
                         }
-
-
-
-
+                    }
+                    else
+                    {
+                        <div>
+                            <h4 class="w-100 p-3">You need to add Questions to your Test</h4>
+                        </div>
+            }
+                                }
+                            </div>
+                            <span asp-validation-for="Questions" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="pull-right">
-                        <button name="IsPublished" class="create-test btn btn-default" type="submit" value="false">Save as Draft</button>
-                        <button name="IsPublished" class="create-test btn btn-default" type="submit" value="true">Publish</button>
-                    </div>
-
-                    <span asp-validation-for="Questions" class="text-danger"></span>
+                </div>
+                <div class="pull-right">
+                    <button name="IsPublished" class="create-test btn btn-default" type="submit" value="false">Save as Draft</button>
+                    <button name="IsPublished" class="create-test btn btn-default" type="submit" value="true">Publish</button>
                 </div>
             </div>
         </div>
     </form>
 </div>
-<script>
-    $('.summernote').summernote({
-        placeholder: 'Hello stand alone ui',
-        tabsize: 2,
-        height: 200,
-        toolbar: [
-            ['style', ['bold', 'italic', 'underline', 'clear']],
-            ['font', ['strikethrough', 'superscript', 'subscript']],
-            ['fontsize', ['fontsize']],
-            ['para', ['ul', 'ol', 'paragraph']]
-        ],
-        disableResizeEditor: true
-    });
-</script>
-<script src="js/create-test.js"></script>
-<script>
-    $(function () {
-    var questionFrame =
-        ` <div id="question-{{q_id}}" class="question-container panel panel-default">
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    @*<script src="~/js/create-test.js"></script>*@
 
-     <button class="collapseBtn question btn btn-success btn-sm pull-right" href="#collapse-{{q_id}}" data-toggle="collapse" type="button">
-         <span class="changeIcon glyphicon glyphicon-plus"></span>
-     </button>
-     <button class="delete-question btn btn-danger btn-sm pull-right" type="button">
-         <span class="glyphicon glyphicon-trash"></span>
-     </button>
-     <button class="edit-question btn btn-info btn-sm pull-right" type="button">
-         <span class="glyphicon glyphicon-pencil"></span>
-     </button>
-     <div>
-         <a class="panel-heading" href="#collapse-{{q_id}}" data-toggle="collapse">
-             <h4 class="panel-title">
-                 Question {{q_number}}
-             </h4>
-         </a>
-     </div>
+    <script>
+        $(function () {
+            var questionFrame =
+                `<div id="question-{{q_id}}" class="question-container panel panel-default">
+                
+            <button class="delete-question btn btn-danger btn-xs pull-right" type="button">
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
+            <button class="edit-question btn btn-info btn-xs pull-right" type="button">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+            <a href="#collapse-{{q_id}}" data-toggle="collapse" data-parent="#accordion">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        Question {{q_number}}
+                    </h4>
+                </div>
+            </a>
+            <div id="collapse-{{q_id}}" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="question-description">
+                        <h3>Description</h3>
 
-     <div id="collapse-{{q_id}}" class="panel-collapse collapse">
-         <div class="panel-body">
-             <div class="question-description">
-                 <h4>Description</h4>
-                 <input type="hidden" id="Questions_{{q_id}}__Description" name="Questions[{{q_id}}].Description" value="" />
-                 <textarea id="Questions_{{q_id}}__Description" name="Questions[{{q_id}}].Description" class="summernote form-control"></textarea>
+                        <input type="hidden" id="Questions_{{q_id}}__BodyPlaintext" name="Questions[{{q_id}}].BodyPlaintext" value=""/>
+                        <textarea id="Questions_{{q_id}}__Body" name="Questions[{{q_id}}].Body" class="summernote form-control" ></textarea>
+                    </div>
+                    <div class="answers-container">
 
+                        <div id="question-{{q_id}}-answer-0" class="answer-container">
+                            <div class="row answer-header">
+                                <div class="col">
+                                    <h3>Answer 1</h3>
 
+                                    <button class="delete-answer btn btn-danger btn-xs pull-right" type="button">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
 
-             </div>
+                                    <label class="btn btn-success pull-right">
+                                        <input id="Questions_{{q_id}}__Answers_0__IsCorrect" name="radio-{{q_id}}" class="answer-is-correct" type="radio" value="true" autocomplete="off" checked/>
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </label>
+                                </div>
+                            </div>
 
-             <div class="answers-container">
+                            <input type="hidden" id="Questions_{{q_id}}__Answers_0__ContentPlaintext" name="Questions[{{q_id}}].Answers[0].ContentPlaintext" value=""/>
+                            <textarea id="Questions_{{q_id}}__Answers_0__Content" name="Questions[{{q_id}}].Answers[0].Content" class="answer-content summernote form-control"></textarea>
+                        </div>
 
-                 <div id="question-{{q_id}}-answer-0" class="answer-container">
-                     <div class="answer-header">
-                         <button class="delete-answer btn btn-danger btn-xs pull-right" type="button">
-                             <span class="glyphicon glyphicon-trash"></span>
-                         </button>
-                         <label class="btn btn-success btn-xs pull-right">
-                             <input id="Questions_{{q_id}}__Answers_0__IsCorrect" name="radio-{{q_id}}" class="answer-is-correct" type="radio" value="true" autocomplete="off" checked />
-                             <span class="glyphicon glyphicon-ok">Correct</span>
-                         </label>
-                     </div>
-                     <input type="hidden" id="Questions_{{q_id}}__Answers_0__DescriptionPlainText" name="Questions[{{q_id}}].Answers[0].DescriptionPlainText" value="" />
-                     <h4>Answer 1</h4>
-                     <textarea id="Questions_{{q_id}}__Answers_0__Description" name="Questions[{{q_id}}].Answers[0].Description" class="answer-content summernote form-control"></textarea>
-                 </div>
+                        <div id="question-{{q_id}}-answer-1" class="answer-container">
+                            <div class="row answer-header">
+                                <div class="col">
+                                    <h3>Answer 2</h3>
+                                </div>
 
-                 <div id="question-{{q_id}}-answer-1" class="answer-container">
-                     <div class="answer-header">
-                         <button class="delete-answer btn btn-danger btn-xs pull-right" type="button">
-                             <span class="glyphicon glyphicon-trash"></span>
-                         </button>
-                         <label class="btn btn-success btn-xs pull-right">
-                             <input id="Questions_{{q_id}}__Answers_1__IsCorrect" name="radio-{{q_id}}" class="answer-is-correct" type="radio" value="true" autocomplete="off" checked />
-                             <span class="glyphicon glyphicon-ok">Correct</span>
-                         </label>
-                     </div>
-                     <input type="hidden" id="Questions_{{q_id}}__Answers_1__DescriptionPlainText" name="Questions[{{q_id}}].Answers[1].DescriptionPlainText" value="" />
-                     <h4>Answer 2</h4>
-                     <textarea id="Questions_{{q_id}}__Answers_1__Description" name="Questions[{{q_id}}].Answers[1].Description" class="answer-content summernote form-control"></textarea>
-                 </div>
+                                <div class="col">
+                                    <button class="delete-answer btn btn-danger btn-xs pull-right" type="button">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
 
-                 <div id="question-{{q_id}}-answer-2" class="answer-container">
-                     <div class="answer-header">
-                         <button class="delete-answer btn btn-danger btn-xs pull-right" type="button">
-                             <span class="glyphicon glyphicon-trash"></span>
-                         </button>
-                         <label class="btn btn-success btn-xs pull-right">
-                             <input id="Questions_{{q_id}}__Answers_2__IsCorrect" name="radio-{{q_id}}" class="answer-is-correct" type="radio" value="true" autocomplete="off" checked />
-                             <span class="glyphicon glyphicon-ok">Correct</span>
-                         </label>
-                     </div>
-                     <input type="hidden" id="Questions_{{q_id}}__Answers_2__DescriptionPlainText" name="Questions[{{q_id}}].Answers[2].DescriptionPlainText" value="" />
-                     <h4>Answer 3</h4>
-                     <textarea id="Questions_{{q_id}}__Answers_2__Description" name="Questions[{{q_id}}].Answers[2].Description" class="answer-content summernote form-control"></textarea>
-                 </div>
-             </div>
-             <div class="panel-body">
-                 <button class="add-answer btn btn-default pull-right" name="collapse-{{q_id}}" type="button">Add Answer</button>
-             </div>
-         </div>
-     </div>`;
+                                    <label class="btn btn-success pull-right">
+                                        <input id="Questions_{{q_id}}__Answers_1__IsCorrect" name="radio-{{q_id}}" class="answer-is-correct" type="radio" value="true" autocomplete="off"/>
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </label>
+                                </div>
+                            </div>
 
-    var answerFrame =
-        `<div class="answers-container">
+                            <input type="hidden" id="Questions_{{q_id}}__Answers_1__ContentPlaintext" name="Questions[{{q_id}}].Answers[1].ContentPlaintext" value=""/>
+                            <textarea id="Questions_{{q_id}}__Answers_1__Content" name="Questions[{{q_id}}].Answers[1].Content" class="answer-content summernote form-control"></textarea>
+                        </div>
 
-                 <div id="question-{{q_id}}-answer-{{a_id}}" class="answer-container">
-                     <div class="answer-header">
-                         <button class="delete-answer btn btn-danger btn-xs pull-right" type="button">
-                             <span class="glyphicon glyphicon-trash"></span>
-                         </button>
-                         <label class="btn btn-success btn-xs pull-right">
-                             <input id="Questions_{{q_id}}__Answers_{{a_id}}__IsCorrect" name="radio-{{q_id}}" class="answer-is-correct" type="radio" value="true" autocomplete="off" checked />
-                             <span class="glyphicon glyphicon-ok">Correct</span>
-                         </label>
-                     </div>
-                     <input type="hidden" id="Questions_{{q_id}}__Answers_{{a_id}}__DescriptionPlainText" name="Questions[{{q_id}}].Answers[{{a_id}}].DescriptionPlainText" value="" />
-                     <h4>Answer {{a_number}}</h4>
-                     <textarea id="Questions_{{q_id}}__Answers_{{a_id}}__Description" name="Questions[{{q_id}}].Answers[{{a_id}}].Description" class="answer-content summernote form-control"></textarea>
-                 </div>
+                        <div id="question-{{q_id}}-answer-2" class="answer-container">
+                            <div class="row answer-header">
+                                <div class="col">
+                                    <h3>Answer 3</h3>
+                                </div>
+
+                                <div class="col">
+                                    <button class="delete-answer btn btn-danger btn-xs pull-right" type="button">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+
+                                    <label class="btn btn-success pull-right">
+                                        <input id="Questions_{{q_id}}__Answers_2__IsCorrect" name="radio-{{q_id}}" class="answer-is-correct" type="radio" value="true" autocomplete="off"/>
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <input type="hidden" id="Questions_{{q_id}}__Answers_2__ContentPlaintext" name="Questions[{{q_id}}].Answers[2].ContentPlaintext" value=""/>
+                            <texarea id="Questions_{{q_id}}__Answers_2__Content" name="Questions[{{q_id}}].Answers[2].Content" class="answer-content summernote form-control"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <button class="add-answer btn btn-default pull-right" name="collapse-{{q_id}}" type="button">Add Answer</button>
+                </div>
+            </div>
         </div>`;
 
-    var questionSummernoteConfig = {
-        placeholder: 'Add your description here...',
-        height: 200,
-        toolbar: [
-            ['style', ['bold', 'italic', 'underline', 'clear']],
-            ['font', ['strikethrough', 'superscript', 'subscript']],
-            ['fontsize', ['fontsize']],
-            ['para', ['ul', 'ol', 'paragraph']]
-        ],
-        disableResizeEditor: true
-    };
+            var answerFrame =
+                `<div id="question-{{q_id}}-answer-{{a_id}}" class="answer-container">
+            <div class="row answer-header">
+                <div class="col">
+                    <h3>Answer {{a_number}}</h3>
+                </div>
 
-    var answerSummernoteConfig = {
-        height: 200,
-        toolbar: [
-            ['style', ['bold', 'italic', 'underline', 'clear']],
-            ['font', ['strikethrough', 'superscript', 'subscript']],
-            ['fontsize', ['fontsize']],
-            ['para', ['ul', 'ol', 'paragraph']]
-        ],
-        disableResizeEditor: true
-    };
+                <div class="col">
+                    <button class="delete-answer btn btn-danger btn-xs pull-right" type="button">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
 
-    //functions
-    var initializeSummernote = function () {
-        $('.summernote')
-            .toArray()
-            .forEach(function (textarea) {
-                var text = textarea.textContent;
-                $(textarea).summernote(answerSummernoteConfig);
-                textarea.textContent = text;
-            });
-    };
+                    <label class="btn btn-success pull-right">
+                        <input id="Questions_{{q_id}}__Answers_{{a_id}}__IsCorrect" name="radio-{{q_id}}" class="answer-is-correct" type="radio" value="true" autocomplete="off"/>
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </label>
+                </div>
+            </div>
 
-    var radioButtonClick = function (questionNumber) {
-        var answerRadioButtons = $(`#question-${questionNumber} .answers-container .answer-container input`)
-            .filter(function () {
-                return this.type === 'radio';
-            });
+            <input type="hidden" id="Questions_{{q_id}}__Answers_{{a_id}}__ContentPlaintext" name="Questions[{{q_id}}].Answers[{{a_id}}].ContentPlaintext" value=""/>
+            <textarea id="Questions_{{q_id}}__Answers_{{a_id}}__Content" name="Questions[{{q_id}}].Answers[{{a_id}}].Content" class="answer-content summernote form-control"></textarea>
+        </div>`;
 
-        var hasCheckedRadioButton = answerRadioButtons
-            .is(function () {
-                return $(this).prop('checked') === true;
-            });
+            var noQuestionFrame =
+                `<div>
+            <h4 class="w-100 p-3">You need to add Questions to your Test</h4>
+        </div>`;
 
-        if (!hasCheckedRadioButton) {
-            answerRadioButtons.first().prop('checked', true);
-        }
-        };
+            var noAnswersFrame =
+                `<div class="no-answers">
+            <h4 class="w-100 p-3">You need to add Answers to your Question</h4>
+        </div>`;
 
-        var containerLen = $('.question-container1').length;
+            var questionSummernoteConfig = {
+                placeholder: 'Add your description here...',
+                height: 200,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['para', ['ul', 'ol', 'paragraph']]
+                ],
+                disableResizeEditor: true
+            };
 
-        var addQuestionEvent = $('#add-question').on('click',
-            function() {
-                console.log('irina eeeee');
+            var answerSummernoteConfig = {
+                height: 200,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['para', ['ul', 'ol', 'paragraph']]
+                ],
+                disableResizeEditor: true
+            };
+
+            //functions
+            var initializeSummernote = function () {
+                $('.summernote')
+                    .toArray()
+                    .forEach(function (textarea) {
+                        var text = textarea.textContent;
+                        $(textarea).summernote(answerSummernoteConfig);
+                        textarea.textContent = text;
+                    });
+            };
+
+            var radioButtonClick = function (questionNumber) {
+                var answerRadioButtons = $(`#question-${questionNumber} .answers-container .answer-container input`)
+                    .filter(function () {
+                        return this.type === 'radio';
+                    });
+
+                var hasCheckedRadioButton = answerRadioButtons
+                    .is(function () {
+                        return $(this).prop('checked') === true;
+                    });
+
+                if (!hasCheckedRadioButton) {
+                    answerRadioButtons.first().prop('checked', true);
+                }
+            };
+            var collapseQuestions = function () {
+                $('#questions-container .question-container > a')
+                    .filter(function () {
+                        var isCollapsed = $(`#${this.parentNode.id} > div`)[0]
+                            .classList
+                            .contains('in');
+
+                        return isCollapsed;
+                    })
+                    .click();
+            }
+
+            //event listeners
+            var collapseQuestionsClickEvent = $('#questions-container #collapse-questions').on('click', collapseQuestions);
+
+            var addQuestionClickEvent = $('#add-question').on('click', function () {
+                console.log('test123');
+                collapseQuestions();
+
+                var newQuestionId = $('#questions-body .question-container').length;
                 var questionHtml = questionFrame
-                    .replace(/\{\{\q_id\}\}/g, containerLen - 1)
-                    .replace(/\{\{\q_number\}\}/g, containerLen);
+                    .replace(/\{\{\q_id\}\}/g, newQuestionId)
+                    .replace(/\{\{\q_number\}\}/g, newQuestionId + 1);
+
                 var question = $(questionHtml);
-                if (containerLen === 0) {
-                    $('.question-container1')
+                //question.find(`#Questions_${newQuestionId}__Body`).summernote(questionSummernoteConfig);
+                //question.find(`.answer-content`).summernote(answerSummernoteConfig);
+                //$('.note-statusbar').hide();
+
+                if (newQuestionId === 0) {
+                    $('#questions-container #questions-body')
                         .html(question);
                 }
                 else {
-                    $('.question-container1')
+                    $('#questions-container #questions-body')
                         .append(question);
                 }
-                containerLen++;
+
+                $(`#questions-container #questions-body #question-${newQuestionId} a`).click();
+            });
+            var deleteQuestionClickEvent = $('#questions-container #questions-body').on('click', '.delete-question', function () {
+                var questionId = parseInt(this.parentNode.id.split('-')[1]);
+
+                $(this.parentNode).remove();
+
+                var nextQuestions = $('#questions-body .question-container')
+                    .filter(function () {
+                        var nextQuestionId = parseInt(this.id.split('-')[1]);
+                        return nextQuestionId > questionId;
+                    })
+                    .toArray();
+
+                if ($('#questions-body .question-container').length === 0) {
+                    $('#questions-body').html(noQuestionFrame);
+                }
+                else {
+                    nextQuestions.forEach(function (question) {
+                        var newQuestionId = parseInt(question.id.split('-')[1]) - 1;
+                        var nextQuestion = $(question);
+
+                        nextQuestion.attr('id', `question-${newQuestionId}`);
+                        nextQuestion.find('a').attr('href', `#collapse-${newQuestionId}`);
+                        nextQuestion.find('h4').text(`Question ${newQuestionId + 1}`);
+                        nextQuestion.find('.panel-collapse').attr('id', `collapse-${newQuestionId}`);
+                        nextQuestion.find('.question-description input').attr('id', `Questions_${newQuestionId}__Body`);
+                        nextQuestion.find('.question-description input').attr('name', `Questions[${newQuestionId}].Body`);
+
+                        nextQuestion.find('.add-answer').attr('name', `collapse-${newQuestionId}`);
+
+                        var answers = nextQuestion.find('.answer-container').toArray();
+
+                        answers.forEach(function (answer) {
+                            var answerId = parseInt(answer.id.split('-')[3]);
+                            var nextQuestionAnswer = $(answer);
+
+                            nextQuestionAnswer.attr('id', `question-${questionId}-answer-${answerId}`)
+
+                            nextQuestionAnswer.find('.answer-is-correct').attr('id', `Questions_${newQuestionId}__Answers_${answerId}__Content`);
+
+                            nextQuestionAnswer.find('.answer-content').attr('id', `Questions_${newQuestionId}__Answers_${answerId}__Content`);
+                            nextQuestionAnswer.find('.answer-content').attr('name', `Questions[${newQuestionId}].Answers[${answerId}].Content`);
+                        });
+                    });
+                }
             });
 
-    });
-</script>
+            var addAnswerClickEvent = $('#questions-container #questions-body').on('click', '.add-answer', function () {
+                console.log('test123');
+                var questionId = this.name.split('-')[1];
+                var newAnswerNumber = $(`#question-${questionId} .answers-container .answer-container`).length;
+
+                var answerHtml = answerFrame
+                    .replace(/\{\{\q_id\}\}/g, questionId)
+                    .replace(/\{\{\a_id\}\}/g, newAnswerNumber)
+                    .replace(/\{\{\a_number\}\}/g, newAnswerNumber + 1);
+
+                var answer = $(answerHtml);
+                answer.find(`#Questions_${questionId}__Answers_${newAnswerNumber}__Content`).summernote(answerSummernoteConfig);
+
+                if (newAnswerNumber === 0) {
+                    $(`#question-${questionId} .answers-container`)
+                        .html(answer);
+                }
+                else {
+                    $(`#question-${questionId} .answers-container`)
+                        .append(answer);
+                }
+
+                radioButtonClick(questionId);
+            });
+            var deleteAnswerClickEvent = $('#questions-container #questions-body').on('click', '.delete-answer', function () {
+                var params = $(this).closest('.answer-container')[0].id.split('-');
+                var questionId = parseInt(params[1]);
+                var answerNumber = parseInt(params[3]);
+
+                $(this).closest('.answer-container').remove();
+
+                var nextAnswers = $(`#questions-body #question-${questionId} .answer-container`)
+                    .filter(function () {
+                        var nextAnswerNumber = parseInt(this.id.split('-')[3]);
+                        return nextAnswerNumber > answerNumber;
+                    })
+                    .toArray();
+
+                if ($(`#questions-body #question-${questionId} .answer-container`).length === 0) {
+                    $(`#questions-body #question-${questionId} .answers-container`).html(noAnswersFrame);
+                }
+                else {
+                    nextAnswers.forEach(function (answer) {
+                        var newAnswerNumber = parseInt(answer.id.split('-')[3]) - 1;
+
+                        var nextAnswer = $(answer);
+                        nextAnswer.attr('id', `question-${questionId}-answer-${newAnswerNumber}`);
+                        nextAnswer.find('h3').text(`Answer ${newAnswerNumber + 1}`);
+                        nextAnswer.find('.answer-content').attr('id', `Questions_${questionId}__Answers_${newAnswerNumber}__Content`);
+                        nextAnswer.find('.answer-content').attr('name', `Questions[${questionId}].Answers[${newAnswerNumber}].Content`);
+                    });
+
+                    radioButtonClick(questionId);
+                }
+            });
+
+            var createTestClickEvent = $('.create-test').on('click', function () {
+                $('#questions-container #questions-body .answer-is-correct')
+                    .toArray()
+                    .forEach(function (rButton) {
+                        var params = $(rButton).closest('.answer-container')[0].id.split('-');
+                        var questionId = params[1];
+                        var answerNumber = params[3];
+
+                        $(rButton).attr('name', `Questions[${questionId}].Answers[${answerNumber}].IsCorrect`);
+                    });
+
+                $('#questions-container .summernote')
+                    .toArray()
+                    .forEach(function (formatedTextarea) {
+                        var plainText = $(formatedTextarea)
+                            .summernote('code')
+                            .replace(/<\/?[^>]+(>|$)/g, "");
+
+                        $(formatedTextarea)
+                            .siblings('input').val(plainText);
+                    });
+            });
+
+            initializeSummernote();
+        });
+    </script>
+}

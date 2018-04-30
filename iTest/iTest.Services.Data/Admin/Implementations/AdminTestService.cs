@@ -57,6 +57,8 @@ namespace iTest.Services.Data.Admin.Implementations
             await this.saver.SaveChangesAsync();
         }
 
+        // todo GET RANDOM TEST
+
         public async Task UpdateAsync(TestDTO dto)
         {
             var test = await this.testsRepo.All.SingleAsync(x => x.Id == dto.Id);
