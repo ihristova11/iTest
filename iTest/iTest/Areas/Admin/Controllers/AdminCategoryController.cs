@@ -1,4 +1,5 @@
-﻿using iTest.DTO;
+﻿using AutoMapper;
+using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
 using iTest.Web.Areas.Admin.Controllers.Abstract;
@@ -38,19 +39,25 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             if (!(await category))
             {
-                var dto = new CategoryDTO
-                {
-                    Name = model.Name,
-                };
+                //var dto = new CategoryDTO
+                //{
+                //    Name = model.Name,
+                //    CreatedOn = DateTime.UtcNow
+                //};
+
+                //var dto = this.mapper.InlineMapTo<AdminCategoryViewModel, CategoryDTO>(model, opt => opt.ConfigureMap()
+                //.ForMember(dest => dest.Name, m => m.MapFrom(src => src.Name + 10)));
+                //.ForAllOtherMembers(dest => dest.Ignore()));
+
+                var dto = this.mapper.InlineMapTo<AdminCategoryViewModel, CategoryDTO>(model, opt => opt.ConfigureMap(MemberList.Source));
 
                 await this.categories.CreateAsync(dto);
             }
 
             this.toastr.AddSuccessToastMessage($"Category {model.Name} created successfully!");
 
-            return this.Redirect("/admin/");
+            return this.Redirect("/");
         }
-
 
         public async Task<IActionResult> Publish()
             => await Task.Run(() => View());
@@ -64,6 +71,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             }
 
             var dto = this.mapper.MapTo<CategoryDTO>(model);
+
             await this.categories.PublishAsync(dto);
 
             this.toastr.AddSuccessToastMessage($"Category {model.Name} published successfully!");

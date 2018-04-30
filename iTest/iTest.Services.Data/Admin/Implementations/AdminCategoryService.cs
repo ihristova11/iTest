@@ -62,12 +62,13 @@ namespace iTest.Services.Data.Admin.Implementations
             var category = this.mapper.MapTo<Category>(dto);
 
             this.categories.Add(category);
+
             await this.saver.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(CategoryDTO dto)
         {
-            var category = await this.categories.All.SingleAsync(x => x.Id == dto.Id);
+            var category = await this.categories.All.SingleAsync(x => x.Name == dto.Name);
 
             if (category == null)
             {

@@ -13,8 +13,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace iTest.Web
 {
@@ -74,7 +72,7 @@ namespace iTest.Web
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
-       
+
         private void RegisterAuthentication(IServiceCollection services)
         {
             services.AddIdentity<User, IdentityRole>()
