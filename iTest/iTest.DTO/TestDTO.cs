@@ -28,10 +28,10 @@ namespace iTest.DTO
 
         public UserDTO Author { get; set; }
 
-        public ICollection<UserTest> Users { get; set; } = new List<UserTest>();
+        public ICollection<UserTestDTO> Users { get; set; } = new List<UserTestDTO>();
 
-        public ICollection<Question> Questions { get; set; } = new List<Question>();
+        public ICollection<QuestionDTO> Questions { get; set; } = new List<QuestionDTO>();
 
-        public ICollection<Result> Results { get; set; } = new List<Result>();
+        public ICollection<ResultDTO> Results { get; set; } = new List<ResultDTO>();
     }
 }
