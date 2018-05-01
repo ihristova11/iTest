@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using iTest.Data;
 using iTest.Data.Models.Implementations;
-using iTest.Data.Repository.Contracts;
-using iTest.Data.Repository.Implementations;
+using iTest.Data.Repository;
+using iTest.Data.Repository.UnitsOfWork;
 using iTest.Infrastructure.Providers;
 using iTest.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -85,7 +85,6 @@ namespace iTest.Web
                 {
                     // Password settings
                     options.Password.RequireDigit = false;
-                    options.Password.RequiredLength = 3;
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
                     options.Password.RequireLowercase = false;
