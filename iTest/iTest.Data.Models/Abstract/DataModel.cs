@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.TeamFoundation.TestManagement.Client;
+﻿using Microsoft.TeamFoundation.TestManagement.Client;
+using System;
 
-namespace iTest.Data.Models.Contracts
+namespace iTest.Data.Models.Abstract
 {
-   public class DataModel : IIdentifiable<int>, IDeletable, IEditable
+    public class DataModel : IIdentifiable<int>, IDeletable, IEditable
     {
         public int Id { get; }
 

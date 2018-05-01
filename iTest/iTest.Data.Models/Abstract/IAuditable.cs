@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace iTest.Data.Models.Contracts
+namespace iTest.Data.Models.Abstract
 {
     public interface IAuditable
     {
