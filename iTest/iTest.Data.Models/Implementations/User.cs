@@ -1,24 +1,11 @@
-﻿using iTest.Data.Models.Contracts;
-using Microsoft.AspNetCore.Identity;
-using System;
+﻿using iTest.Data.Models.Abstract;
+using Microsoft.TeamFoundation.TestManagement.Client;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace iTest.Data.Models.Implementations
 {
-    public class User : IdentityUser, IEditable, IDeletable
+    public class User : DataModel, IIdentifiable<int>, IEditable, IDeletable, IAuditable
     {
-        public bool IsDeleted { get; set; }
-
         public ICollection<UserTest> Tests { get; set; } = new List<UserTest>();
-
-        [DataType(DataType.DateTime)]
-        public DateTime? DeletedOn { get; set; }
-
-        [DataType(DataType.DateTime)]
-        public DateTime? CreatedOn { get; set; }
-
-        [DataType(DataType.DateTime)]
-        public DateTime? ModifiedOn { get; set; }
     }
 }
