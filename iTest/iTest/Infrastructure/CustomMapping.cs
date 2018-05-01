@@ -12,9 +12,6 @@ namespace iTest.Web.Infrastructure
             this.CreateMap<TestDTO, AdminTestViewModel>()
                        .ForMember(x => x.Author, options => options.MapFrom(x => x.Author.UserName));
 
-            this.CreateMap<CategoryDTO, AdminCategoryViewModel>()
-                   .ForMember(x => x.Author, options => options.MapFrom(x => x.Author.UserName));
-
             this.CreateMap<AdminTestViewModel, TestDTO>(MemberList.Source);
             this.CreateMap<TestDTO, Test>(MemberList.Source);
         }
