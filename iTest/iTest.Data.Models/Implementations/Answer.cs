@@ -1,25 +1,11 @@
-﻿using iTest.Data.Models.Contracts;
+﻿using iTest.Data.Models.Abstract;
 using Microsoft.TeamFoundation.TestManagement.Client;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace iTest.Data.Models.Implementations
 {
-    public class Answer : IIdentifiable<int>, IEditable, IDeletable
+    public class Answer : DataModel, IIdentifiable<int>, IEditable, IDeletable, IAuditable
     {
-        public int Id { get; set; }
-
-        [DataType(DataType.Date)]
-        public DateTime? CreatedOn { get; set; }
-
-        [DataType(DataType.Date)]
-        public DateTime? ModifiedOn { get; set; }
-
-        public bool IsDeleted { get; set; }
-
-        [DataType(DataType.Date)]
-        public DateTime? DeletedOn { get; set; }
-
         [Required]
         [MinLength(4)]
         [MaxLength(500)]
