@@ -1,5 +1,6 @@
 ﻿using iTest.Data.Models.Implementations;
-using iTest.Data.Repository.Contracts;
+using iTest.Data.Repository;
+using iTest.Data.Repository.UnitsOfWork;
 using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.User.Contracts;
