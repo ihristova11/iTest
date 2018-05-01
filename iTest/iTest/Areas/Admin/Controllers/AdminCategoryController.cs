@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using iTest.DTO;
+﻿using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
 using iTest.Web.Areas.Admin.Controllers.Abstract;
@@ -13,13 +12,13 @@ namespace iTest.Web.Areas.Admin.Controllers
 {
     public class AdminCategoryController : AdminController
     {
-        private readonly IAdminCategoryService categories;
+        private readonly IAdminCategoryService categoryService;
         private readonly IMappingProvider mapper;
         private readonly IToastNotification toastr;
 
-        public AdminCategoryController(IAdminTestService tests, IAdminCategoryService categories, IMappingProvider mapper, IToastNotification toastr)
+        public AdminCategoryController(IAdminTestService tests, IAdminCategoryService categoryService, IMappingProvider mapper, IToastNotification toastr)
         {
-            this.categories = categories ?? throw new ArgumentNullException(nameof(categories));
+            this.categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.toastr = toastr ?? throw new ArgumentNullException(nameof(toastr));
         }
@@ -35,23 +34,19 @@ namespace iTest.Web.Areas.Admin.Controllers
                 return View(model);
             }
 
-            var category = this.categories.ExistsByNameAsync(model.Name);
+            var category = this.categoryService.ExistsByNameAsync(model.Name);
 
             if (!(await category))
             {
-                //var dto = new CategoryDTO
-                //{
-                //    Name = model.Name,
-                //    CreatedOn = DateTime.UtcNow
-                //};
+                var dto = new CategoryDTO
+                {
+                    Name = model.Name,
+                    CreatedOn = DateTime.UtcNow
+                };
 
-                //var dto = this.mapper.InlineMapTo<AdminCategoryViewModel, CategoryDTO>(model, opt => opt.ConfigureMap()
-                //.ForMember(dest => dest.Name, m => m.MapFrom(src => src.Name + 10)));
-                //.ForAllOtherMembers(dest => dest.Ignore()));
+                //var dto = this.mapper.InlineMapTo<AdminCategoryViewModel, CategoryDTO>(model, opt => opt.ConfigureMap().ForAllMembers(dest => dest.Ignore()));
 
-                var dto = this.mapper.InlineMapTo<AdminCategoryViewModel, CategoryDTO>(model, opt => opt.ConfigureMap(MemberList.Source));
-
-                await this.categories.CreateAsync(dto);
+                await this.categoryService.CreateAsync(dto);
             }
 
             this.toastr.AddSuccessToastMessage($"Category {model.Name} created successfully!");
@@ -72,7 +67,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             var dto = this.mapper.MapTo<CategoryDTO>(model);
 
-            await this.categories.PublishAsync(dto);
+            await this.categoryService.PublishAsync(dto);
 
             this.toastr.AddSuccessToastMessage($"Category {model.Name} published successfully!");
 
@@ -82,7 +77,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Edit(string name)
         {
-            var category = await this.categories.FindByNameAsync(name);
+            var category = await this.categoryService.FindByNameAsync(name);
 
             if (category == null)
             {
@@ -106,14 +101,14 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             var dto = this.mapper.MapTo<CategoryDTO>(model);
 
-            var category = await this.categories.ExistsByNameAsync(model.Name);
+            var category = await this.categoryService.ExistsByNameAsync(model.Name);
 
             if (!category)
             {
                 return NotFound();
             }
 
-            await this.categories.UpdateAsync(dto);
+            await this.categoryService.UpdateAsync(dto);
 
             this.toastr.AddSuccessToastMessage($"Category {model.Name} updated successfully!");
 
@@ -126,7 +121,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            await this.categories.DeleteAsync(id);
+            await this.categoryService.DeleteAsync(id);
 
             this.toastr.AddAlertToastMessage($"Category deleted successfully!");
 
