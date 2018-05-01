@@ -1,4 +1,4 @@
-﻿using iTest.Data.Models.Contracts;
+﻿using iTest.Data.Models.Abstract;
 using iTest.Data.Models.Implementations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
