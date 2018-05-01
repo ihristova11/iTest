@@ -11,8 +11,6 @@ namespace iTest.DTO
 
         public string Name { get; set; }
 
-        public DateTime? CreatedOn { get; set; }
-
         public int RequestedTime { get; set; }
 
         public int ExecutionTime { get; set; }
