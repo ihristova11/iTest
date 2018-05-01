@@ -1,4 +1,4 @@
-﻿using iTest.Data.Models.Implementations;
+﻿using iTest.Data.Models;
 using iTest.Web.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
