@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using iTest.Data.Models.Implementations;
+﻿using iTest.Data.Models.Implementations;
 using iTest.DTO;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace iTest.Web.Areas.Admin.Models
 {
@@ -17,10 +17,10 @@ namespace iTest.Web.Areas.Admin.Models
         [MinLength(2)]
         [MaxLength(50)]
         public string Name { get; set; }
-        
+
         public int RequestedTime { get; set; }
 
-        public string AuthorId { get; set; }
+        public string Author { get; set; }
 
         [Required]
         public CategoryDTO Category { get; set; }

@@ -1,5 +1,6 @@
 ﻿using iTest.Data.Models.Implementations;
-using iTest.Data.Repository.Contracts;
+using iTest.Data.Repository;
+using iTest.Data.Repository.UnitsOfWork;
 using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
@@ -49,12 +50,12 @@ namespace iTest.Services.Data.Admin.Implementations
             return this.mapper.MapTo<TestDTO>(test);
         }
 
-        public async Task CreateAsync(TestDTO dto)
+        public void Create(TestDTO dto)
         {
             var test = this.mapper.MapTo<Test>(dto);
 
             this.testsRepo.Add(test);
-            await this.saver.SaveChangesAsync();
+            this.saver.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(TestDTO dto)
@@ -67,14 +68,14 @@ namespace iTest.Services.Data.Admin.Implementations
             }
 
             this.testsRepo.Update(test);
-            await this.saver.SaveChangesAsync();
+            this.saver.SaveChangesAsync();
         }
 
-        public async Task PublishAsync(TestDTO dto)
+        public void Publish(TestDTO dto)
         {
             var test = this.mapper.MapTo<Test>(dto);
             this.testsRepo.Add(test);
-            await this.saver.SaveChangesAsync();
+            this.saver.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -87,7 +88,7 @@ namespace iTest.Services.Data.Admin.Implementations
             }
 
             this.testsRepo.Delete(test);
-            await this.saver.SaveChangesAsync();
+            this.saver.SaveChangesAsync();
         }
 
         public async Task<bool> ExistsByIdAsync(int id)

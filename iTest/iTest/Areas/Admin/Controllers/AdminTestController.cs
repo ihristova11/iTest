@@ -25,11 +25,11 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         public AdminTestController(IAdminTestService testServices, IAdminCategoryService categoryService, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
         {
-            this.testServices = testServices ?? throw new ArgumentNullException(nameof(testServices));
-            this.categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
-            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-            this.toastr = toastr ?? throw new ArgumentNullException(nameof(toastr));
+            this.testServices = testServices;
+            this.categoryService = categoryService;
+            this.mapper = mapper;
+            this.userManager = userManager;
+            this.toastr = toastr;
         }
 
         public async Task<IActionResult> Create()
@@ -56,12 +56,12 @@ namespace iTest.Web.Areas.Admin.Controllers
                 {
                     Name = model.Name,
                     RequestedTime = model.RequestedTime,
-                    AuthorId = model.AuthorId = this.userManager.GetUserId(this.HttpContext.User), // TODO required??
+                    AuthorId = model.Author = this.userManager.GetUserId(this.HttpContext.User),
                     Category = model.Category,
                     Questions = model.Questions
                 };
 
-                await this.testServices.CreateAsync(dto);
+                this.testServices.Create(dto);
             }
 
             this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
@@ -76,7 +76,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             => await Task.Run(() => View());
 
         [HttpPost]
-        public async Task<IActionResult> Publish(AdminTestViewModel model)
+        public IActionResult Publish(AdminTestViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             var dto = this.mapper.MapTo<TestDTO>(model);
             dto.AuthorId = this.userManager.GetUserId(this.HttpContext.User);
 
-            await this.testServices.PublishAsync(dto);
+            this.testServices.Publish(dto);
 
             this.toastr.AddSuccessToastMessage($"Test {model.Name} published successfully!");
             return this.Redirect("/admin/");
@@ -148,8 +148,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         protected async Task<IEnumerable<SelectListItem>> GetCategoriesAsync()
         {
-            var categories = await this.categoryService
-                                  .AllDomainAsync();
+            var categories = await this.categoryService.AllAsync();
 
             var categoriesList = categories.Select(c => new SelectListItem
             {
