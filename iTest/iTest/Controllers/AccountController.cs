@@ -1,13 +1,13 @@
-﻿using iTest.Web.Models.AccountViewModels;
+﻿using iTest.Data.Models.Implementations;
+using iTest.Web.Models.AccountViewModels;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using iTest.Data.Models.Implementations;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Logging;
 
 namespace iTest.Web.Controllers
 {
