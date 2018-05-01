@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using iTest.Data.Models.Implementations;
+using iTest.Data.Models;
 using iTest.DTO;
 using iTest.Web.Areas.Admin.Models;
 

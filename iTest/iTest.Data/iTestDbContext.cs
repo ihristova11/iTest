@@ -1,5 +1,5 @@
-﻿using iTest.Data.Models.Abstract;
-using iTest.Data.Models.Implementations;
+﻿using iTest.Data.Models;
+using iTest.Data.Models.Abstract;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;

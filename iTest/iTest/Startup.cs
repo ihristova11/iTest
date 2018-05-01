@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using iTest.Data;
-using iTest.Data.Models.Implementations;
+using iTest.Data.Models;
 using iTest.Data.Repository;
 using iTest.Data.Repository.UnitsOfWork;
 using iTest.Infrastructure.Providers;
@@ -38,7 +38,7 @@ namespace iTest.Web
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //app.UseDatabaseMigration(); // auto migrations
+            app.UseDatabaseMigration(); // auto migrations
 
             DataSeeder.InitializeAsync(app.ApplicationServices).Wait();
 
