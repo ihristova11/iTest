@@ -1,4 +1,4 @@
-﻿using iTest.Data.Models.Implementations;
+﻿using iTest.Data.Models;
 using iTest.Data.Repository;
 using iTest.Data.Repository.UnitsOfWork;
 using iTest.DTO;

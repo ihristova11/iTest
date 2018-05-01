@@ -1,4 +1,4 @@
-﻿using iTest.Data.Models.Implementations;
+﻿using iTest.Data.Models;
 using iTest.DTO;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -27,6 +27,6 @@ namespace iTest.Web.Areas.Admin.Models
 
         public IEnumerable<SelectListItem> Categories { get; set; }
 
-        public IList<Question> Questions { get; set; }
+        public ICollection<Question> Questions { get; set; }
     }
 }
