@@ -17,13 +17,25 @@ namespace iTest.Data.Repository.Implementations
             this.context = context;
         }
 
-        public IQueryable<T> All => this.context.Set<T>().Where(x => !x.IsDeleted);
+        public IQueryable<T> All
+        {
+            get
+            {
+                return this.context.Set<T>().Where(x => !x.IsDeleted);
+            }
+        }
 
-        public IQueryable<T> AllAndDeleted => this.context.Set<T>();
+        public IQueryable<T> AllAndDeleted
+        {
+            get
+            {
+                return this.context.Set<T>();
+            }
+        }
 
         public void Add(T entity)
         {
-            EntityEntry entry = context.Entry(entity);
+            EntityEntry entry = this.context.Entry(entity);
 
             if (entry.State != EntityState.Detached)
             {
