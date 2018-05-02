@@ -1,9 +1,9 @@
-﻿@model iTest.Web.Areas.Admin.Models.AdminTestViewModel
+﻿@model iTest.Web.Areas.Admin.Models.CreateTestViewModel
 
 
 <h2>New Test</h2>
 <div class="row">
-    <form asp-area="Admin" asp-controller="AdminTest" asp-action="Create" method="post">
+    <form asp-area="Admin" asp-controller="ManageTest" asp-action="Create" method="post">
         <div class="form-group col-md-6">
             <label asp-for="Name"></label>
             <input asp-for="Name" class="form-control" />
@@ -120,8 +120,8 @@
                     </div>
                 </div>
                 <div class="pull-right">x
-                    <button name="IsPublished" class="create-test btn btn-primary" type="submit" value="false">Save as Draft</button>
-                    <button name="IsPublished" class="create-test btn btn-success" type="submit" value="true">Publish</button>
+                    <input class="create-test btn btn-primary" type="submit" value="false">Save as Draft</input>
+                    <input class="create-test btn btn-success" type="submit" value="true">Publish</input>
                 </div>
             </div>
         </div>

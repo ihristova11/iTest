@@ -1,0 +1,27 @@
+﻿@using iTest.Web.Areas.Admin.Models
+@model iTest.Web.Areas.Admin.Models.CreateQuestionViewModel
+<<div class="question-container">
+    <div>
+        <h2 style="display: inline-block" class="question-count">
+            Question 1
+        </h2>
+        <button style="margin-top:2%" type="button" class="btn btn-default pull-right">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </button>
+    </div>
+
+    <div class="form-group question">
+        <div>Description</div>
+
+        <textarea asp-for="Body" class="form-control question" rows="5" id="question-content"></textarea>
+        @Html.Partial("_CreateAnswer")      
+        @Html.Partial("_CreateAnswer")
+        @Html.Partial("_CreateAnswer")
+
+    </div>
+    <div>
+        <button type="button" id="new-answer-button" class="new-answer-button btn btn-default pull-right">Add New Answer</button>
+    </div>
+</div>
+<div style="clear:both"></div>
+

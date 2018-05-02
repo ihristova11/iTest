@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace iTest.Web.Areas.Admin.Models
 {
-    public class AdminTestViewModel
+    public class CreateTestViewModel
     {
         public string Id { get; set; }
 
@@ -31,7 +31,7 @@ namespace iTest.Web.Areas.Admin.Models
 
         [Required(ErrorMessage = "Questions to your Test must be added!")]
         [CollectionCount(1, ErrorMessage = "Add at least one question to your Test!")]
-        public IList<AdminQuestionViewModel> Questions { get; set; }
+        public IList<CreateQuestionViewModel> Questions { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]

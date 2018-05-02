@@ -12,7 +12,7 @@
         <li class="nav-item">
             <a class="nav-link" id="results-tab" data-toggle="tab" href="#results" role="tab" aria-controls="results" aria-selected="false">Test Results</a>
         </li>
-        <a asp-area="Admin" asp-controller="AdminTest" asp-action="Create" method="get" class="btn btn-success pull-right">New Test</a>
+        <a asp-area="Admin" asp-controller="ManageTest" asp-action="Create" method="get" class="btn btn-success pull-right">New Test</a>
     </ul>
 
     <div id="myTabContent">
@@ -39,9 +39,3 @@
         </div>
     </div>
 </div>
-
-@section Scripts {
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
-    <script src="~/js/dashboard-async-operations.js"></script>
-    <script src="~/js/datatables-include.js"></script>
-}

@@ -15,17 +15,17 @@ using System.Threading.Tasks;
 
 namespace iTest.Web.Areas.Admin.Controllers
 {
-    public class AdminTestController : AdminController
+    public class ManageTestController : AdminController
     {
-        private readonly IAdminTestService testServices;
+        private readonly IAdminTestService testService;
         private readonly IAdminCategoryService categoryService;
         private readonly IMappingProvider mapper;
         private readonly UserManager<User> userManager;
         private readonly IToastNotification toastr;
 
-        public AdminTestController(IAdminTestService testServices, IAdminCategoryService categoryService, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
+        public ManageTestController(IAdminTestService testServices, IAdminCategoryService categoryService, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
         {
-            this.testServices = testServices ?? throw new ArgumentNullException(nameof(testServices));
+            this.testService = testServices ?? throw new ArgumentNullException(nameof(testServices));
             this.categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
@@ -35,44 +35,74 @@ namespace iTest.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            return View(new AdminTestViewModel
+            return View("CreateTest", new CreateTestViewModel
             {
                 CreatedOn = DateTime.UtcNow,
                 Categories = await this.GetCategoriesAsync()
             });
         }
 
+        public IActionResult CreateQuestion()
+        {
+            return PartialView("_CreateQuestion");
+        }
+
+        public IActionResult CreateAnswer()
+        {
+            return PartialView("_CreateAnswer");
+        }
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> Create(CreateTestViewModel model)
+        //{
+        //    if (!this.ModelState.IsValid)
+        //    {
+        //        model.Categories = await this.GetCategoriesAsync();
+        //        return View("CreateTest", model);
+        //    }
+
+        //    var test = this.testServices.ExistsByNameAsync(model.Name);
+
+        //    if (!(await test))
+        //    {
+        //        //var dto = new TestDTO
+        //        //{
+        //        //    Name = model.Name,
+        //        //    RequestedTime = model.RequestedTime,
+        //        //    AuthorId = model.AuthorId = this.userManager.GetUserId(this.HttpContext.User), // TODO required??
+        //        //    Category = model.Category,
+        //        //    Questions = this.mapper.MapTo<ICollection<QuestionDTO>>(model.Questions)
+        //        //};
+
+        //        var dto = this.mapper.MapTo<TestDTO>(model);
+
+        //        await this.testServices.CreateAsync(dto);
+        //    }
+
+        //    this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
+
+        //    return this.Redirect("/admin/");
+        //}
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(AdminTestViewModel model)
+        public IActionResult SaveTest([FromBody] TestViewModel testViewModel)
         {
-            if (!this.ModelState.IsValid)
-            {
-                model.Categories = await this.GetCategoriesAsync();
-                return View("Create", model);
-            }
+            testViewModel.AuthorId = this.userManager.GetUserId(this.HttpContext.User);
+            testViewModel.CreatedOn = DateTime.Now;
+            //testViewModel.Category = new CategoryDTO(){ Name = "some test name for now"};
+            testViewModel.Id = "1";
 
-            var test = this.testServices.ExistsByNameAsync(model.Name);
+           // if (this.ModelState.IsValid)
+            //{
 
-            if (!(await test))
-            {
-                //var dto = new TestDTO
-                //{
-                //    Name = model.Name,
-                //    RequestedTime = model.RequestedTime,
-                //    AuthorId = model.AuthorId = this.userManager.GetUserId(this.HttpContext.User), // TODO required??
-                //    Category = model.Category,
-                //    Questions = this.mapper.MapTo<ICollection<QuestionDTO>>(model.Questions)
-                //};
+            var modelState = this.ModelState.IsValid;
+                var testDTO = this.mapper.MapTo<TestDTO>(testViewModel);
 
-                var dto = this.mapper.MapTo<TestDTO>(model);
+                this.testService.CreateAsync(testDTO);
+           // }
 
-                await this.testServices.CreateAsync(dto);
-            }
-
-            this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
-
-            return this.Redirect("/admin/");
+            return this.RedirectToAction("Home", "ManageTest");
         }
 
         // added to test view
@@ -85,7 +115,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             => await Task.Run(() => View());
 
         [HttpPost]
-        public async Task<IActionResult> PublishAsync(AdminTestViewModel model)
+        public async Task<IActionResult> PublishAsync(CreateTestViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -95,7 +125,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             var dto = this.mapper.MapTo<TestDTO>(model);
             dto.AuthorId = this.userManager.GetUserId(this.HttpContext.User);
 
-            await this.testServices.PublishAsync(dto);
+            await this.testService.PublishAsync(dto);
 
             this.toastr.AddSuccessToastMessage($"Test {model.Name} published successfully!");
             return this.Redirect("/admin/");
@@ -124,7 +154,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteTestAsync(int id)
         {
-            await this.testServices.DeleteAsync(id);
+            await this.testService.DeleteAsync(id);
 
             this.toastr.AddAlertToastMessage($"Test deleted successfully!");
 
