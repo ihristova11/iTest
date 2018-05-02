@@ -1,12 +1,10 @@
-﻿using iTest.Data;
-
-namespace ITest.Data.UnitOfWork
+﻿namespace iTest.Data.Repository.UnitsOfWork
 {
-    public class DataSaver : IDataSaver
+    public class EntitySaver : ISaver
     {
         private readonly iTestDbContext context;
 
-        public DataSaver(iTestDbContext context)
+        public EntitySaver(iTestDbContext context)
         {
             this.context = context;
         }

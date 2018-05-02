@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace iTest.Data.Models.Contracts
+namespace iTest.Data.Models.Abstract
 {
     public interface IDeletable
     {

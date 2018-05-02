@@ -1,11 +1,10 @@
-﻿using iTest.Data.Models.Contracts;
-using iTest.Data.Repository.Contracts;
+﻿using iTest.Data.Models.Abstract;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Linq;
 
-namespace iTest.Data.Repository.Implementations
+namespace iTest.Data.Repository
 {
     public class EfRepository<T> : IRepository<T>
         where T : class, IDeletable
@@ -17,13 +16,25 @@ namespace iTest.Data.Repository.Implementations
             this.context = context;
         }
 
-        public IQueryable<T> All => this.context.Set<T>().Where(x => !x.IsDeleted);
+        public IQueryable<T> All
+        {
+            get
+            {
+                return this.context.Set<T>().Where(x => !x.IsDeleted);
+            }
+        }
 
-        public IQueryable<T> AllAndDeleted => this.context.Set<T>();
+        public IQueryable<T> AllAndDeleted
+        {
+            get
+            {
+                return this.context.Set<T>();
+            }
+        }
 
         public void Add(T entity)
         {
-            EntityEntry entry = context.Entry(entity);
+            EntityEntry entry = this.context.Entry(entity);
 
             if (entry.State != EntityState.Detached)
             {

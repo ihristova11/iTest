@@ -4,7 +4,7 @@ using System;
 
 namespace iTest.Data.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -180,15 +180,15 @@ namespace iTest.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AuthorId = table.Column<string>(nullable: true),
+                    AuthorId = table.Column<string>(nullable: false),
                     CategoryId = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: true),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    ExecutionTime = table.Column<DateTime>(nullable: false),
+                    ExecutionTime = table.Column<int>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
-                    RequestedTime = table.Column<DateTime>(nullable: false),
+                    RequestedTime = table.Column<int>(nullable: false),
                     Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -199,7 +199,7 @@ namespace iTest.Data.Migrations
                         column: x => x.AuthorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Tests_Categories_CategoryId",
                         column: x => x.CategoryId,
@@ -217,6 +217,7 @@ namespace iTest.Data.Migrations
                     CreatedOn = table.Column<DateTime>(nullable: true),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(maxLength: 500, nullable: false),
+                    IsCorrect = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     TestId = table.Column<int>(nullable: true)
@@ -271,13 +272,13 @@ namespace iTest.Data.Migrations
                         column: x => x.TestId,
                         principalTable: "Tests",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_UserTest_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -289,6 +290,7 @@ namespace iTest.Data.Migrations
                     CreatedOn = table.Column<DateTime>(nullable: true),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(maxLength: 500, nullable: false),
+                    IsCorrect = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     QuestionId = table.Column<int>(nullable: true)

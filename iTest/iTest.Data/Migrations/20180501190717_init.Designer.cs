@@ -12,8 +12,8 @@ using System;
 namespace iTest.Data.Migrations
 {
     [DbContext(typeof(iTestDbContext))]
-    [Migration("20180421163135_Init")]
-    partial class Init
+    [Migration("20180501190717_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,7 +22,7 @@ namespace iTest.Data.Migrations
                 .HasAnnotation("ProductVersion", "2.0.2-rtm-10011")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("iTest.Data.Models.Implementations.Answer", b =>
+            modelBuilder.Entity("iTest.Data.Models.Answer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -34,6 +34,8 @@ namespace iTest.Data.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500);
+
+                    b.Property<bool>("IsCorrect");
 
                     b.Property<bool>("IsDeleted");
 
@@ -48,7 +50,7 @@ namespace iTest.Data.Migrations
                     b.ToTable("Answers");
                 });
 
-            modelBuilder.Entity("iTest.Data.Models.Implementations.Category", b =>
+            modelBuilder.Entity("iTest.Data.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -70,7 +72,7 @@ namespace iTest.Data.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("iTest.Data.Models.Implementations.Question", b =>
+            modelBuilder.Entity("iTest.Data.Models.Question", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -82,6 +84,8 @@ namespace iTest.Data.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500);
+
+                    b.Property<bool>("IsCorrect");
 
                     b.Property<bool>("IsDeleted");
 
@@ -96,7 +100,7 @@ namespace iTest.Data.Migrations
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("iTest.Data.Models.Implementations.Result", b =>
+            modelBuilder.Entity("iTest.Data.Models.Result", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -122,12 +126,13 @@ namespace iTest.Data.Migrations
                     b.ToTable("Results");
                 });
 
-            modelBuilder.Entity("iTest.Data.Models.Implementations.Test", b =>
+            modelBuilder.Entity("iTest.Data.Models.Test", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AuthorId");
+                    b.Property<string>("AuthorId")
+                        .IsRequired();
 
                     b.Property<int>("CategoryId");
 
@@ -135,7 +140,7 @@ namespace iTest.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<DateTime>("ExecutionTime");
+                    b.Property<int>("ExecutionTime");
 
                     b.Property<bool>("IsDeleted");
 
@@ -145,7 +150,7 @@ namespace iTest.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<DateTime>("RequestedTime");
+                    b.Property<int>("RequestedTime");
 
                     b.Property<int>("Status");
 
@@ -158,7 +163,7 @@ namespace iTest.Data.Migrations
                     b.ToTable("Tests");
                 });
 
-            modelBuilder.Entity("iTest.Data.Models.Implementations.User", b =>
+            modelBuilder.Entity("iTest.Data.Models.User", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -217,7 +222,7 @@ namespace iTest.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("iTest.Data.Models.Implementations.UserTest", b =>
+            modelBuilder.Entity("iTest.Data.Models.UserTest", b =>
                 {
                     b.Property<string>("UserId");
 
@@ -338,50 +343,51 @@ namespace iTest.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("iTest.Data.Models.Implementations.Answer", b =>
+            modelBuilder.Entity("iTest.Data.Models.Answer", b =>
                 {
-                    b.HasOne("iTest.Data.Models.Implementations.Question")
+                    b.HasOne("iTest.Data.Models.Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId");
                 });
 
-            modelBuilder.Entity("iTest.Data.Models.Implementations.Question", b =>
+            modelBuilder.Entity("iTest.Data.Models.Question", b =>
                 {
-                    b.HasOne("iTest.Data.Models.Implementations.Test")
+                    b.HasOne("iTest.Data.Models.Test")
                         .WithMany("Questions")
                         .HasForeignKey("TestId");
                 });
 
-            modelBuilder.Entity("iTest.Data.Models.Implementations.Result", b =>
+            modelBuilder.Entity("iTest.Data.Models.Result", b =>
                 {
-                    b.HasOne("iTest.Data.Models.Implementations.Test")
+                    b.HasOne("iTest.Data.Models.Test")
                         .WithMany("Results")
                         .HasForeignKey("TestId");
                 });
 
-            modelBuilder.Entity("iTest.Data.Models.Implementations.Test", b =>
+            modelBuilder.Entity("iTest.Data.Models.Test", b =>
                 {
-                    b.HasOne("iTest.Data.Models.Implementations.User", "Author")
+                    b.HasOne("iTest.Data.Models.User", "Author")
                         .WithMany()
-                        .HasForeignKey("AuthorId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("iTest.Data.Models.Implementations.Category", "Category")
-                        .WithMany()
+                    b.HasOne("iTest.Data.Models.Category", "Category")
+                        .WithMany("Tests")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("iTest.Data.Models.Implementations.UserTest", b =>
+            modelBuilder.Entity("iTest.Data.Models.UserTest", b =>
                 {
-                    b.HasOne("iTest.Data.Models.Implementations.Test", "Test")
+                    b.HasOne("iTest.Data.Models.Test", "Test")
                         .WithMany("Users")
                         .HasForeignKey("TestId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("iTest.Data.Models.Implementations.User", "User")
+                    b.HasOne("iTest.Data.Models.User", "User")
                         .WithMany("Tests")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -394,7 +400,7 @@ namespace iTest.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("iTest.Data.Models.Implementations.User")
+                    b.HasOne("iTest.Data.Models.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -402,7 +408,7 @@ namespace iTest.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("iTest.Data.Models.Implementations.User")
+                    b.HasOne("iTest.Data.Models.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -415,7 +421,7 @@ namespace iTest.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("iTest.Data.Models.Implementations.User")
+                    b.HasOne("iTest.Data.Models.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -423,7 +429,7 @@ namespace iTest.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("iTest.Data.Models.Implementations.User")
+                    b.HasOne("iTest.Data.Models.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -1,6 +1,5 @@
-﻿using iTest.Data.Models.Enums;
-using iTest.Data.Models.Implementations;
-using System;
+﻿using iTest.Data.Models;
+using iTest.Data.Models.Enums;
 using System.Collections.Generic;
 
 namespace iTest.DTO
@@ -10,11 +9,6 @@ namespace iTest.DTO
         public int Id { get; set; }
 
         public string Name { get; set; }
-
-        public DateTime? CreatedOn { get; set; }
-        public DateTime? ModifiedOn { get; set; }
-        public bool IsDeleted { get; set; }
-        public DateTime? DeletedOn { get; set; }
 
         public int RequestedTime { get; set; }
 
@@ -28,10 +22,10 @@ namespace iTest.DTO
 
         public UserDTO Author { get; set; }
 
-        public ICollection<UserTestDTO> Users { get; set; } = new List<UserTestDTO>();
+        public ICollection<UserTest> Users { get; set; } = new List<UserTest>();
 
-        public ICollection<QuestionDTO> Questions { get; set; } = new List<QuestionDTO>();
+        public ICollection<Question> Questions { get; set; } = new List<Question>();
 
-        public ICollection<ResultDTO> Results { get; set; } = new List<ResultDTO>();
+        public ICollection<Result> Results { get; set; } = new List<Result>();
     }
 }

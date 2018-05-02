@@ -1,7 +1,7 @@
-﻿using iTest.Data.Models.Contracts;
+﻿using iTest.Data.Models.Abstract;
 using System.Linq;
 
-namespace iTest.Data.Repository.Contracts
+namespace iTest.Data.Repository
 {
     public interface IRepository<T> where T : class, IDeletable
     {

@@ -1,6 +1,6 @@
-﻿namespace ITest.Data.UnitOfWork
+﻿namespace iTest.Data.Repository.UnitsOfWork
 {
-    public interface IDataSaver
+    public interface ISaver
     {
         void SaveChanges();
 
