@@ -32,7 +32,7 @@ namespace iTest.Web.Areas.Admin.Controllers
         }
 
 
-        public async Task<IActionResult> Home()
+        public async Task<IActionResult> Dashboard()
             => await Task.Run(() => View("Index"));
 
         public async Task<IActionResult> Create()
