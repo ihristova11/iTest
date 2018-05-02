@@ -21,7 +21,7 @@ namespace iTest.Services.Data.Admin.Implementations
             this.categories = categories;
             this.saver = saver;
         }
-
+        
         public async Task<IEnumerable<Category>> AllAsync()
             => await this.categories
                                   .All

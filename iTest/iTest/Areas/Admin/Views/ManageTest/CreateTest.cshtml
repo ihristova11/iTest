@@ -58,6 +58,7 @@
                         });
                 });
             var questionsCount = 0;
+            var visualizeCounter = 1;
 
             $("#new-question-button").click(function() {
                 $.get("/Admin/ManageTest/CreateQuestion",
@@ -77,7 +78,7 @@
                         questionDiv.html(questionPartial[0]);
                         var questionHeader = questionDiv.find(".question-count");
                         //counter = counter + 1;
-                        questionHeader.text("Question " + questionsCount);
+                        questionHeader.text("Question " + visualizeCounter++);
                         $("#question-container").append(questionDiv);
                     });
             });
@@ -86,9 +87,10 @@
             // delete question func
             $(function() {
                 $("#question-container").on('click','.delete-question', function() {
-                    console.log('deleted');
-                    $(this).closest('.question').remove();
-                    //--questionsCount;
+                    //console.log('deleted');
+                    incrementQuestions($(this).closest('.question').attr('class').split('-')[1]); // change questions header
+                    $(this).closest('.question').remove(); // remove html
+                    
                 });
             });
 
@@ -106,26 +108,34 @@
             // Answers and questions number incrementation
             function incrementAnswers() {
 
-                let $answerHolders = $(".answer-holder");
+                //let $answerHolders = $(".answer-holder");
 
-                $.each($answerHolders, (i, el) => {
-                    let $answers = $(el).find(".answer-number");
+                //$.each($answerHolders, (i, el) => {
+                //    let $answers = $(el).find(".answer-number");
 
-                    $.each($answers, (i, el) => {
-                        $(el).html(i + 1);
-                    });
-                });
+                //    $.each($answers, (i, el) => {
+                //        $(el).html(i + 1);
+                //    });
+                //});
+
+
             }
 
-            function incrementQuestions() {
-
-                let $questionHolders = $(".question-holder");
-
-                $.each($questionHolders, (i, el) => {
-                    let $el = $(el);
-                    $el.prev("h3").find(".question-number").html(i + 1);
-                    //$el.find(".question-number").html(i + 1);
-                });
+            function incrementQuestions(deleted) {
+                var questionHeaders = $('#question-container h2').toArray();
+                $.each(questionHeaders, (i, el) => {
+                    var element = $(el);
+                    var elementInd = $($(element)[0]).text().split(' ')[1];
+                    //console.log($($(element)[0]).text().split(' ')[1]);
+                    //console.log(element.length);
+                    if (elementInd > deleted) {
+                        //console.log(elementInd);
+                        //console.log($($(element)[0]).text());
+                        var textToBeChanged = parseInt($($(element)[0]).text().split(' ')[1]) - 1;
+                        console.log(textToBeChanged);
+                        $($(element)[0]).text('Question ' + textToBeChanged);
+                    }
+                })
             }
         });
 
