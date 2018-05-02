@@ -62,56 +62,70 @@
 
             $("#new-question-button").click(function() {
                 $.get("/Admin/ManageTest/CreateQuestion",
-                        function(data) {
+                    function(data) {
+                        var questionDiv = $("<div/>")
+                            .addClass('question')
+                            .addClass(`question-${++counter}`);
 
-                            var questionDiv = $("<div/>")
-                                .addClass('question')
-                                .addClass(`'question-${++counter}`);
+                        var questionPartial = $(data);
 
-                            var questionPartial = $(data);
+                        questionPartial.find('.answer-is-correct')
+                            .toArray()
+                            .forEach(function(a) {
+                                $(a).attr('name', `answer-question-${counter}`);
+                            });
 
-                            questionPartial.find('.answer-is-correct')
-                                .toArray()
-                                .forEach(function(a) {
-                                    $(a).attr('name', `answer-question-${counter}`);
-                                });
-
-                questionDiv.html(questionPartial[0]);
-                var questionHeader = questionDiv.find(".question-count");
-                //counter = counter + 1;
-                questionHeader.text("Question " + counter);
-                $("#question-container").append(questionDiv);
+                        questionDiv.html(questionPartial[0]);
+                        var questionHeader = questionDiv.find(".question-count");
+                        //counter = counter + 1;
+                        questionHeader.text("Question " + counter);
+                        $("#question-container").append(questionDiv);
+                    });
             });
-        });
-    });
 
 
-        $('.summernote').summernote({
-            placeholder: 'Hello stand alone ui',
-            tabsize: 2,
-            height: 200,
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['strikethrough', 'superscript', 'subscript']],
-                ['fontsize', ['fontsize']],
-                ['para', ['ul', 'ol', 'paragraph']]
-            ],
-            disableResizeEditor: true
+            // delete question func
+            $(function() {
+                $("#question-container").on('click','.delete-question',function() {
+                    console.log('deleted');
+                    $(this).closest('.question').remove();
+                });
+
+            });
+
+            // delete answer func
+            $(function () {
+                $("#question-container").on('click', '.delete-answer', function () {
+                    console.log('deleted answer');
+                    $(this).closest('.answer-container').remove();
+                });
+
+            });
+
         });
+
+
+        
+
+
+        //$('.summernote').summernote({
+        //    placeholder: 'Hello stand alone ui',
+        //    tabsize: 2,
+        //    height: 200,
+        //    toolbar: [
+        //        ['style', ['bold', 'italic', 'underline', 'clear']],
+        //        ['font', ['strikethrough', 'superscript', 'subscript']],
+        //        ['fontsize', ['fontsize']],
+        //        ['para', ['ul', 'ol', 'paragraph']]
+        //    ],
+        //    disableResizeEditor: true
+        //});
 
         $("#publish, #save-draft").on("click",
             function(ev) {
                 ev.preventDefault();
                 var questions = [];
-                console.log(ev.target.id);
-
-
-                //    //console.log(submissionButton.attr("id"));
-                //    //var submissionButtonDraft = $("#save-draft").on("click", (function () {
-                //    //    return $(this).attr("id");
-                //    //}));
-                //    //console.log(submissionButtonDraft.attr("id"));
-
+                //console.log(ev.target.id);
 
                 $(".form-group.question")
                     .each(function(index, questionContainer) {
@@ -127,7 +141,7 @@
 
                                 answers.push({
                                     Description: answer,
-                                    IsCorrect: isCorrect,
+                                    IsCorrect: isCorrect
                                 });
                             });
 
@@ -142,21 +156,9 @@
                     Name: $("#inputName").val(),
                     Category: category,
                     RequestedTime: $("#inputTime").val(),
-                    IsPublished: ev.target.id === 'publish',
+                    Status: ev.target.id === 'publish',
                     Questions: questions
                 };
-
-                //$.post("/Admin/ManageTest/SaveTest", data);
-
-                @*$.ajax({
-                url:'@Url.Action("SaveTest","ManageTest")',
-                type: 'POST',
-                data: data,
-                dataType: 'json',
-                success: function (data) {
-                    console(data);
-                }
-            });*@
 
                 $.ajax({
                     url: '@Url.Action("SaveTest", "ManageTest")',
@@ -169,8 +171,6 @@
                         console.log('mai bind-na');
                     }
                 });
-
-                //    return false;
             });
 
     </script>

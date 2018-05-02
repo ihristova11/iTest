@@ -1,58 +1,5 @@
-﻿@*<div id="question-{{q_id}}-answer-0" class="answer-container">
-        <div class="answer-header">
-            <button class="delete-answer btn btn-danger btn-xs pull-right" type="button">
-                <span class="glyphicon glyphicon-trash"></span>
-            </button>
-            <label class="btn btn-success btn-xs pull-right">
-                <input id="Questions_{{q_id}}__Answers_0__IsCorrect" name="radio-{{q_id}}" class="answer-is-correct" type="radio" value="true" autocomplete="off" checked />
-                <span class="glyphicon glyphicon-ok">Correct</span>
-            </label>
-        </div>
-        <input type="hidden" id="Questions_{{q_id}}__Answers_0__ContentPlaintext" name="Questions[{{q_id}}].Answers[0].ContentPlaintext" value="" />
-        <h4>Answer {{q_id}}</h4>
-        <textarea id="Questions_{{q_id}}__Answers_0__Content" name="Questions[{{q_id}}].Answers[0].Content" class="answer-content summernote form-control"></textarea>
-    </div>
-
-    <script>
-        $('.summernote').summernote({
-            placeholder: 'Hello stand alone ui',
-            tabsize: 2,
-            height: 200,
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['strikethrough', 'superscript', 'subscript']],
-                ['fontsize', ['fontsize']],
-                ['para', ['ul', 'ol', 'paragraph']]
-            ],
-            disableResizeEditor: true
-        });
-    </script>
-
-    <script src=""></script>*@
-@using iTest.Web.Areas.Admin.Models
+﻿@using iTest.Web.Areas.Admin.Models
 @model iTest.Web.Areas.Admin.Models.CreateAnswerViewModel
-@*<h2>New Test</h2>
-    <div class="row">
-        <form asp-area="Admin" asp-controller="ManageTest" asp-action="Create" method="post">
-            <div class="form-group col-md-6">
-                <label asp-for="Content"></label>
-                <input asp-for="Content" class="form-control" />
-                <span asp-validation-for="Content" class="text-danger"></span>
-            </div>
-        </form>
-    </div>*@
-
-
-@*<div class="answer-container">
-    <div class="checkbox">
-        <button type="button" class="btn btn-default pull-right">
-            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-        </button>
-        <label asp-for="IsCorrect" class="pull-right"><input class="answer-is-correct" type="checkbox">Correct Answer</label>
-    </div>
-    <div class="answer-count">Answer</div>
-    <textarea asp-for="Content" class="form-control answer" rows="5"></textarea>
-</div>*@
 
 <div class="answer-container">
     <button class="delete-answer btn btn-default btn-xs pull-right" type="button">
