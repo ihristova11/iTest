@@ -33,3 +33,11 @@
         display: none;
     }
 }
+
+a img .logo {
+    position: relative;
+    width: 100px;
+    height: 50px;
+    left: 15px;
+    background-size: contain;
+}

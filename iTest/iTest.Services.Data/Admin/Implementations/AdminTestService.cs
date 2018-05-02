@@ -60,6 +60,8 @@ namespace iTest.Services.Data.Admin.Implementations
             this.saver.SaveChangesAsync();
         }
 
+        // todo GET RANDOM TEST
+
         public async Task UpdateAsync(TestDTO dto)
         {
             var test = await this.tests.All.SingleOrDefaultAsync(x => x.Id == dto.Id);
@@ -70,12 +72,12 @@ namespace iTest.Services.Data.Admin.Implementations
             }
 
             // do not map! otherwise a new instance will be created in db
-            test.Name = dto.Name;
-            test.Category = test.Category;
-            test.Status = dto.Status;
-            test.RequestedTime = dto.RequestedTime;
-            test.Questions = dto.Questions;
-            test.Results = dto.Results;
+            //test.Name = dto.Name;
+            //test.Category = test.Category;
+            //test.Status = dto.Status;
+            //test.RequestedTime = dto.RequestedTime;
+            //test.Questions = dto.Questions;
+            //test.Results = dto.Results;
 
             this.tests.Update(test);
             this.saver.SaveChangesAsync();
