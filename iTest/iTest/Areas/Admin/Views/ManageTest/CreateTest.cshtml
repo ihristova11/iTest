@@ -44,8 +44,7 @@
                         function(data) {
                             var answerDiv = $("<div/>")
                                 .addClass("answer");
-
-
+                            
                             answerDiv.html(data);
                             var questionId = btn
                                 .parents('.question')[0]
@@ -58,27 +57,27 @@
                                 .append(answerDiv);
                         });
                 });
-            var counter = 0;
+            var questionsCount = 0;
 
             $("#new-question-button").click(function() {
                 $.get("/Admin/ManageTest/CreateQuestion",
                     function(data) {
                         var questionDiv = $("<div/>")
                             .addClass('question')
-                            .addClass(`question-${++counter}`);
+                            .addClass(`question-${++questionsCount}`);
 
                         var questionPartial = $(data);
 
                         questionPartial.find('.answer-is-correct')
                             .toArray()
                             .forEach(function(a) {
-                                $(a).attr('name', `answer-question-${counter}`);
+                                $(a).attr('name', `answer-question-${questionsCount}`);
                             });
 
                         questionDiv.html(questionPartial[0]);
                         var questionHeader = questionDiv.find(".question-count");
                         //counter = counter + 1;
-                        questionHeader.text("Question " + counter);
+                        questionHeader.text("Question " + questionsCount);
                         $("#question-container").append(questionDiv);
                     });
             });
@@ -86,11 +85,11 @@
 
             // delete question func
             $(function() {
-                $("#question-container").on('click','.delete-question',function() {
+                $("#question-container").on('click','.delete-question', function() {
                     console.log('deleted');
                     $(this).closest('.question').remove();
+                    //--questionsCount;
                 });
-
             });
 
             // delete answer func
@@ -102,6 +101,32 @@
 
             });
 
+
+
+            // Answers and questions number incrementation
+            function incrementAnswers() {
+
+                let $answerHolders = $(".answer-holder");
+
+                $.each($answerHolders, (i, el) => {
+                    let $answers = $(el).find(".answer-number");
+
+                    $.each($answers, (i, el) => {
+                        $(el).html(i + 1);
+                    });
+                });
+            }
+
+            function incrementQuestions() {
+
+                let $questionHolders = $(".question-holder");
+
+                $.each($questionHolders, (i, el) => {
+                    let $el = $(el);
+                    $el.prev("h3").find(".question-number").html(i + 1);
+                    //$el.find(".question-number").html(i + 1);
+                });
+            }
         });
 
 
