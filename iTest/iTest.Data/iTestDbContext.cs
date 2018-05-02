@@ -60,7 +60,7 @@ namespace iTest.Data
         private void ApplyAuditInfoRules()
         {
             var newlyCreatedEntities = this.ChangeTracker.Entries()
-                .Where(e => e.Entity is IEditable && ((e.State == EntityState.Added) || (e.State == EntityState.Modified)));
+                .Where(e => e.Entity is IAuditable && ((e.State == EntityState.Added) || (e.State == EntityState.Modified)));
 
             foreach (var entry in newlyCreatedEntities)
             {
