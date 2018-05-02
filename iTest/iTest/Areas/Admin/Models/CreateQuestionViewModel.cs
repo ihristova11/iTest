@@ -7,7 +7,7 @@ namespace iTest.Web.Areas.Admin.Models
     public class CreateQuestionViewModel
     {
         [Required]
-        public string Body { get; set; }
+        public string Description { get; set; }
         
         public IList<CreateAnswerViewModel> Answers { get; set; }
     }

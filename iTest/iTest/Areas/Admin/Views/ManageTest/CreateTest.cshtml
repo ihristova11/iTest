@@ -26,42 +26,64 @@
             <button type="submit" id="save-draft" class="btn btn-primary submit">Save As Draft</button>
             <button type="submit" id="publish" class="btn btn-primary submit">Publish</button>
         </div>
-        
+
         <div class="slavi"></div>
     </div>
 </form>
 
 
 @section Scripts{
-<script>
-        $(function () {
-            $("#question-container").on("click", ".new-answer-button", function () { // add answer
-                var btn = $(this);
+    <script>
+        $(function() {
+            $("#question-container").on("click",
+                ".new-answer-button",
+                function() { // add answer
+                    var btn = $(this);
 
-                $.get("/Admin/ManageTest/CreateAnswer", function (data) {
-                    var answerDiv = $("<div/>")
-                        .addClass("answer");
-                    answerDiv.html(data);
-                    btn.parents(".question-container")
-                        .find(".question")
-                        .append(answerDiv);
+                    $.get("/Admin/ManageTest/CreateAnswer",
+                        function(data) {
+                            var answerDiv = $("<div/>")
+                                .addClass("answer");
+
+
+                            answerDiv.html(data);
+                            var questionId = btn
+                                .parents('.question')[0]
+                                .classList[1].split('-')[1];
+
+                            answerDiv.find('.answer-is-correct')
+                                .attr('name', `answer-question-${questionId}`);
+                            btn.parents(".question-container")
+                                .find(".question")
+                                .append(answerDiv);
+                        });
                 });
-            });
             var counter = 0;
 
-            $("#new-question-button").click(function () {
-                $.get("/Admin/ManageTest/CreateQuestion", function (data) {
+            $("#new-question-button").click(function() {
+                $.get("/Admin/ManageTest/CreateQuestion",
+                        function(data) {
 
-                    var questionDiv = $("<div/>")
-                        .addClass('question');
-                    questionDiv.html(data);
-                    var questionHeader = questionDiv.find(".question-count");
-                    counter = counter + 1;
-                    questionHeader.text("Question " + counter);
-                    $("#question-container").append(questionDiv);
-                });
+                            var questionDiv = $("<div/>")
+                                .addClass('question')
+                                .addClass(`'question-${++counter}`);
+
+                            var questionPartial = $(data);
+
+                            questionPartial.find('.answer-is-correct')
+                                .toArray()
+                                .forEach(function(a) {
+                                    $(a).attr('name', `answer-question-${counter}`);
+                                });
+
+                questionDiv.html(questionPartial[0]);
+                var questionHeader = questionDiv.find(".question-count");
+                //counter = counter + 1;
+                questionHeader.text("Question " + counter);
+                $("#question-container").append(questionDiv);
             });
         });
+    });
 
 
         $('.summernote').summernote({
@@ -77,56 +99,56 @@
             disableResizeEditor: true
         });
 
-        $("#publish, #save-draft").on("click", function (ev) {
-            ev.preventDefault();
-            var questions = [];
-            console.log(ev.target.id);
+        $("#publish, #save-draft").on("click",
+            function(ev) {
+                ev.preventDefault();
+                var questions = [];
+                console.log(ev.target.id);
 
 
-            //    //console.log(submissionButton.attr("id"));
-            //    //var submissionButtonDraft = $("#save-draft").on("click", (function () {
-            //    //    return $(this).attr("id");
-            //    //}));
-            //    //console.log(submissionButtonDraft.attr("id"));
+                //    //console.log(submissionButton.attr("id"));
+                //    //var submissionButtonDraft = $("#save-draft").on("click", (function () {
+                //    //    return $(this).attr("id");
+                //    //}));
+                //    //console.log(submissionButtonDraft.attr("id"));
 
 
+                $(".form-group.question")
+                    .each(function(index, questionContainer) {
+                        var question = $(questionContainer)
+                            .find(".form-control.questionText");
 
-            $(".form-group.question")
-                .each(function (index, questionContainer) {
-                    var question = $(questionContainer)
-                        .find(".form-control.question")
+                        var answers = [];
+                        $(questionContainer)
+                            .find(".answer-container")
+                            .each(function(index, answerContainer) {
+                                var answer = $(answerContainer).find(".answer").val();
+                                var isCorrect = $(answerContainer).find(".answer-is-correct:checked").length > 0;
 
-                    var answers = []
-                    $(questionContainer)
-                        .find(".answer-container")
-                        .each(function (index, answerContainer) {
-                            var answer = $(answerContainer).find(".answer").val();
-                            var isCorrect = $(answerContainer).find(".answer-is-correct:checked").length > 0;
-
-                            answers.push({
-                                Content: answer,
-                                IsCorrect: isCorrect,
+                                answers.push({
+                                    Description: answer,
+                                    IsCorrect: isCorrect,
+                                });
                             });
+
+                        questions.push({
+                            Description: question.val(),
+                            Answers: answers
                         });
-
-                    questions.push({
-                        Content: question.val(),
-                        Answers: answers
                     });
-                });
-            var category = $("#inputCategory").find(":selected").text();
-            console.log(category);
-            var data = {
-                Name: $("#inputName").val(),
-                Category: category,
-                RequestedTime: $("#inputTime").val(),
-                IsPublished: ev.target.id === 'publish',
-                Questions: questions
-            };
+                var category = $("#Category").find(":selected").text();
+                console.log(category);
+                var data = {
+                    Name: $("#inputName").val(),
+                    Category: category,
+                    RequestedTime: $("#inputTime").val(),
+                    IsPublished: ev.target.id === 'publish',
+                    Questions: questions
+                };
 
-            //$.post("/Admin/ManageTest/SaveTest", data);
+                //$.post("/Admin/ManageTest/SaveTest", data);
 
-            @*$.ajax({
+                @*$.ajax({
                 url:'@Url.Action("SaveTest","ManageTest")',
                 type: 'POST',
                 data: data,
@@ -136,20 +158,20 @@
                 }
             });*@
 
-            $.ajax({
-                url: '@Url.Action("SaveTest","ManageTest")',
-                type: 'POST',
-                data: JSON.stringify(data),
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'html',
-                success: function (data) {
-                    $('.slavi').html(data);
-                    console.log('mai bind-na');
-                }
-            });
-            
-            //    return false;
-        });
+                $.ajax({
+                    url: '@Url.Action("SaveTest", "ManageTest")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'html',
+                    success: function(data) {
+                        $('.slavi').html(data);
+                        console.log('mai bind-na');
+                    }
+                });
 
-</script>
+                //    return false;
+            });
+
+    </script>
 }

@@ -10,20 +10,16 @@ namespace iTest.Web.Areas.Admin.Models
 {
     public class TestViewModel
     {
-        public string Id { get; set; }
-        
         public string Name { get; set; }
-        
+
         public int RequestedTime { get; set; }
 
         public string AuthorId { get; set; }
-        
+
         public string Category { get; set; }
 
         public Status Status { get; set; }
-        
+
         public IList<CreateQuestionViewModel> Questions { get; set; }
-        
-        public DateTime? CreatedOn { get; set; }
     }
 }

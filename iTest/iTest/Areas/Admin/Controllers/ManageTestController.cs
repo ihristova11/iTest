@@ -1,5 +1,4 @@
-﻿using iTest.Data.Models.Implementations;
-using iTest.DTO;
+﻿using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
 using iTest.Web.Areas.Admin.Controllers.Abstract;
@@ -12,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using iTest.Data.Models;
 
 namespace iTest.Web.Areas.Admin.Controllers
 {
@@ -37,7 +37,6 @@ namespace iTest.Web.Areas.Admin.Controllers
         {
             return View("CreateTest", new CreateTestViewModel
             {
-                CreatedOn = DateTime.UtcNow,
                 Categories = await this.GetCategoriesAsync()
             });
         }
@@ -89,18 +88,14 @@ namespace iTest.Web.Areas.Admin.Controllers
         public IActionResult SaveTest([FromBody] TestViewModel testViewModel)
         {
             testViewModel.AuthorId = this.userManager.GetUserId(this.HttpContext.User);
-            testViewModel.CreatedOn = DateTime.Now;
-            //testViewModel.Category = new CategoryDTO(){ Name = "some test name for now"};
-            testViewModel.Id = "1";
+            if (this.ModelState.IsValid)
+            {
 
-           // if (this.ModelState.IsValid)
-            //{
-
-            var modelState = this.ModelState.IsValid;
+                var modelState = this.ModelState.IsValid;
                 var testDTO = this.mapper.MapTo<TestDTO>(testViewModel);
 
-                this.testService.CreateAsync(testDTO);
-           // }
+                this.testService.Create(testDTO);
+            }
 
             return this.RedirectToAction("Home", "ManageTest");
         }
@@ -114,22 +109,22 @@ namespace iTest.Web.Areas.Admin.Controllers
         public async Task<IActionResult> PublishAsync()
             => await Task.Run(() => View());
 
-        [HttpPost]
-        public async Task<IActionResult> PublishAsync(CreateTestViewModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return View(model);
-            }
+        //[HttpPost]
+        //public async Task<IActionResult> PublishAsync(CreateTestViewModel model)
+        //{
+        //    if (!this.ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
 
-            var dto = this.mapper.MapTo<TestDTO>(model);
-            dto.AuthorId = this.userManager.GetUserId(this.HttpContext.User);
+        //    var dto = this.mapper.MapTo<TestDTO>(model);
+        //    dto.AuthorId = this.userManager.GetUserId(this.HttpContext.User);
 
-            await this.testService.PublishAsync(dto);
+        //    await this.testService.Publish(dto);
 
-            this.toastr.AddSuccessToastMessage($"Test {model.Name} published successfully!");
-            return this.Redirect("/admin/");
-        }
+        //    this.toastr.AddSuccessToastMessage($"Test {model.Name} published successfully!");
+        //    return this.Redirect("/admin/");
+        //}
 
         //public async Task<IActionResult> EditAsync(int id)
         //{
@@ -165,7 +160,7 @@ namespace iTest.Web.Areas.Admin.Controllers
         {
             //var categories = await this.categories.AllAsync();
             var categories = await this.categoryService
-                                  .AllDomainAsync();
+                                  .AllAsync();
 
             var categoriesList = categories.Select(c => new SelectListItem
             {
