@@ -14,6 +14,10 @@ namespace iTest.Web.Infrastructure
 
             this.CreateMap<AdminTestViewModel, TestDTO>(MemberList.Source);
             this.CreateMap<TestDTO, Test>(MemberList.Source);
+            this.CreateMap<CategoryDTO, Category>(MemberList.Source);
+            this.CreateMap<QuestionDTO, Question>(MemberList.Source);
+            this.CreateMap<AnswerDTO, Answer>(MemberList.Source);
+            this.CreateMap<ResultDTO, Result>(MemberList.Source);
         }
     }
 }

@@ -31,7 +31,6 @@ namespace iTest.Web.Areas.Admin.Controllers
             this.toastr = toastr;
         }
 
-
         public async Task<IActionResult> Dashboard()
             => await Task.Run(() => View("Index"));
 
@@ -78,7 +77,6 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             return this.RedirectToAction("Details", "Test", new { id = model.Id });
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)

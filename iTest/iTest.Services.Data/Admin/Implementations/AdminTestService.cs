@@ -57,7 +57,7 @@ namespace iTest.Services.Data.Admin.Implementations
         {
             var model = this.mapper.MapTo<Test>(dto);
             this.tests.Add(model);
-            this.saver.SaveChanges();
+            this.saver.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(TestDTO dto)
