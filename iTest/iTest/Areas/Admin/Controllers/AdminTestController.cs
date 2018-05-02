@@ -63,9 +63,11 @@ namespace iTest.Web.Areas.Admin.Controllers
             return this.RedirectToAction("Index", "Admin");
         }
 
+        public async Task<IActionResult> Edit()
+            => await Task.Run(() => View("Index"));
 
         [HttpPost]
-        public async Task<IActionResult> Update(AdminTestViewModel model)
+        public async Task<IActionResult> Edit(AdminTestViewModel model)
         {
             var dto = this.mapper.MapTo<TestDTO>(model);
             dto.AuthorId = this.userManager.GetUserId(this.HttpContext.User);
