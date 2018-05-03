@@ -42,7 +42,7 @@ namespace iTest.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateTestViewModel model)
+        public async Task<IActionResult> Create([FromBody] TestViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -52,7 +52,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             if (!(await test))
             {
-                model.Author = this.userManager.GetUserId(this.HttpContext.User);
+                model.AuthorId = this.userManager.GetUserId(this.HttpContext.User);
                 var testDTO = this.mapper.MapTo<TestDTO>(model);
                 await this.tests.CreateAsync(testDTO);
             }
