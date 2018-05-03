@@ -17,7 +17,7 @@ namespace iTest.Web.Areas.Admin.Models.Tests
         [Range(10, 120, ErrorMessage = "Test's duration must be atleast 10 minutes and maximum 2 hours!")]
         public int RequestedTime { get; set; }
 
-        //public string Author { get; set; }
+        public string Author { get; set; }
 
         [Required(ErrorMessage = "Test's category must be specified!")]
         public CategoryDTO Category { get; set; }

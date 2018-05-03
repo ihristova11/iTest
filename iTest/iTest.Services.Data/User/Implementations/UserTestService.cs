@@ -15,25 +15,25 @@ namespace iTest.Services.Data.User.Implementations
     public class UserTestService : IUserTestService
     {
         private readonly IMappingProvider mapper;
-        private readonly IRepository<Test> testsRepo;
+        private readonly IRepository<Test> tests;
         private readonly ISaver saver;
 
-        public UserTestService(IMappingProvider mapper, IRepository<Test> testsRepo, ISaver saver)
+        public UserTestService(IMappingProvider mapper, IRepository<Test> tests, ISaver saver)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            this.testsRepo = testsRepo ?? throw new ArgumentNullException(nameof(testsRepo));
+            this.tests = tests ?? throw new ArgumentNullException(nameof(tests));
             this.saver = saver ?? throw new ArgumentNullException(nameof(saver));
         }
 
         public async Task<IEnumerable<TestDTO>> AllAsync()
         {
-            var tests = await this.testsRepo
+            var tests = await this.tests
                                   .All
                                   .ToListAsync();
 
             if (!tests.Any())
             {
-                throw new ArgumentException($"No tests created yet! Please create one first!");
+                throw new ArgumentException("No tests created yet! Please create one first!");
             }
 
             return this.mapper.ProjectTo<TestDTO>(tests);
@@ -41,7 +41,7 @@ namespace iTest.Services.Data.User.Implementations
 
         public async Task<IEnumerable<TestDTO>> AllByCategoryAsync(Category category)
         {
-            var tests = await this.testsRepo
+            var tests = await this.tests
                                         .All
                                         .Where(x => x.Category.Name == category.Name)
                                         .ToListAsync();
@@ -51,7 +51,7 @@ namespace iTest.Services.Data.User.Implementations
 
         public async Task<TestDTO> FindByNameAsync(string name)
         {
-            var test = await this.testsRepo
+            var test = await this.tests
                                   .All
                                   .FirstOrDefaultAsync(x => x.Name == name);
 

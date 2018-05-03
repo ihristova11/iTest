@@ -1,0 +1,67 @@
+﻿@using iTest.Web.Areas.Users.Models
+@model DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <h2>Dashboard</h2>
+
+    <ul class="nav nav-tabs">
+        @if (@Model.Categories.Count() != 0)
+        {
+            @foreach (var category in Model.Categories)
+            {
+                if (category.Name == "Java")
+                {
+                    <li class="active"><a data-toggle="tab" href="#java">Java</a></li>
+                }
+                else
+                {
+                    <li><a data-toggle="tab" href="#@category.Name">@category.Name</a></li>
+                }
+            }
+        }
+    </ul>
+
+
+    <div class="tab-content">
+        @if (@Model.Categories.Count() != 0)
+        {
+            @foreach (var category in Model.Categories)
+            {
+                if (category.Name == "Java")
+                {
+                    <div id="@category.Id" class="tab-pane fade in active">
+                        <h3>@category.Name</h3>
+                        <p>Add random test</p>
+                    </div>
+                }
+                else
+                {
+                    <div id="@category.Id" class="tab-pane fade">
+                        <h3>@category.Name</h3>
+                        <p>Add random test</p>
+                    </div>
+                }
+            }
+        }
+    </div>
+
+</body>
+</html>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

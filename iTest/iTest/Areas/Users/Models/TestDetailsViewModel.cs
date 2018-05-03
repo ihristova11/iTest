@@ -1,18 +1,12 @@
-﻿using iTest.Data.Models;
-using iTest.DTO;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using iTest.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace iTest.Web.Areas.Users.Models
 {
-    public class UserTestViewModel
+    public class TestDetailsViewModel
     {
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? CreatedOn { get; set; }
-
         [Required]
         [MinLength(2)]
         [MaxLength(50)]
@@ -22,13 +16,9 @@ namespace iTest.Web.Areas.Users.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime RequestedTime { get; set; }
 
-        public string AuthorId { get; set; }
-
         [Required]
         public CategoryDTO Category { get; set; }
 
-        public IEnumerable<SelectListItem> Categories { get; set; }
-
-        public ICollection<Question> Questions { get; set; }
+        public ICollection<QuestionDTO> Questions { get; set; }
     }
 }
