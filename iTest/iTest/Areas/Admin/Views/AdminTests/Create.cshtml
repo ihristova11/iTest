@@ -146,7 +146,7 @@
             function(ev) {
                 ev.preventDefault();
                 var questions = [];
-                console.log(ev.target.id);
+                //console.log(ev.target.id);
 
                 $(".form-group.question")
                     .each(function(index, questionContainer) {
@@ -180,7 +180,7 @@
                     Status: ev.target.id === 'publish',
                     Questions: questions
                 };
-
+                console.log(data);
                 $.ajax({
                     url: '@Url.Action("Create", "AdminTests")',
                     type: 'POST',

@@ -58,7 +58,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             }
 
             this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
-            return RedirectToAction("Index", "Tests", new { area = "admin" });
+            return RedirectToAction("Index", "AdminTests", new { area = "admin" });
         }
 
         // added to test view
@@ -95,7 +95,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             this.toastr.AddAlertToastMessage($"Test deleted successfully!");
 
-            return RedirectToAction("Index", "Tests", new { area = "admin" });
+            return RedirectToAction("Index", "AdminTests", new { area = "admin" });
         }
 
         public IActionResult CreateQuestion()
