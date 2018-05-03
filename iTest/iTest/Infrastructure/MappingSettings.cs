@@ -2,8 +2,10 @@
 using iTest.Data.Models;
 using iTest.DTO;
 using iTest.Web.Areas.Admin.Models;
+using iTest.Web.Areas.Admin.Models.Categories;
+using iTest.Web.Areas.Admin.Models.Tests;
 
-namespace iTest.Web
+namespace iTest.Web.Infrastructure
 {
     public class MappingSettings : Profile
     {
@@ -30,6 +32,9 @@ namespace iTest.Web
             this.CreateMap<CreateAnswerViewModel, AnswerDTO>()
                 .ForMember(a => a.Description, o => o.MapFrom(a => a.Description));
 
+            this.CreateMap<CreateEditCategoryViewModel, CategoryDTO>(MemberList.Source);
+            this.CreateMap<AllCategoriesViewModel, CategoryDTO>(MemberList.Source);
+
         }
 
         private void DtosAndDataModelsMappings()
@@ -48,11 +53,11 @@ namespace iTest.Web
             this.CreateMap<QuestionDTO, Question>(MemberList.Source)
                 .ForMember(q => q.Description, o => o.MapFrom((q => q.Description)))
                 .ForMember(q => q.Answers, o => o.MapFrom(q => q.Answers));
-            
+
 
 
             //this.CreateMap<TestDTO, Test>(MemberList.Source);
-            //this.CreateMap<CategoryDTO, Category>(MemberList.Source);
+            this.CreateMap<CategoryDTO, Category>(MemberList.Source);
             //this.CreateMap<QuestionDTO, Question>(MemberList.Source);
             this.CreateMap<AnswerDTO, Answer>(MemberList.Source);
             this.CreateMap<ResultDTO, Result>(MemberList.Source);

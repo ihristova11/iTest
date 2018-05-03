@@ -53,9 +53,16 @@ namespace iTest.Services.Data.Admin.Implementations
             return this.mapper.MapTo<TestDTO>(test);
         }
 
-        public void Create(TestDTO dto)
+        public async Task CreateAsync(TestDTO dto)
         {
-            var model = this.mapper.MapTo<Test>(dto);
+            var test = await this.tests.All.SingleOrDefaultAsync(x => x.Id == dto.Id);
+
+            if (test != null)
+            {
+                throw new ArgumentException($"{dto.Name} already exits!");
+            }
+
+            var model = mapper.MapTo<Test>(dto);
             this.tests.Add(model);
             this.saver.SaveChangesAsync();
         }
@@ -72,10 +79,10 @@ namespace iTest.Services.Data.Admin.Implementations
             }
 
             // do not map! otherwise a new instance will be created in db
-            //test.Name = dto.Name;
-            //test.Category = test.Category;
-            //test.Status = dto.Status;
-            //test.RequestedTime = dto.RequestedTime;
+            test.Name = dto.Name;
+            test.Category = test.Category;
+            test.Status = dto.Status;
+            test.RequestedTime = dto.RequestedTime;
             //test.Questions = dto.Questions;
             //test.Results = dto.Results;
 

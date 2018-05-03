@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Rewrite.Internal
-@model iTest.Web.Areas.Admin.Models.CreateTestViewModel
+@model iTest.Web.Areas.Admin.Models.Tests.CreateTestViewModel
 @{
     ViewData["Title"] = "CreateTest";
 }
@@ -40,11 +40,11 @@
                 function() { // add answer
                     var btn = $(this);
 
-                    $.get("/Admin/ManageTest/CreateAnswer",
+                    $.get("/Admin/Tests/CreateAnswer",
                         function(data) {
                             var answerDiv = $("<div/>")
                                 .addClass("answer");
-                            
+
                             answerDiv.html(data);
                             var questionId = btn
                                 .parents('.question')[0]
@@ -60,7 +60,7 @@
             var questionsCount = 0;
 
             $("#new-question-button").click(function() {
-                $.get("/Admin/ManageTest/CreateQuestion",
+                $.get("/Admin/Tests/CreateQuestion",
                     function(data) {
                         var questionDiv = $("<div/>")
                             .addClass('question')
@@ -130,7 +130,7 @@
         });
 
 
-        
+
 
 
         //$('.summernote').summernote({
@@ -186,7 +186,7 @@
                 };
 
                 $.ajax({
-                    url: '@Url.Action("SaveTest", "ManageTest")',
+                    url: '@Url.Action("Create", "Tests")',
                     type: 'POST',
                     data: JSON.stringify(data),
                     contentType: 'application/json; charset=utf-8',

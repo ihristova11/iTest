@@ -1,12 +1,7 @@
-﻿using System;
+﻿using iTest.Data.Models.Enums;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using iTest.Data.Models.Enums;
-using iTest.DTO;
-using iTest.Web.Areas.Admin.Models.CustomValidationAttributes;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace iTest.Web.Areas.Admin.Models
+namespace iTest.Web.Areas.Admin.Models.Tests
 {
     public class TestViewModel
     {

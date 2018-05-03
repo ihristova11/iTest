@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using iTest.Web.Areas.Admin.Models.CustomValidationAttributes;
 
 namespace iTest.Web.Areas.Admin.Models
 {
@@ -8,7 +7,7 @@ namespace iTest.Web.Areas.Admin.Models
     {
         [Required]
         public string Description { get; set; }
-        
-        public IList<CreateAnswerViewModel> Answers { get; set; }
+
+        public List<CreateAnswerViewModel> Answers { get; set; }
     }
 }

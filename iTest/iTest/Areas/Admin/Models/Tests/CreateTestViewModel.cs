@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using iTest.Data.Models.Enums;
+﻿using iTest.Data.Models.Enums;
 using iTest.DTO;
 using iTest.Web.Areas.Admin.Models.CustomValidationAttributes;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace iTest.Web.Areas.Admin.Models
+namespace iTest.Web.Areas.Admin.Models.Tests
 {
     public class CreateTestViewModel
     {
@@ -29,7 +28,7 @@ namespace iTest.Web.Areas.Admin.Models
 
         [Required(ErrorMessage = "Questions to your Test must be added!")]
         [CollectionCount(1, ErrorMessage = "Add at least one question to your Test!")]
-        public ICollection<CreateQuestionViewModel> Questions { get; set; }
+        public List<CreateQuestionViewModel> Questions { get; set; }
 
         //[DataType(DataType.Date)]
         //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
