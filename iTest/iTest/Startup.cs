@@ -115,6 +115,7 @@ namespace iTest.Web
             services.AddScoped<IMappingProvider, MappingProvider>();
 
             services.AddMvc().AddNToastNotifyNoty(); // toastr
+            services.AddAntiforgery(options => options.HeaderName = "__RequestVerificationToken");
         }
 
         private void RegisterData(IServiceCollection services)

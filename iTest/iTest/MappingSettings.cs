@@ -18,7 +18,7 @@ namespace iTest.Web
         {
             //Test:
             //From ViewModel to Dto
-            this.CreateMap<TestViewModel, TestDTO>(MemberList.Source)
+            this.CreateMap<CreateTestViewModel, TestDTO>(MemberList.Source)
                 .ForMember(t => t.Questions, o => o.MapFrom(t => t.Questions))
                 .ForPath(t => t.Category.Name, o => o.MapFrom(t => t.Category))
                 .ReverseMap();

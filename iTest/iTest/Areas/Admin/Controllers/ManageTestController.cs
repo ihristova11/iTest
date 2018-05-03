@@ -41,16 +41,29 @@ namespace iTest.Web.Areas.Admin.Controllers
             });
         }
 
-        public IActionResult CreateQuestion()
+        //public IActionResult CreateQuestion()
+        //{
+        //    return PartialView("_CreateQuestion");
+        //}
+
+        //public IActionResult CreateAnswer()
+        //{
+        //    return PartialView("_CreateAnswer");
+        //}
+
+        [HttpGet]
+        //[Authorize]
+        //[ValidateAntiForgeryToken]
+        public IActionResult AddQuestion(CreateQuestionViewModel model)
         {
-            return PartialView("_CreateQuestion");
+            return PartialView("_CreateQuestion", model);
         }
 
-        public IActionResult CreateAnswer()
+        [HttpGet]
+        public IActionResult AddAnswer(CreateAnswerViewModel model)
         {
-            return PartialView("_CreateAnswer");
+            return PartialView("_CreateAnswer", model);
         }
-
 
         //[HttpPost]
         //public async Task<IActionResult> Create(CreateTestViewModel model)
@@ -85,19 +98,20 @@ namespace iTest.Web.Areas.Admin.Controllers
         //}
 
         [HttpPost]
-        public IActionResult SaveTest([FromBody] TestViewModel testViewModel)
+        public IActionResult SaveTest([FromBody] CreateTestViewModel testViewModel)
         {
             testViewModel.AuthorId = this.userManager.GetUserId(this.HttpContext.User);
             if (this.ModelState.IsValid)
             {
 
-                var modelState = this.ModelState.IsValid;
+                //var modelState = this.ModelState.IsValid;
                 var testDTO = this.mapper.MapTo<TestDTO>(testViewModel);
 
                 this.testService.Create(testDTO);
             }
 
-            return this.RedirectToAction("Home", "ManageTest");
+            //return this.RedirectToAction("Home", "ManageTest");
+            return Json(Url.Action("Home", "ManageTest", new { area = "Admin" }));
         }
 
         // added to test view
