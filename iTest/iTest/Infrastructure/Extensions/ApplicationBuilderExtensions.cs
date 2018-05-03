@@ -61,13 +61,14 @@ namespace iTest.Web.Infrastructure.Extensions
                         await userManager.AddToRoleAsync(admin, UserRoles.AdminRole);
                     }
 
-                    var user = await userManager.FindByNameAsync("user");
+                    // create test user
+                    var user = await userManager.FindByNameAsync("John");
 
                     if (user == null)
                     {
                         user = new User
                         {
-                            UserName = "user"
+                            UserName = "John"
                         };
 
                         await userManager.CreateAsync(user, "user12");

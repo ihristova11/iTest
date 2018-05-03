@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace iTest.Web.Areas.Admin.Models.Categories
+namespace iTest.Web.Areas.Users.Models
 {
-    public class CreateEditCategoryViewModel
+    public class UserCategoryViewModel
     {
         public int Id { get; set; }
 

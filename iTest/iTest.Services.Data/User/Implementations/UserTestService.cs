@@ -39,12 +39,14 @@ namespace iTest.Services.Data.User.Implementations
             return this.mapper.ProjectTo<TestDTO>(tests);
         }
 
-        public async Task<IEnumerable<TestDTO>> AllByCategoryAsync(Category category)
+        public IEnumerable<TestDTO> GetRandomTest(int count = 1)
         {
-            var tests = await this.tests
-                                        .All
-                                        .Where(x => x.Category.Name == category.Name)
-                                        .ToListAsync();
+            Random rnd = new Random();
+
+            var tests = this.tests
+                                .All
+                                .OrderBy(x => rnd.Next())
+                                .Take(count);
 
             return this.mapper.ProjectTo<TestDTO>(tests);
         }

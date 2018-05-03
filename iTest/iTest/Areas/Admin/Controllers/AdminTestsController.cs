@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace iTest.Web.Areas.Admin.Controllers
 {
-    public class TestsController : AdminController
+    public class AdminTestsController : AdminController
     {
         private readonly IAdminTestService tests;
         private readonly IAdminCategoryService categories;
@@ -23,7 +23,7 @@ namespace iTest.Web.Areas.Admin.Controllers
         private readonly UserManager<User> userManager;
         private readonly IToastNotification toastr;
 
-        public TestsController(IAdminTestService tests, IAdminCategoryService categories, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
+        public AdminTestsController(IAdminTestService tests, IAdminCategoryService categories, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
         {
             this.tests = tests ?? throw new ArgumentNullException(nameof(tests));
             this.categories = categories ?? throw new ArgumentNullException(nameof(categories));
@@ -35,49 +35,44 @@ namespace iTest.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            return View("CreateTest", new CreateTestViewModel
+            return View("Create", new CreateTestViewModel
             {
                 Categories = await this.GetCategoriesAsync()
             });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] TestViewModel testViewModel)
+        public async Task<IActionResult> Create([FromBody] CreateTestViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
-                return View(testViewModel);
+                return View(model);
             }
-            var test = this.tests.ExistsByNameAsync(testViewModel.Name);
+            var test = this.tests.ExistsByNameAsync(model.Name);
 
             if (!(await test))
             {
-                testViewModel.AuthorId = this.userManager.GetUserId(this.HttpContext.User);
-                var testDTO = this.mapper.MapTo<TestDTO>(testViewModel);
+                model.Author = this.userManager.GetUserId(this.HttpContext.User);
+                var testDTO = this.mapper.MapTo<TestDTO>(model);
                 await this.tests.CreateAsync(testDTO);
             }
 
-            this.toastr.AddSuccessToastMessage($"Test {testViewModel.Name} created successfully!");
-            return this.RedirectToAction("Home", "ManageTest");
+            this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
+            return RedirectToAction("Index", "Tests", new { area = "admin" });
         }
 
         // added to test view
 
         [HttpGet]
-        [ActionName("Home")]
-        public async Task<IActionResult> Home()
-            => await Task.Run(() => View("Index"));
-
-        [HttpGet]
-        public async Task<IActionResult> Publish()
+        public async Task<IActionResult> Index()
         {
-            return await Task.Run(() => View());
+            return await Task.Run(() => View("Index"));
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit()
         {
-            return await Task.Run(() => View("Home"));
+            return await Task.Run(() => View("Create"));
         }
 
         [HttpPost]
@@ -88,9 +83,9 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             await this.tests.UpdateAsync(dto);
 
-            this.toastr.AddSuccessToastMessage($"Test {model.Name} updated successfully!");
+            this.toastr.AddSuccessToastMessage($"Test ${model.Name} updated successfully!");
 
-            return this.RedirectToAction("Edit", "Test", new { id = model.Id });
+            return RedirectToAction("Index", "Tests", new { area = "admin" });
         }
 
         [HttpPost]
@@ -100,7 +95,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             this.toastr.AddAlertToastMessage($"Test deleted successfully!");
 
-            return this.RedirectToAction("Home", "ManageTest");
+            return RedirectToAction("Index", "Tests", new { area = "admin" });
         }
 
         public IActionResult CreateQuestion()

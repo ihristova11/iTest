@@ -1,5 +1,4 @@
-﻿using iTest.Data.Models;
-using iTest.Data.Models.Enums;
+﻿using iTest.Data.Models.Enums;
 using System.Collections.Generic;
 
 namespace iTest.DTO

@@ -1,7 +1,7 @@
 ﻿@using iTest.Web.Areas.Admin.Models.Tests
 @model CreateTestViewModel
 @{
-    ViewData["Title"] = "CreateTest";
+    ViewData["Title"] = "Create Test";
 }
 <h1>New Test</h1>
 <form method="post" id="form-test">
@@ -40,7 +40,7 @@
                 function() { // add answer
                     var btn = $(this);
 
-                    $.get("/Admin/Tests/CreateAnswer",
+                    $.get("/Admin/AdminTests/CreateAnswer",
                         function(data) {
                             var answerDiv = $("<div/>")
                                 .addClass("answer");
@@ -60,7 +60,7 @@
             var questionsCount = 0;
 
             $("#new-question-button").click(function() {
-                $.get("/Admin/Tests/CreateQuestion",
+                $.get("/Admin/AdminTests/CreateQuestion",
                     function(data) {
                         var questionDiv = $("<div/>")
                             .addClass('question')
@@ -129,10 +129,6 @@
             }
         });
 
-
-
-
-
         //$('.summernote').summernote({
         //    placeholder: 'Hello stand alone ui',
         //    tabsize: 2,
@@ -150,7 +146,7 @@
             function(ev) {
                 ev.preventDefault();
                 var questions = [];
-                //console.log(ev.target.id);
+                console.log(ev.target.id);
 
                 $(".form-group.question")
                     .each(function(index, questionContainer) {
@@ -186,14 +182,14 @@
                 };
 
                 $.ajax({
-                    url: '@Url.Action("Create", "Tests")',
+                    url: '@Url.Action("Create", "AdminTests")',
                     type: 'POST',
                     data: JSON.stringify(data),
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'html',
                     success: function(data) {
                         $('.slavi').html(data);
-                        console.log('mai bind-na');
+                        //console.log('mai bind-na');
                     }
                 });
             });

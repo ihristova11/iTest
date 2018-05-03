@@ -12,19 +12,19 @@
         <li class="nav-item">
             <a class="nav-link" id="results-tab" data-toggle="tab" href="#results" role="tab" aria-controls="results" aria-selected="false">Test Results</a>
         </li>
-        <a asp-area="Admin" asp-controller="ManageTest" asp-action="Create" method="get" class="btn btn-success pull-right">New Test</a>
     </ul>
+    <a asp-area="Admin" asp-controller="AdminTests" asp-action="Create" method="get" class="btn btn-success pull-right">New Test</a>
 
     <div id="myTabContent">
         <div class="tab-pane fade show active" id="tests" role="tabpanel" aria-labelledby="tests-tab">
             <table style="width:100%" class="created-tests-table dashboard-table display table table-striped custab" data-page-length='10'>
                 <thead>
-                <tr>
-                    <th>Test Name</th>
-                    <th>Category</th>
-                    <th>Status</th>
-                    <th class="text-center">Action</th>
-                </tr>
+                    <tr>
+                        <th>Test Name</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th class="text-center">Action</th>
+                    </tr>
                 </thead>
                 <tr>
                     <td>Name</td>

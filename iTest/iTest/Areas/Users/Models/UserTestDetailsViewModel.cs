@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace iTest.Web.Areas.Users.Models
 {
-    public class TestDetailsViewModel
+    public class UserTestDetailsViewModel
     {
         [Required]
         [MinLength(2)]

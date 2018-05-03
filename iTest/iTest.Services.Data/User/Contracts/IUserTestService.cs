@@ -1,5 +1,4 @@
-﻿using iTest.Data.Models;
-using iTest.DTO;
+﻿using iTest.DTO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,7 +8,7 @@ namespace iTest.Services.Data.User.Contracts
     {
         Task<IEnumerable<TestDTO>> AllAsync();
 
-        Task<IEnumerable<TestDTO>> AllByCategoryAsync(Category category);
+        IEnumerable<TestDTO> GetRandomTest(int count = 1);
 
         Task<TestDTO> FindByNameAsync(string name);
     }

@@ -1,0 +1,45 @@
+﻿@using iTest.Web.Areas.Users.Models
+@model UserDashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2>Dashboard</h2>
+<p>Welcome @Model.Author. This is your dashboard.</p>
+
+<div class="container">
+
+    <ul class="nav nav-tabs">
+        @if (@Model.Categories.Count() != 0)
+        {
+            @foreach (var category in Model.Categories)
+            {
+                if (category.Name == "Java")
+                {
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#java">Java</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="#@category.Name">@category.Name</a>
+                    </li>
+                }
+            }
+        }
+    </ul>
+
+    <div class="tab-content">
+        @if (@Model.Tests.Count() != 0)
+        {
+            @foreach (var test in Model.Tests)
+            {
+                <div class="tab-pane container active" id=@test.Name>
+                    <a asp-area="User" asp-controller="Usertests" asp-action="Details/@test.Id" method="get" class="btn btn-success pull-right">Start</a>
+                </div>
+            }
+        }
+    </div>
+</div>

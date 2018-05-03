@@ -1,6 +1,5 @@
 ﻿using iTest.Data.Models;
 using iTest.Infrastructure.Providers;
-using iTest.Services.Data.Admin.Contracts;
 using iTest.Services.Data.User.Contracts;
 using iTest.Web.Areas.Users.Controllers.Abstract;
 using iTest.Web.Areas.Users.Models;
@@ -11,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace iTest.Web.Areas.Users.Controllers
 {
-    public class TestsController : UserController
+    public class UserTestsController : UserController
     {
-        private readonly IAdminTestService tests;
+        private readonly IUserTestService tests;
         private readonly IUserCategoryService categories;
         private readonly IMappingProvider mapper;
         private readonly UserManager<User> userManager;
         private readonly IToastNotification toastr;
 
-        public TestsController(IAdminTestService tests, IUserCategoryService categories, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
+        public UserTestsController(IUserTestService tests, IUserCategoryService categories, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
         {
             this.tests = tests;
             this.categories = categories;
@@ -30,10 +29,18 @@ namespace iTest.Web.Areas.Users.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var model = new DashboardViewModel();
+            var user = this.userManager.GetUserName(this.HttpContext.User);
 
-            var allCategories = this.categories.All();
-            model.Categories = this.mapper.ProjectTo<CategoryViewModel>(allCategories);
+            var model = new UserDashboardViewModel
+            {
+                Author = user
+            };
+
+            var categories = this.categories.All();
+            model.Categories = this.mapper.ProjectTo<UserCategoryViewModel>(categories);
+
+            var tests = this.tests.GetRandomTest(1);
+            model.Tests = this.mapper.ProjectTo<UserTestViewModel>(tests);
 
             return await Task.Run(() => View(model));
         }

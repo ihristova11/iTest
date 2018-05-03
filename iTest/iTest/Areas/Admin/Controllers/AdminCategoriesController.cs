@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace iTest.Web.Areas.Admin.Controllers
 {
-    public class CategoriesController : AdminController
+    public class AdminCategoriesController : AdminController
     {
         private readonly IAdminTestService tests;
         private readonly IAdminCategoryService categories;
         private readonly IMappingProvider mapper;
         private readonly IToastNotification toastr;
 
-        public CategoriesController(IAdminTestService tests, IAdminCategoryService categories, IMappingProvider mapper, IToastNotification toastr)
+        public AdminCategoriesController(IAdminTestService tests, IAdminCategoryService categories, IMappingProvider mapper, IToastNotification toastr)
         {
             this.tests = tests ?? throw new ArgumentNullException(nameof(tests));
             this.categories = categories ?? throw new ArgumentNullException(nameof(categories));
@@ -36,7 +36,7 @@ namespace iTest.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateEditCategoryViewModel model)
+        public async Task<IActionResult> Create(AdminCategoryViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -49,11 +49,13 @@ namespace iTest.Web.Areas.Admin.Controllers
                 this.toastr.AddSuccessToastMessage($"Category {model.Name} aleready exits!");
                 return View();
             }
-
-            var dto = this.mapper.MapTo<CategoryDTO>(model);
-            await this.categories.CreateAsync(dto);
-            this.toastr.AddSuccessToastMessage($"Category {model.Name} created successfully!");
-            return this.RedirectToAction("Index");
+            else
+            {
+                var dto = this.mapper.MapTo<CategoryDTO>(model);
+                await this.categories.CreateAsync(dto);
+                this.toastr.AddSuccessToastMessage($"Category {model.Name} created successfully!");
+                return RedirectToAction("Index", "Tests", new { area = "admin" });
+            }
         }
 
         [HttpGet]
@@ -63,7 +65,7 @@ namespace iTest.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(CreateEditCategoryViewModel model)
+        public async Task<IActionResult> Edit(AdminCategoryViewModel model)
         {
             var dto = this.mapper.MapTo<CategoryDTO>(model);
 
@@ -71,7 +73,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             this.toastr.AddSuccessToastMessage($"Category {model.Name} updated successfully!");
 
-            return this.RedirectToAction("Edit", "Category", new { id = model.Id });
+            return RedirectToAction("Index", "Tests", new { area = "admin" });
         }
 
         [HttpPost]
@@ -81,7 +83,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             this.toastr.AddAlertToastMessage($"Category deleted successfully!");
 
-            return this.RedirectToAction("Home", "AdminCategory");
+            return this.RedirectToAction("Index", "AdminCategory");
         }
     }
 }
