@@ -1,0 +1,14 @@
+﻿@using iTest.Web.Areas.Admin.Models
+@model iTest.Web.Areas.Admin.Models.CreateAnswerViewModel
+
+<div class="answer-container">
+    <button class="delete-answer btn btn-default btn-xs pull-right" type="button">
+        <span class="glyphicon glyphicon-trash"></span>
+    </button>   
+    <label class="pull-right">
+        <label asp-for="IsCorrect" class="pull-right"><input class="answer-is-correct" type="radio">Correct Answer</label>
+    </label>
+    <h4>Answer</h4>
+    <textarea asp-for="Description" class="form-control answer summernote" rows="5"></textarea>
+
+</div>

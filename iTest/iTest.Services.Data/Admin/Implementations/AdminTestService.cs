@@ -53,12 +53,21 @@ namespace iTest.Services.Data.Admin.Implementations
             return this.mapper.MapTo<TestDTO>(test);
         }
 
-        public void Create(TestDTO dto)
+        public async Task CreateAsync(TestDTO dto)
         {
-            var model = this.mapper.MapTo<Test>(dto);
+            var test = await this.tests.All.SingleOrDefaultAsync(x => x.Id == dto.Id);
+
+            if (test != null)
+            {
+                throw new ArgumentException($"{dto.Name} already exits!");
+            }
+
+            var model = mapper.MapTo<Test>(dto);
             this.tests.Add(model);
             this.saver.SaveChangesAsync();
         }
+
+        // todo GET RANDOM TEST
 
         public async Task UpdateAsync(TestDTO dto)
         {
@@ -74,8 +83,8 @@ namespace iTest.Services.Data.Admin.Implementations
             test.Category = test.Category;
             test.Status = dto.Status;
             test.RequestedTime = dto.RequestedTime;
-            test.Questions = dto.Questions;
-            test.Results = dto.Results;
+            //test.Questions = dto.Questions;
+            //test.Results = dto.Results;
 
             this.tests.Update(test);
             this.saver.SaveChangesAsync();

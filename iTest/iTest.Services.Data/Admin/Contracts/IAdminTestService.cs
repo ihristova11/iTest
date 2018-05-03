@@ -10,7 +10,7 @@ namespace iTest.Services.Data.Admin.Contracts
 
         Task<TestDTO> FindByIdAsync(int id);
 
-        void Create(TestDTO dto);
+        Task CreateAsync(TestDTO dto);
 
         Task UpdateAsync(TestDTO dto);
 

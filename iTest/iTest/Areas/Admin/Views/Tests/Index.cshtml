@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Dashboard";
 }
 
@@ -13,23 +12,30 @@
         <li class="nav-item">
             <a class="nav-link" id="results-tab" data-toggle="tab" href="#results" role="tab" aria-controls="results" aria-selected="false">Test Results</a>
         </li>
-        <a asp-area="Admin" asp-controller="AdminTest" asp-action="Home" method="get" class="btn btn-primary pull-right NewTestBtn">New Test</a>
+        <a asp-area="Admin" asp-controller="ManageTest" asp-action="Create" method="get" class="btn btn-success pull-right">New Test</a>
     </ul>
 
     <div id="myTabContent">
         <div class="tab-pane fade show active" id="tests" role="tabpanel" aria-labelledby="tests-tab">
-            <div>
-                something
-            </div>
-            <div>
-                something
-            </div>
-            <div>
-                something
-            </div>
+            <table style="width:100%" class="created-tests-table dashboard-table display table table-striped custab" data-page-length='10'>
+                <thead>
+                <tr>
+                    <th>Test Name</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th class="text-center">Action</th>
+                </tr>
+                </thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Category</td>
+
+                </tr>
+            </table>
         </div>
 
         <div class="tab-pane fade" id="results" role="tabpanel" aria-labelledby="results-tab">
-            Results</div>
+            Results
+        </div>
     </div>
 </div>
