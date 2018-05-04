@@ -59,8 +59,19 @@ namespace iTest.Web.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    //return RedirectToLocal(returnUrl); 
-                    return RedirectToAction("Index", "UserTests", new { area = "users" });
+                    //return RedirectToLocal(returnUrl);
+
+                    var user = await this._userManager.FindByNameAsync(model.UserName);
+                    var role = await this._userManager.GetRolesAsync(user);
+
+                    if (await this._userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        return RedirectToAction("Index", "AdminTests", new { area = "admin" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "UserTests", new { area = "users" });
+                    }
                 }
                 if (result.RequiresTwoFactor)
                 {
