@@ -1,6 +1,9 @@
-﻿using iTest.Data.Models.Implementations;
+﻿using iTest.Data.Models;
+using iTest.Data.Models.Abstract;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace iTest.Data
 {
@@ -17,6 +20,12 @@ namespace iTest.Data
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
 
+        public override int SaveChanges()
+        {
+            this.ApplyAuditInfoRules();
+            return base.SaveChanges();
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
@@ -28,13 +37,15 @@ namespace iTest.Data
                 .Entity<UserTest>()
                 .HasOne(x => x.Test)
                 .WithMany(x => x.Users)
-                .HasForeignKey(x => x.TestId);
+                .HasForeignKey(x => x.TestId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .Entity<UserTest>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.Tests)
-                .HasForeignKey(x => x.UserId);
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Test>().ToTable("Tests");
             builder.Entity<Category>().ToTable("Categories");
@@ -44,6 +55,26 @@ namespace iTest.Data
 
 
             base.OnModelCreating(builder);
+        }
+
+        private void ApplyAuditInfoRules()
+        {
+            var newlyCreatedEntities = this.ChangeTracker.Entries()
+                .Where(e => e.Entity is IAuditable && ((e.State == EntityState.Added) || (e.State == EntityState.Modified)));
+
+            foreach (var entry in newlyCreatedEntities)
+            {
+                var entity = (IAuditable)entry.Entity;
+
+                if (entry.State == EntityState.Added && entity.CreatedOn == null)
+                {
+                    entity.CreatedOn = DateTime.Now;
+                }
+                else
+                {
+                    entity.ModifiedOn = DateTime.Now;
+                }
+            }
         }
     }
 }

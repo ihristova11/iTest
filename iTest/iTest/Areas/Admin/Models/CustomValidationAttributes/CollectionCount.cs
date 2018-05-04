@@ -14,8 +14,7 @@ namespace iTest.Web.Areas.Admin.Models.CustomValidationAttributes
 
         public override bool IsValid(object value)
         {
-            var list = value as ICollection;
-            if (list != null)
+            if (value is ICollection list)
             {
                 return list.Count >= this.min;
             }

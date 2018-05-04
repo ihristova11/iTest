@@ -1,4 +1,4 @@
-﻿using iTest.Data.Models.Implementations;
+﻿using iTest.Data.Models;
 using iTest.DTO;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;

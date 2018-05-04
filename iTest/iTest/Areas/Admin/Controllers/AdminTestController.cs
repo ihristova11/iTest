@@ -1,4 +1,4 @@
-﻿using iTest.Data.Models.Implementations;
+﻿using iTest.Data.Models;
 using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NToastNotify;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,317 +16,81 @@ namespace iTest.Web.Areas.Admin.Controllers
 {
     public class AdminTestController : AdminController
     {
-        private readonly IAdminTestService testServices;
-        private readonly IAdminCategoryService categoryService;
+        private readonly IAdminTestService tests;
+        private readonly IAdminCategoryService categories;
         private readonly IMappingProvider mapper;
         private readonly UserManager<User> userManager;
         private readonly IToastNotification toastr;
 
-        public AdminTestController(IAdminTestService testServices, IAdminCategoryService categoryService, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
+        public AdminTestController(IAdminTestService tests, IAdminCategoryService categories, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
         {
-            this.testServices = testServices ?? throw new ArgumentNullException(nameof(testServices));
-            this.categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
-            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-            this.toastr = toastr ?? throw new ArgumentNullException(nameof(toastr));
+            this.tests = tests;
+            this.categories = categories;
+            this.mapper = mapper;
+            this.userManager = userManager;
+            this.toastr = toastr;
         }
 
-        [HttpGet]
+
+        public async Task<IActionResult> Home()
+            => await Task.Run(() => View("Index"));
+
         public async Task<IActionResult> Create()
-        {
-            var dto = new TestDTO()
+            => View(new AdminTestViewModel
             {
-                Name = "some test name here",
-                RequestedTime = 2,
-                AuthorId = this.userManager.GetUserId(this.HttpContext.User),
-                Category = new CategoryDTO() { Name = "some category here" },
-                CreatedOn = DateTime.Now,
-                ExecutionTime = 2,
-                ModifiedOn = DateTime.Now,
-                IsDeleted = false,
-                DeletedOn = DateTime.Now,
-                Questions = new List<QuestionDTO>()
-                {
-                    new QuestionDTO()
-                    {
-                        Description = "description 1",
-                        Answers = new List<AnswerDTO>()
-                        {
-                            new AnswerDTO()
-                            {
-                                Description = "answer 1"
-                            },
-                            new AnswerDTO()
-                            {
-                                Description = "answer 2"
-                            },
-                            new AnswerDTO()
-                            {
-                                Description = "answer 3"
-                            },
-                            new AnswerDTO()
-                            {
-                                Description = "answer 4"
-                            },
-                        }
-                    },
-
-                    new QuestionDTO()
-                    {
-                        Description = "description 2",
-                        Answers = new List<AnswerDTO>()
-                        {
-                            new AnswerDTO()
-                            {
-                                Description = "answer 1"
-                            },
-                            new AnswerDTO()
-                            {
-                                Description = "answer 2"
-                            },
-                            new AnswerDTO()
-                            {
-                                Description = "answer 3"
-                            },
-                            new AnswerDTO()
-                            {
-                                Description = "answer 4"
-                            },
-                        }
-                    },
-
-                    new QuestionDTO()
-                    {
-                        Description = "description 3",
-                        Answers = new List<AnswerDTO>()
-                        {
-                            new AnswerDTO()
-                            {
-                                Description = "answer 1"
-                            },
-                            new AnswerDTO()
-                            {
-                                Description = "answer 2"
-                            },
-                            new AnswerDTO()
-                            {
-                                Description = "answer 3"
-                            },
-                            new AnswerDTO()
-                            {
-                                Description = "answer 4"
-                            },
-                        }
-                    },
-                }
-            };
-
-            await this.testServices.CreateAsync(dto);
-
-            this.toastr.AddSuccessToastMessage($"Test IRINAAAAA created successfully!");
-
-            return View(new AdminTestViewModel
-            {
-                CreatedOn = DateTime.UtcNow,
                 Categories = await this.GetCategoriesAsync()
             });
-        }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(AdminTestViewModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                model.Categories = await this.GetCategoriesAsync();
-                return View("Create", model);
-            }
-
-            var test = this.testServices.ExistsByNameAsync(model.Name);
-
-            //if (!(await test))
-            //{
-            //    var dto = new TestDTO
-            //    {
-            //        Name = model.Name,
-            //        RequestedTime = model.RequestedTime,
-            //        AuthorId = model.AuthorId = this.userManager.GetUserId(this.HttpContext.User), // TODO required??
-            //        Category = model.Category,
-            //        Questions = this.mapper.MapTo<IList<QuestionDTO>>(model.Questions)
-            //    };
-            //    await this.testServices.CreateAsync(dto);
-            //}
-
-            //var dto = new TestDTO()
-            //{
-            //    Name = "some test name here",
-            //    RequestedTime = 2,
-            //    AuthorId = this.userManager.GetUserId(this.HttpContext.User),
-            //    Category = new CategoryDTO() {Name = "some category here"},
-            //    Questions = new List<QuestionDTO>()
-            //    {
-            //        new QuestionDTO()
-            //        {
-            //            Description = "description 1",
-            //            Answers = new List<AnswerDTO>()
-            //            {
-            //                new AnswerDTO()
-            //                {
-            //                    Description = "answer 1"
-            //                },
-            //                new AnswerDTO()
-            //                {
-            //                    Description = "answer 2"
-            //                },
-            //                new AnswerDTO()
-            //                {
-            //                    Description = "answer 3"
-            //                },
-            //                new AnswerDTO()
-            //                {
-            //                    Description = "answer 4"
-            //                },
-            //            }
-            //        },
-
-            //        new QuestionDTO()
-            //        {
-            //            Description = "description 2",
-            //            Answers = new List<AnswerDTO>()
-            //            {
-            //                new AnswerDTO()
-            //                {
-            //                    Description = "answer 1"
-            //                },
-            //                new AnswerDTO()
-            //                {
-            //                    Description = "answer 2"
-            //                },
-            //                new AnswerDTO()
-            //                {
-            //                    Description = "answer 3"
-            //                },
-            //                new AnswerDTO()
-            //                {
-            //                    Description = "answer 4"
-            //                },
-            //            }
-            //        },
-
-            //        new QuestionDTO()
-            //        {
-            //            Description = "description 3",
-            //            Answers = new List<AnswerDTO>()
-            //            {
-            //                new AnswerDTO()
-            //                {
-            //                    Description = "answer 1"
-            //                },
-            //                new AnswerDTO()
-            //                {
-            //                    Description = "answer 2"
-            //                },
-            //                new AnswerDTO()
-            //                {
-            //                    Description = "answer 3"
-            //                },
-            //                new AnswerDTO()
-            //                {
-            //                    Description = "answer 4"
-            //                },
-            //            }
-            //        },
-            //    }
-            //};
-
-            //await this.testServices.CreateAsync(dto);
-
-            //this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
-
-            return this.Redirect("/admin/");
-        }
-
-
-        [HttpGet]
-        [ActionName("Publish")]
-        public async Task<IActionResult> PublishAsync()
-            => await Task.Run(() => View());
-
-        [HttpPost]
-        public async Task<IActionResult> PublishAsync(AdminTestViewModel model)
+        public async Task<IActionResult> Create(AdminTestViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
                 return View(model);
             }
 
+            var test = this.tests.ExistsByNameAsync(model.Name);
+
+            if (!(await test))
+            {
+                var dto = this.mapper.MapTo<TestDTO>(model);
+                dto.AuthorId = this.userManager.GetUserId(this.HttpContext.User);
+                this.tests.Create(dto);
+            }
+
+            this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
+
+            return this.RedirectToAction("Index", "Admin");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Update(AdminTestViewModel model)
+        {
             var dto = this.mapper.MapTo<TestDTO>(model);
             dto.AuthorId = this.userManager.GetUserId(this.HttpContext.User);
 
-            await this.testServices.PublishAsync(dto);
+            await this.tests.UpdateAsync(dto);
 
-            this.toastr.AddSuccessToastMessage($"Test {model.Name} published successfully!");
-            return this.Redirect("/admin/");
+            this.toastr.AddSuccessToastMessage($"Test {model.Name} updated successfully!");
+
+            return this.RedirectToAction("Details", "Test", new { id = model.Id });
         }
 
-        [HttpGet]
-        [ActionName("Edit")]
-        public async Task<IActionResult> EditAsync(int id)
-        {
-            var test = await this.testServices.FindByIdAsync(id);
-
-            if (test == null)
-            {
-                return NotFound();
-            }
-
-            return View("Create", new AdminTestViewModel
-            {
-                Name = test.Name,
-                RequestedTime = test.RequestedTime,
-                Category = test.Category,
-                Questions = this.mapper.MapTo<IList<AdminQuestionViewModel>>(test.Questions)
-            });
-        }
-
-        //[HttpPost]
-        //public async Task<IActionResult> EditAsync(AdminTestViewModel model)
-        //{
-        //    var test = await this.testServices.FindByIdAsync(id);
-
-        //    if (test == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View("Create", new AdminTestViewModel
-        //    {
-        //        Name = test.Name,
-        //        RequestedTime = test.RequestedTime,
-        //        Category = test.Category,
-        //        Questions = this.mapper.MapTo<IList<AdminQuestionViewModel>>(test.Questions)
-        //    });
-        //}
-
-        [HttpGet]
-        [ActionName("Delete")]
-        public async Task<IActionResult> DeleteAsync(int id)
-            => await Task.Run(() => View(id));
 
         [HttpPost]
-        public async Task<IActionResult> DeleteTestAsync(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            await this.testServices.DeleteAsync(id);
+            await this.tests.DeleteAsync(id);
 
             this.toastr.AddAlertToastMessage($"Test deleted successfully!");
 
-            return this.Redirect("/admin/");
+            return this.RedirectToAction("Index", "Admin");
         }
 
         protected async Task<IEnumerable<SelectListItem>> GetCategoriesAsync()
         {
-            //var categories = await this.categories.AllAsync();
-            var categories = await this.categoryService
-                                  .AllDomainAsync();
+            var categories = await this.categories.AllAsync();
 
             var categoriesList = categories.Select(c => new SelectListItem
             {

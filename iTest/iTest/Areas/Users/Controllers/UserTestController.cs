@@ -1,11 +1,10 @@
-﻿using iTest.Data.Models.Implementations;
+﻿using iTest.Data.Models;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
 using iTest.Web.Areas.Users.Controllers.Abstract;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
-using System;
 using System.Threading.Tasks;
 
 namespace iTest.Web.Areas.Users.Controllers
@@ -20,14 +19,14 @@ namespace iTest.Web.Areas.Users.Controllers
 
         public UserTestController(IAdminTestService testsServices, IAdminCategoryService categories, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
         {
-            this.testsServices = testsServices ?? throw new ArgumentNullException(nameof(testsServices));
-            this.categories = categories ?? throw new ArgumentNullException(nameof(categories));
-            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-            this.toastr = toastr ?? throw new ArgumentNullException(nameof(toastr));
+            this.testsServices = testsServices;
+            this.categories = categories;
+            this.mapper = mapper;
+            this.userManager = userManager;
+            this.toastr = toastr;
         }
 
-        public async Task<IActionResult> AllAsync()
+        public async Task<IActionResult> All()
             => await Task.Run(() => View());
 
         public async Task<IActionResult> AllByCategoryAsync(Category category)

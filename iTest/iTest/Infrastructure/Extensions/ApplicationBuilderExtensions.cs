@@ -1,5 +1,5 @@
 ﻿using iTest.Data;
-using iTest.Data.Models.Implementations;
+using iTest.Data.Models;
 using iTest.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
