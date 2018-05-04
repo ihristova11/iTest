@@ -1,7 +1,6 @@
 ﻿using iTest.Data.Models;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.User.Contracts;
-using iTest.Web.Areas.Admin.Models.Tests;
 using iTest.Web.Areas.Users.Controllers.Abstract;
 using iTest.Web.Areas.Users.Models;
 using Microsoft.AspNetCore.Identity;
@@ -53,7 +52,7 @@ namespace iTest.Web.Areas.Users.Controllers
             var test = this.tests.FindByNameAsync(id);
             model.Test = this.mapper.MapTo<UserTestDetailsViewModel>(test);
 
-            model.Questions = this.mapper.ProjectTo<QuestionViewModel>(test.Questions).ToList();
+            // model.Questions = this.mapper.ProjectTo<QuestionViewModel>(test.Questions).ToList();
 
             return await Task.Run(() => View());
         }
