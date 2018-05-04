@@ -6,7 +6,7 @@
 
                 data.Name = $("#test-name").val();
                 data.RequestedTime = $("#test-time").val();
-                data.Category = $("#Category").find(":selected").text();
+                data.CategoryName = $("#CategoryName").find(":selected").text();
                 data.Status = "Published";
                 data.Questions = [];
 

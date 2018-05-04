@@ -17,14 +17,16 @@ namespace iTest.Services.Data.Admin.Implementations
         private readonly IMappingProvider mapper;
         private readonly IRepository<Test> tests;
         private readonly IRepository<Question> questions;
+        private readonly IRepository<Category> categories;
         private readonly ISaver saver;
 
-        public AdminTestService(IMappingProvider mapper, IRepository<Test> tests, IRepository<Question> questions, ISaver saver)
+        public AdminTestService(IMappingProvider mapper, IRepository<Test> tests, IRepository<Question> questions, IRepository<Category> categories, ISaver saver)
         {
             this.mapper = mapper;
             this.tests = tests;
             this.questions = questions;
             this.saver = saver;
+            this.categories = categories;
         }
 
         public async Task<IEnumerable<TestDTO>> AllByAuthorAsync(string authorId)
@@ -56,6 +58,7 @@ namespace iTest.Services.Data.Admin.Implementations
         public void Create(TestDTO dto)
         {
             var model = this.mapper.MapTo<Test>(dto);
+            model.Category = this.categories.All.SingleOrDefault(x => x.Name == dto.CategoryName);
             this.tests.Add(model);
             this.saver.SaveChanges();
         }

@@ -27,7 +27,7 @@ namespace iTest.Web.Areas.Admin.Models
         public IEnumerable<SelectListItem> Categories { get; set; }
         
         [DataType(DataType.Text)]
-        public string Category { get; set; }
+        public string CategoryName { get; set; }
 
         [DataType(DataType.Text)]
         public string Status { get; set; }
