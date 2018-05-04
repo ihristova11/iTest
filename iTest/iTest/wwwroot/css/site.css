@@ -41,3 +41,17 @@ a img .logo {
     left: 15px;
     background-size: contain;
 }
+
+#accordion .ui-accordion-header {
+    background-color: #ccc;
+    margin: 0px;
+}
+
+#accordion .ui-accordion-header a {
+    color: #fff;
+    line-height: 42px;
+    display: block;
+    font-size: 12pt;
+    width: 100%;
+    text-indent: 10px;
+}

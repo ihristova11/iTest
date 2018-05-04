@@ -7,14 +7,15 @@
 
     @Html.Partial("_AddCssPartial");
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
-
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
-
-</head>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
+</head> 
 <body>
-    <nav class="navbar navbar-default navbar-collapse">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <a src="#"><img style="width: 23%; height: 23%;" id="logo" src="https://media.itkonekt.com/2018/02/endava-logo.png" alt="http://judge.telerikacademy.com/static/icons/logo.45f6419f360e.png" /></a>
@@ -27,6 +28,11 @@
                 </button>
             </div>
             <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @*<li><a asp-area="" asp-controller="Dashboard" asp-action="All">Dashboard</a></li>*@
+                    <li><a href="/Admin/Dashboard/Index">Dashboard</a></li>
+                    <li><a href="/Admin/ManageTest/Create">Create</a></li>
+                </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
@@ -63,8 +69,12 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
     @*<script src="js/test.js"></script>*@
     @RenderSection("Scripts", required: false)
 </body>

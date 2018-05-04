@@ -54,12 +54,12 @@ namespace iTest.Web.Areas.Admin.Controllers
                 var dto = this.mapper.MapTo<CategoryDTO>(model);
                 await this.categories.CreateAsync(dto);
                 this.toastr.AddSuccessToastMessage($"Category {model.Name} created successfully!");
-                return RedirectToAction("Index", "Tests", new { area = "admin" });
+                return RedirectToAction("Index", "Dashboard", new { area = "admin" });
             }
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit()
+        public async Task<IActionResult> Edit() // TODO FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         {
             return await Task.Run(() => View());
         }
@@ -73,17 +73,17 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             this.toastr.AddSuccessToastMessage($"Category {model.Name} updated successfully!");
 
-            return RedirectToAction("Index", "Tests", new { area = "admin" });
+            return RedirectToAction("Index", "Dashboard", new { area = "admin" });
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Delete(int id)
-        {
-            await this.categories.DeleteAsync(id);
+        //[HttpPost]
+        //public async Task<IActionResult> Delete(int id)
+        //{
+        //    await this.categories.DeleteAsync(id);
 
-            this.toastr.AddAlertToastMessage($"Category deleted successfully!");
+        //    this.toastr.AddAlertToastMessage($"Category deleted successfully!");
 
-            return this.RedirectToAction("Index", "AdminCategory");
-        }
+        //    return this.RedirectToAction("Index", "AdminCategory");
+        //}
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace iTest.Data.Repository.UnitsOfWork
+﻿namespace iTest.Data.UnitsOfWork
 {
     public interface ISaver
     {

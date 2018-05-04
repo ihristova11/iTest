@@ -1,6 +1,5 @@
 ﻿using iTest.Data.Models;
 using iTest.Data.Repository;
-using iTest.Data.Repository.UnitsOfWork;
 using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.User.Contracts;
@@ -9,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using iTest.Data.UnitsOfWork;
 
 namespace iTest.Services.Data.User.Implementations
 {
