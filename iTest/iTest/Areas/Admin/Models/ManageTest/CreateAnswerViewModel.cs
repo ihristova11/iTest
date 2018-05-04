@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace iTest.Web.Areas.Admin.Models
+namespace iTest.Web.Areas.Admin.Models.ManageTest
 {
     public class CreateAnswerViewModel
     {

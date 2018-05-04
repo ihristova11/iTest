@@ -1,11 +1,11 @@
 ﻿using iTest.Data.Models;
 using iTest.Data.Repository;
-using iTest.Data.Repository.UnitsOfWork;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using iTest.Data.UnitsOfWork;
 
 namespace iTest.Services.Data.Admin.Implementations
 {

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using iTest.Web.Areas.Admin.Models.CustomValidationAttributes;
 
-namespace iTest.Web.Areas.Admin.Models
+namespace iTest.Web.Areas.Admin.Models.ManageTest
 {
     public class CreateQuestionViewModel
     {

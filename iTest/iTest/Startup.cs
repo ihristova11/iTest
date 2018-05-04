@@ -2,7 +2,6 @@
 using iTest.Data;
 using iTest.Data.Models;
 using iTest.Data.Repository;
-using iTest.Data.Repository.UnitsOfWork;
 using iTest.Infrastructure.Providers;
 using iTest.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -13,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using iTest.Data.UnitsOfWork;
 
 namespace iTest.Web
 {
