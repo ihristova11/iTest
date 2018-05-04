@@ -2,7 +2,6 @@
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
 using iTest.Web.Areas.Admin.Controllers.Abstract;
-using iTest.Web.Areas.Admin.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using iTest.Data.Models;
+using iTest.Web.Areas.Admin.Models.ManageTest;
 
 namespace iTest.Web.Areas.Admin.Controllers
 {
@@ -67,17 +67,10 @@ namespace iTest.Web.Areas.Admin.Controllers
 
                 this.testService.Create(testDTO);
             }
-
-            //return this.RedirectToAction("Home", "ManageTest");
+            
             return Json(Url.Action("Home", "ManageTest", new { area = "Admin" }));
         }
-
-        // added to test view
-        [HttpGet]
-        [ActionName("Home")]
-        public async Task<IActionResult> Home()
-            => await Task.Run(() => View("Index"));
-
+        
         public async Task<IActionResult> PublishAsync()
             => await Task.Run(() => View());
 
