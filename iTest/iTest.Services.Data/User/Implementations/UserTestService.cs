@@ -64,5 +64,19 @@ namespace iTest.Services.Data.User.Implementations
 
             return this.mapper.MapTo<TestDTO>(test);
         }
+
+        public async Task<TestDTO> FindByNameAsync(int id)
+        {
+            var test = await this.tests
+                                  .All
+                                  .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (test == null)
+            {
+                throw new ArgumentException($"Test with name:{id} couldn't be found!");
+            }
+
+            return this.mapper.MapTo<TestDTO>(test);
+        }
     }
 }

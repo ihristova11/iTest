@@ -22,6 +22,11 @@ namespace iTest.Web.Infrastructure
                 .ForMember(q => q.Description, o => o.MapFrom((q => q.Description)))
                 .ForMember(q => q.Answers, o => o.MapFrom(q => q.Answers));
 
+            this.CreateMap<QuestionViewModel, QuestionDTO>()
+                .ForMember(q => q.Description, o => o.MapFrom((q => q.Description)))
+                .ForMember(q => q.Answers, o => o.MapFrom(q => q.Answers))
+                .ForMember(q => q.IsCorrect, o => o.MapFrom(q => q.IsCorrect));
+
             this.CreateMap<CreateAnswerViewModel, AnswerDTO>()
                 .ForMember(a => a.Description, o => o.MapFrom(a => a.Description));
 
@@ -32,8 +37,9 @@ namespace iTest.Web.Infrastructure
             // User View
             this.CreateMap<UserTestViewModel, TestDTO>(MemberList.Source);
             this.CreateMap<UserCategoryViewModel, CategoryDTO>(MemberList.Source);
+            this.CreateMap<UserTestDetailsViewModel, CategoryDTO>(MemberList.Source);
 
-           
+
             // DTO
             this.CreateMap<TestDTO, Test>(MemberList.Source);
             this.CreateMap<CategoryDTO, Category>(MemberList.Source);

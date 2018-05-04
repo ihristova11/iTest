@@ -1,0 +1,92 @@
+﻿@using iTest.Web.Areas.Users.Models
+@model UserTestDetailsViewModel
+@{
+    ViewData["Title"] = "Model.Name";
+}
+
+<!-- Modal -->
+<div id="delete" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Are you sure?</h4>
+            </div>
+            <div class="modal-body">
+                <p>You are about to delete this test, are you sure?</p>
+            </div>
+            <div class="modal-footer">
+                <form asp-controller="UserTests" asp-action="Delete" method="post">
+                    @*<input type="hidden" name="Name" value="@Model.Name" />*@
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div id="update" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update details</h4>
+            </div>
+            <form asp-controller="UserTests" asp-action="Update" method="post">
+                <div class="modal-body">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label name="Title" class=""></label>
+                        <input name="Title" class="form-control" value="@Model.Name" />
+                        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="Id" value="@Model.Name" />
+                    <button type="submit" class="btn btn-info">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<hr />
+
+<p style="white-space: pre-line">
+    @Model.Questions
+</p>
+<hr />
+<h4>Questions</h4>
+@if (@Model.Questions.Count() == 0)
+{
+    @if (this.User.Identity.IsAuthenticated)
+    {
+        <p>There are no comments yet. Care to write one?</p>
+    }
+    else
+    {
+        <p>There are no comments yet. Login to write one.</p>
+    }
+}
+<form action="/users/usertests/create/" method="post">
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label></label>
+        <textarea name="content" class="form-control" rows="5"></textarea>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+<br />
+@if (@Model.Questions.Count() != 0)
+{
+    foreach (var question in Model.Questions)
+    {
+        <div>
+            <p>@question.Description</p>
+        </div>
+    }
+}
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

@@ -18,13 +18,13 @@
                 if (category.Name == "Java")
                 {
                     <li class="nav-item">
-                        <a class="nav-link active" href="#java">Java</a>
+                        <a class="nav-link active" href="#@category.Id">@category.Name</a>
                     </li>
                 }
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link" href="#@category.Name">@category.Name</a>
+                        <a class="nav-link active" href="#@category.Id">@category.Name</a>
                     </li>
                 }
             }
@@ -37,7 +37,8 @@
             @foreach (var test in Model.Tests)
             {
                 <div class="tab-pane container active" id=@test.Name>
-                    <a asp-area="User" asp-controller="Usertests" asp-action="Details/@test.Id" method="get" class="btn btn-success pull-right">Start</a>
+                    <label>@test.Name</label>
+                    <a asp-area="Users" asp-controller="UserTests" asp-action="Details/@test.Id" method="get" class="btn btn-sm pull-right">Start</a>
                 </div>
             }
         }

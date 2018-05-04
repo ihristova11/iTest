@@ -11,5 +11,7 @@ namespace iTest.Services.Data.User.Contracts
         IEnumerable<TestDTO> GetRandomTest(int count = 1);
 
         Task<TestDTO> FindByNameAsync(string name);
+
+        Task<TestDTO> FindByNameAsync(int id);
     }
 }
