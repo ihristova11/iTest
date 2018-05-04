@@ -40,17 +40,7 @@ namespace iTest.Web.Areas.Admin.Controllers
                 Categories = await this.GetCategoriesAsync()
             });
         }
-
-        //public IActionResult CreateQuestion()
-        //{
-        //    return PartialView("_CreateQuestion");
-        //}
-
-        //public IActionResult CreateAnswer()
-        //{
-        //    return PartialView("_CreateAnswer");
-        //}
-
+        
         [HttpGet]
         //[Authorize]
         //[ValidateAntiForgeryToken]
@@ -64,39 +54,7 @@ namespace iTest.Web.Areas.Admin.Controllers
         {
             return PartialView("_CreateAnswer", model);
         }
-
-        //[HttpPost]
-        //public async Task<IActionResult> Create(CreateTestViewModel model)
-        //{
-        //    if (!this.ModelState.IsValid)
-        //    {
-        //        model.Categories = await this.GetCategoriesAsync();
-        //        return View("CreateTest", model);
-        //    }
-
-        //    var test = this.testServices.ExistsByNameAsync(model.Name);
-
-        //    if (!(await test))
-        //    {
-        //        //var dto = new TestDTO
-        //        //{
-        //        //    Name = model.Name,
-        //        //    RequestedTime = model.RequestedTime,
-        //        //    AuthorId = model.AuthorId = this.userManager.GetUserId(this.HttpContext.User), // TODO required??
-        //        //    Category = model.Category,
-        //        //    Questions = this.mapper.MapTo<ICollection<QuestionDTO>>(model.Questions)
-        //        //};
-
-        //        var dto = this.mapper.MapTo<TestDTO>(model);
-
-        //        await this.testServices.CreateAsync(dto);
-        //    }
-
-        //    this.toastr.AddSuccessToastMessage($"Test {model.Name} created successfully!");
-
-        //    return this.Redirect("/admin/");
-        //}
-
+        
         [HttpPost]
         public IActionResult SaveTest([FromBody] CreateTestViewModel testViewModel)
         {
