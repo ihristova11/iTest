@@ -1,7 +1,5 @@
 ﻿$(document).ready(function () {
-    $('#example').DataTable();
+    $('.tests').DataTable();
+    $('.results').DataTable();
+
 });
-
-$(function() {
-
-})
