@@ -6,8 +6,7 @@
 
                 data.Name = $("#test-name").val();
                 data.RequestedTime = $("#test-time").val();
-                data.CategoryName = $("#CategoryName").find(":selected").text();
-                data.Status = "Published";
+                data.CategoryName = $("#category-name").val();
                 data.Questions = [];
 
                 let allQuestionHolders = $(".question-holder");
@@ -55,21 +54,4 @@
                 })
             }
         });
-
-    
-
-    $('#question-container').on("click",
-        '.delete-answer-btn',
-        (e) => {
-            let buttonClicked = $(e.target);
-            let answerContent = buttonClicked.closest(".answer-content");
-            answerContent.remove();
-            IncrementAnswers();
-        });
-
-    // Accordion init
-    $("#question-container").accordion({
-        heightStyle: "content",
-        collapsible: true
-    });
 });

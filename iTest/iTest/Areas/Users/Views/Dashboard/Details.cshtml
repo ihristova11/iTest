@@ -14,9 +14,10 @@
     </div>
     <div class="row">
         <div class="form-group col-xs-4 col-md-4">
-            <h6>Category: @Model.CategoryName</h6>
+            <h6 id="category-name">Category: @Model.CategoryName</h6>
             <span asp-validation-for="@Model.CategoryName" class="text-danger"></span>
         </div>
+        <!--Timer-->
         <div class="col-md-2 pull-right" id="display">
         </div>
     </div>
@@ -76,11 +77,6 @@
     </div>
 </div>
 
-
-@section Scripts {
-    @Html.Partial("_ValidationScriptsPartial")
-}
-
 <script>
     function CountDown(duration, display) {
         if (!isNaN(duration)) {
@@ -110,3 +106,8 @@
 
     CountDown(5000, $('#display'));
 </script>
+@section Scripts {
+    @Html.Partial("_ValidationScriptsPartial")
+    <script src="~/js/take-test.js"></script>
+}
+
