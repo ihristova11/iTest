@@ -66,7 +66,7 @@ namespace iTest.Web.Controllers
 
                     if (await this._userManager.IsInRoleAsync(user, "Admin"))
                     {
-                        return RedirectToAction("Index", "AdminTests", new { area = "admin" });
+                        return RedirectToAction("Index", "Dashboard", new { area = "admin" });
                     }
                     else
                     {
