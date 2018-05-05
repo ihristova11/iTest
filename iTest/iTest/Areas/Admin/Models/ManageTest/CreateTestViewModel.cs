@@ -1,14 +1,14 @@
-﻿using iTest.Data.Models.Enums;
-using iTest.DTO;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using iTest.Web.Areas.Admin.Models.CustomValidationAttributes;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace iTest.Web.Areas.Admin.Models.Tests
+namespace iTest.Web.Areas.Admin.Models.ManageTest
 {
     public class CreateTestViewModel
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Test's name must be entered!")]
         [StringLength(30, MinimumLength = 4, ErrorMessage = "Test name's length must be at least 4 and maximum 50 symbols!")]
         public string Name { get; set; }
@@ -17,21 +17,20 @@ namespace iTest.Web.Areas.Admin.Models.Tests
         [Range(10, 120, ErrorMessage = "Test's duration must be atleast 10 minutes and maximum 2 hours!")]
         public int RequestedTime { get; set; }
 
-        public string Author { get; set; }
-
-        [Required(ErrorMessage = "Test's category must be specified!")]
-        public CategoryDTO Category { get; set; }
+        [DataType(DataType.Text)]
+        public string AuthorId { get; set; }
 
         public IEnumerable<SelectListItem> Categories { get; set; }
 
-        public Status Status { get; set; }
+        [Required(ErrorMessage = "Test's category must be specified!")]
+        [DataType(DataType.Text)]
+        public string CategoryName { get; set; }
+
+        [DataType(DataType.Text)]
+        public string Status { get; set; }
 
         [Required(ErrorMessage = "Questions to your Test must be added!")]
         [CollectionCount(1, ErrorMessage = "Add at least one question to your Test!")]
-        public List<CreateQuestionViewModel> Questions { get; set; }
-
-        //[DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        //public DateTime? CreatedOn { get; set; }
+        public ICollection<CreateQuestionViewModel> Questions { get; set; }
     }
 }

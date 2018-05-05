@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using iTest.Data.Models.Abstract;
 
 namespace iTest.Data.Models
 {
-    public class UserTest
+    public class UserTest : DataModel
     {
         public string UserId { get; set; }
 
