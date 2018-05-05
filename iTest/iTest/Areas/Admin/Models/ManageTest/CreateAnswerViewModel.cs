@@ -12,6 +12,7 @@ namespace iTest.Web.Areas.Admin.Models.ManageTest
         [DataType(DataType.Text)]
         public string Description { get; set; }
 
+        [Required]
         public bool IsCorrect { get; set; }
     }
 }
