@@ -73,29 +73,14 @@ namespace iTest.Web.Areas.Users.Controllers
         [HttpPost]
         public IActionResult Details(UserTestDetailsViewModel model)
         {
+            if (model.ResultStatus != ResultStatus.Default)
+            {
+                return this.RedirectToAction("Index", "Dashboard");
+            }
+
             model.SubmittedOn = DateTime.Now;
             model.ExecutionTime = model.SubmittedOn.Subtract(model.StartedOn);
 
-            var allowedTimeInSeconds = model.ExecutionTime.TotalSeconds;
-
-            //var startedTest = this.tests.MapStartedTestData(model.UserId, model.TestId);
-
-            //startedTest.UserId = user.Id;
-            //startedTest.TestId = test.Id;
-            //startedTest.Duration = TimeSpan.FromMinutes(test.RequiredTime);
-            //startedTest.CategoryName = test.Category.Name;
-            //startedTest.TimeLeft = TimeSpan.FromMinutes(test.RequiredTime) - (DateTime.Now.Subtract(takenTest.StartOn));
-            //Questions = mapper.ProjectTo<QuestionViewModel>(test.Questions.AsQueryable()).ToList();
-
-            //if (startedTest.ResultStatus != ResultStatus.Default)
-            //{
-            //    return this.RedirectToAction("Index", "Dashboard");
-            //}
-
-            //startedTest.StartedOn = DateTime.Now;
-
-            //var model = new UserTestDetailsViewModel();
-            //model = this.mapper.MapTo<UserTestDetailsViewModel>(startedTest);
             var countCorrectQuestions = 0;
 
             foreach (var question in model.Questions)
