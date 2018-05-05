@@ -24,18 +24,18 @@
 
     <hr />
 
-    <div class="row">
+    <div class="row" id="question-container">
         <div class="panel panel-default" id="questions">
             @foreach (var question in Model.Questions)
             {
                 <div class="panel-body">
                     <p>@question.Description</p>
                     <div class="row-md-2">
-                        <div class="answers">
+                        <div class="allAnswers">
                             @foreach (var answer in question.Answers)
                             {
                                 <div class="form-group has-feedback">
-                                    <input asp-for="@Model.Questions" type="radio" value="@answer.Id">
+                                    <input asp-for="@Model.Questions" type="radio" name="answers" value="@answer.Id">
                                     <label>@answer.Description</label>
                                 </div>
                             }
@@ -70,7 +70,7 @@
                     <input asp-for="@Model.ExecutionTime" type="hidden" value="@Model.ExecutionTime">
                     <input asp-for="@Model.Questions" type="hidden" value="@Model.Questions">
                     <input asp-for="@Model.ResultStatus" type="hidden" value="@Model.ResultStatus">
-                    <button type="submit" class="btn btn-danger">Confirm</button>
+                    <input type="button" name="Confirm" value="Confirm" id="confirm-btn" class="btn btn-primary" />
                 </form>
             </div>
         </div>

@@ -1,5 +1,5 @@
 ﻿$(function () {
-    $("#publish-btn").on("click",
+    $("#confirm-btn").on("click",
         () => {
             if ($("#test-form").valid()) {
                 let data = {};
@@ -9,36 +9,17 @@
                 data.CategoryName = $("#category-name").val();
                 data.Questions = [];
 
-                let allQuestionHolders = $(".question-holder");
+                let question = {};
+                question.Answers = [];
 
-                $.each(allQuestionHolders,
-                    (i, q) => {
-                        let $q = $(q);
-                        let question = {};
-
-                        let qContent = $q.find(".question-content .summernote").summernote("code")
-                            .replace(/<\/?[^>]+(>|$)/g, "");
-
-                        question.Description = qContent;
-                        question.Answers = [];
-
-                        let qAnswers = $q.find(".answer-holder .answer-content");
-
-                        $.each(qAnswers,
-                            (i, a) => {
-                                let $a = $(a);
-                                let answer = {};
-                                answer.Description =
-                                    $a.find(".summernote").summernote("code").replace(/<\/?[^>]+(>|$)/g, "");
-                                if ($a.find(".correct-answer-cb").is(":checked")) {
-                                    answer.IsCorrect = true;
-                                }
-
-                                question.Answers.push(answer);
-                            });
-
-                        data.Questions.push(question);
-                    });
+                var answers = document.getElementsByName('answers');
+                for (var i = 0; i < answers.length; i++) {
+                    if (answers[i].checked) {
+                        if (answer.IsCorrect = true) {
+                            question.Answers.push(answer);
+                        }
+                    }
+                }
 
                 $.ajax({
                     url: "/Users/Dashboard/Details",
