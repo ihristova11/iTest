@@ -6,7 +6,7 @@
 
                 data.Name = $("#test-name").val();
                 data.RequestedTime = $("#test-time").val();
-                data.Category = $("#Category").find(":selected").text();
+                data.CategoryName = $("#CategoryName").find(":selected").text();
                 data.Status = "Published";
                 data.Questions = [];
 
@@ -56,7 +56,63 @@
             }
         });
 
-    // Add and delete questions
+    $("#draft-btn").on("click",
+        () => {
+            if ($("#test-form").valid()) {
+                let data = {};
+
+                data.Name = $("#test-name").val();
+                data.RequestedTime = $("#test-time").val();
+                data.CategoryName = $("#CategoryName").find(":selected").text();
+                data.Status = "Draft";
+                data.Questions = [];
+
+                let allQuestionHolders = $(".question-holder");
+
+                $.each(allQuestionHolders,
+                    (i, q) => {
+                        let $q = $(q);
+                        let question = {};
+
+                        let qContent = $q.find(".question-content .summernote").summernote("code")
+                            .replace(/<\/?[^>]+(>|$)/g, "");
+
+                        question.Description = qContent;
+                        question.Answers = [];
+
+                        let qAnswers = $q.find(".answer-holder .answer-content");
+
+                        $.each(qAnswers,
+                            (i, a) => {
+                                let $a = $(a);
+                                let answer = {};
+                                answer.Description =
+                                    $a.find(".summernote").summernote("code").replace(/<\/?[^>]+(>|$)/g, "");
+                                if ($a.find(".correct-answer-cb").is(":checked")) {
+                                    answer.IsCorrect = true;
+                                }
+
+                                question.Answers.push(answer);
+                            });
+
+                        data.Questions.push(question);
+                    });
+
+                $.ajax({
+                    url: "/Admin/ManageTest/SaveTest",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: (response) => {
+                        window.location.href = response;
+                    },
+                    error: (err) => {
+                        console.log(err);
+                    }
+                })
+            }
+        });
+
     let $accordion = $("#question-container");
 
     $('#add-question-btn').on("click",
@@ -69,8 +125,9 @@
                     $accordion.append(html);
                     IncrementAnswers();
                     IncrementQuestions();
-                    $accordion.accordion("refresh")
-                    $accordion.accordion("option", "active", ($accordion.children("div").length - 1))
+                    // get all radio buttons -> $('.answer-holder').children('.answer-content').children('.row').children('.text-right').children().attr('name', 'irina')
+                    $accordion.accordion("refresh");
+                    $accordion.accordion("option", "active", ($accordion.children("div").length - 1));
                     summernoteInit();
                 },
                 error: function (err) {
@@ -91,7 +148,7 @@
             IncrementQuestions();
         });
 
-    // Add and delete answers
+
     $('#question-container').on("click",
         '.add-answer-btn',
         (e) => {
@@ -121,14 +178,14 @@
             IncrementAnswers();
         });
 
-    // Accordion init
+
     $("#question-container").accordion({
         heightStyle: "content",
         collapsible: true
     });
 });
 
-// Summernote.js init
+
 function summernoteInit() {
     $(".summernote").summernote({
         height: 150,
@@ -152,7 +209,7 @@ function summernoteInit() {
 
 summernoteInit();
 
-// Answers and questions number incrementation
+
 function IncrementAnswers() {
 
     let $answerHolders = $(".answer-holder");

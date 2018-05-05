@@ -23,7 +23,10 @@ namespace iTest.Data
         private static async Task InsertTestData(iTestDbContext context)
         {
             if (context.Categories.Any())
+            {
                 return;
+            }
+
             var categoryNET = new Category() { Name = ".NET", CreatedOn = DateTime.Now };
             var categoryJava = new Category() { Name = "Java", CreatedOn = DateTime.Now };
             var categoryJs = new Category() { Name = "JavaScript", CreatedOn = DateTime.Now };

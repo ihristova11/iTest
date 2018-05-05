@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace iTest.Web.Areas.Admin.Models
+namespace iTest.Web.Areas.Admin.Models.ManageTest
 {
     public class CreateAnswerViewModel
     {
@@ -12,6 +12,7 @@ namespace iTest.Web.Areas.Admin.Models
         [DataType(DataType.Text)]
         public string Description { get; set; }
 
+        [Required]
         public bool IsCorrect { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using iTest.Data.Models;
-using iTest.Data.Models.Enums;
+﻿using iTest.Data.Models.Enums;
 using System.Collections.Generic;
 
 namespace iTest.DTO
@@ -16,7 +15,7 @@ namespace iTest.DTO
 
         public Status Status { get; set; }
 
-        public CategoryDTO Category { get; set; }
+        public string CategoryName { get; set; }
 
         public string AuthorId { get; set; }
 

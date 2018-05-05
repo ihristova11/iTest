@@ -227,7 +227,25 @@ namespace iTest.Data.Migrations
 
                     b.Property<int>("TestId");
 
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<TimeSpan>("ExecutionTime");
+
+                    b.Property<int>("Id");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("IsPassed");
+
+                    b.Property<DateTime?>("ModifiedOn");
+
+                    b.Property<DateTime>("StartedOn");
+
                     b.HasKey("UserId", "TestId");
+
+                    b.HasAlternateKey("Id");
 
                     b.HasIndex("TestId");
 
