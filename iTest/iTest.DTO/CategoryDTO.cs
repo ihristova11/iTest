@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using iTest.Data.Models.Implementations;
+﻿using iTest.Data.Models;
+using System.Collections.Generic;
 
 namespace iTest.DTO
 {

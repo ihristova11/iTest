@@ -1,5 +1,5 @@
 ﻿using iTest.Data;
-using iTest.Data.Models.Implementations;
+using iTest.Data.Models;
 using iTest.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -47,7 +47,7 @@ namespace iTest.Web.Infrastructure.Extensions
                     }
 
                     // create admin
-                    var admin = await userManager.FindByNameAsync("admin@test.com");
+                    var admin = await userManager.FindByNameAsync("admin");
 
                     if (admin == null)
                     {
@@ -59,6 +59,21 @@ namespace iTest.Web.Infrastructure.Extensions
                         await userManager.CreateAsync(admin, "admin12");
 
                         await userManager.AddToRoleAsync(admin, UserRoles.AdminRole);
+                    }
+
+                    // create test user
+                    var user = await userManager.FindByNameAsync("John");
+
+                    if (user == null)
+                    {
+                        user = new User
+                        {
+                            UserName = "John"
+                        };
+
+                        await userManager.CreateAsync(user, "user12");
+
+                        await userManager.AddToRoleAsync(user, UserRoles.UserRole);
                     }
                 })
                 .Wait();

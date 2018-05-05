@@ -1,13 +1,13 @@
-﻿using iTest.Data.Models.Implementations;
-using iTest.Data.Repository.Contracts;
+﻿using iTest.Data.Models;
+using iTest.Data.Repository;
 using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using iTest.Data.UnitsOfWork;
 
 namespace iTest.Services.Data.Admin.Implementations
 {
@@ -15,92 +15,89 @@ namespace iTest.Services.Data.Admin.Implementations
     {
         private readonly IMappingProvider mapper;
         private readonly IRepository<Category> categories;
+        private readonly IRepository<Test> tests;
         private readonly ISaver saver;
 
-        public AdminCategoryService(IMappingProvider mapper, IRepository<Category> categories, ISaver saver)
+        public AdminCategoryService(IMappingProvider mapper, IRepository<Category> categories, IRepository<Test> tests, ISaver saver)
         {
-            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            this.categories = categories ?? throw new ArgumentNullException(nameof(categories));
-            this.saver = saver ?? throw new ArgumentNullException(nameof(saver));
+            this.mapper = mapper;
+            this.categories = categories;
+            this.tests = tests;
+            this.saver = saver;
         }
-        public async Task<IEnumerable<CategoryDTO>> AllAsync()
-        {
-            var categories = await this.categories
+
+        public async Task<IEnumerable<Category>> AllAsync()
+            => await this.categories
                                   .All
                                   .ToListAsync();
 
-            if (!categories.Any())
-            {
-                throw new ArgumentException($"No categories created yet! Please create one first!");
-            }
-
-            return this.mapper.ProjectTo<CategoryDTO>(categories);
-        }
-
-        public async Task<CategoryDTO> FindByNameAsync(string name)
+        public async Task<CategoryDTO> FindByIdAsync(int id)
         {
             var category = await this.categories
-                                  .All
-                                  .FirstOrDefaultAsync(x => x.Name == name);
+                                            .All
+                                            .FirstOrDefaultAsync(x => x.Id == id);
 
             if (category == null)
             {
-                throw new ArgumentException($"Category with name:{name} couldn't be found!");
+                throw new ArgumentException($"Category with id:{id} couldn't be found!");
             }
 
             return this.mapper.MapTo<CategoryDTO>(category);
         }
 
+        public async Task<bool> ExistsByNameAsync(string name)
+        {
+            return await this.categories.All.AnyAsync(x => x.Name == name);
+        }
+
         public async Task CreateAsync(CategoryDTO dto)
         {
-            var category = this.mapper.MapTo<Category>(dto);
+            var category = await this.categories.All.SingleOrDefaultAsync(x => x.Id == dto.Id);
 
-            this.categories.Add(category);
-            await this.saver.SaveChangesAsync();
+            if (category != null)
+            {
+                throw new ArgumentException($"{dto.Name} already exits!");
+            }
+
+            var model = this.mapper.MapTo<Category>(dto);
+            this.categories.Add(model);
+            this.saver.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(CategoryDTO dto)
         {
-            var category = await this.categories.All.SingleAsync(x => x.Id == dto.Id);
+            var category = await this.categories.All.SingleOrDefaultAsync(x => x.Id == dto.Id);
 
             if (category == null)
             {
-                throw new ArgumentException($"Category with name:{dto.Name} was not found!");
+                throw new ArgumentException($"{dto.Name} was not found!");
             }
 
+            // do not map! otherwise a new instance will be created in db
+            category.Name = dto.Name;
+            category.Tests = dto.Tests;
+
             this.categories.Update(category);
-            await this.saver.SaveChangesAsync();
-        }
-
-
-        public async Task PublishAsync(CategoryDTO dto)
-        {
-            var model = this.mapper.MapTo<Category>(dto);
-            this.categories.Add(model);
-            await this.saver.SaveChangesAsync();
+            this.saver.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
-            var category = await this.categories.All.SingleAsync(x => x.Id == id);
+            var category = await this.categories.All.SingleOrDefaultAsync(x => x.Id == id);
 
             if (category == null)
             {
-                throw new ArgumentException($"Category with id:{id} was not found!");
+                throw new ArgumentException($"Test with id:{id} was not found!");
             }
 
             this.categories.Delete(category);
-            await this.saver.SaveChangesAsync();
-        }
 
-        public async Task<bool> ExistsByIdAsync(int id)
-        {
-            return await this.categories.All.AnyAsync(x => x.Id == id);
-        }
+            foreach (var test in category.Tests)
+            {
+                this.tests.Delete(test);
+            }
 
-        public async Task<bool> ExistsByNameAsync(string name)
-        {
-            return await this.categories.All.AnyAsync(x => x.Name == name);
+            this.saver.SaveChangesAsync();
         }
     }
 }

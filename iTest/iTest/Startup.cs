@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using iTest.Data;
-using iTest.Data.Models.Implementations;
-using iTest.Data.Repository.Contracts;
-using iTest.Data.Repository.Implementations;
+using iTest.Data.Models;
+using iTest.Data.Repository;
 using iTest.Infrastructure.Providers;
 using iTest.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -13,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using iTest.Data.UnitsOfWork;
 
 namespace iTest.Web
 {
@@ -39,6 +39,8 @@ namespace iTest.Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseDatabaseMigration(); // auto migrations
+
+            //DataSeeder.InitializeAsync(app.ApplicationServices).Wait();
 
             if (env.IsDevelopment())
             {
@@ -83,7 +85,6 @@ namespace iTest.Web
                 {
                     // Password settings
                     options.Password.RequireDigit = false;
-                    options.Password.RequiredLength = 3;
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
                     options.Password.RequireLowercase = false;
@@ -114,6 +115,7 @@ namespace iTest.Web
             services.AddScoped<IMappingProvider, MappingProvider>();
 
             services.AddMvc().AddNToastNotifyNoty(); // toastr
+            services.AddAntiforgery(options => options.HeaderName = "__RequestVerificationToken");
         }
 
         private void RegisterData(IServiceCollection services)

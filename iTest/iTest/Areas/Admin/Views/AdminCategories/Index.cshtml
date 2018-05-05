@@ -1,0 +1,35 @@
+﻿@using iTest.Web.Areas.Admin.Models.Categories
+@model IEnumerable<AdminCategoryViewModel>
+@{
+    ViewData["Title"] = "Categories Panel";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>
+                    <form asp-controller="Categories" asp-action="Index" method="post">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="hidden" name="CategoryId" value="@category.Id" />
+                            </div>
+                            <div class="col-md-4">
+                                <input class="btn btn-sm btn-info" type="submit" value="Edit" />
+                            </div>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
