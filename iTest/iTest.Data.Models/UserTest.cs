@@ -12,11 +12,11 @@ namespace iTest.Data.Models
         public int TestId { get; set; }
         public Test Test { get; set; }
 
-        public int ExecutionTime { get; set; }
+        public int RequestedTime { get; set; }
 
         public DateTime StartedOn { get; set; }
 
-        public TimeSpan ExecutedTime { get; set; }
+        public TimeSpan ExecutionTime { get; set; }
 
         public ResultStatus ResultStatus { get; set; }
     }

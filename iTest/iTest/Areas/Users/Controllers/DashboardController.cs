@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace iTest.Web.Areas.Users.Controllers
 {
@@ -58,31 +57,29 @@ namespace iTest.Web.Areas.Users.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Details(int id)
         {
             var model = new UserTestDetailsViewModel();
 
             var test = this.tests.FindById(id);
 
-            model.StartedOn = DateTime.Now;
-            model.CategoryName = test.Category.Name;
-
             model = this.mapper.MapTo<UserTestDetailsViewModel>(test);
+            model.CategoryName = test.Category.Name;
+            model.StartedOn = DateTime.Now;
 
-            return await Task.Run(() => View(model));
+            return View(model);
         }
 
         [HttpPost]
         public IActionResult Details(UserTestDetailsViewModel model)
         {
             model.SubmittedOn = DateTime.Now;
-            model.ExecutedTime = model.SubmittedOn.Subtract(model.StartedOn);
+            model.ExecutionTime = model.SubmittedOn.Subtract(model.StartedOn);
 
-            var allowedTimeInSeconds = model.ExecutedTime.TotalSeconds;
+            var allowedTimeInSeconds = model.ExecutionTime.TotalSeconds;
 
             //var startedTest = this.tests.MapStartedTestData(model.UserId, model.TestId);
 
-            //startedTest.StartedOn = DateTime.Now;
             //startedTest.UserId = user.Id;
             //startedTest.TestId = test.Id;
             //startedTest.Duration = TimeSpan.FromMinutes(test.RequiredTime);

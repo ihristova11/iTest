@@ -16,7 +16,7 @@ namespace iTest.Web.Areas.Users.Models.Details
 
         public ResultStatus ResultStatus { get; set; }
 
-        public TimeSpan ExecutedTime { get; set; }
+        public TimeSpan ExecutionTime { get; set; }
 
         public IEnumerable<UserQuestionViewModel> Questions { get; set; }
     }
