@@ -69,7 +69,7 @@ namespace iTest.Web.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "UserTests", new { area = "users" });
+                        return RedirectToAction("Index", "Dashboard", new { area = "users" });
                     }
                 }
                 if (result.RequiresTwoFactor)

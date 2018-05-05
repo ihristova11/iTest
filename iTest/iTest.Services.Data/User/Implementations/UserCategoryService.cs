@@ -1,5 +1,6 @@
 ﻿using iTest.Data.Models;
 using iTest.Data.Repository;
+using iTest.Data.UnitsOfWork;
 using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.User.Contracts;
@@ -7,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using iTest.Data.UnitsOfWork;
 
 namespace iTest.Services.Data.User.Implementations
 {
@@ -28,9 +28,9 @@ namespace iTest.Services.Data.User.Implementations
 
         public IEnumerable<CategoryDTO> All()
         {
-            var allCategories = this.categories.All;
+            var categories = this.categories.All;
 
-            return this.mapper.ProjectTo<CategoryDTO>(allCategories);
+            return this.mapper.ProjectTo<CategoryDTO>(categories);
         }
 
         public async Task<bool> ExistsByNameAsync(string name)

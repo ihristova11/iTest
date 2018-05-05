@@ -6,11 +6,12 @@ using iTest.Web.Areas.Users.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace iTest.Web.Areas.Users.Controllers
 {
-    public class UserTestsController : UserController
+    public class DashboardController : UserController
     {
         private readonly IUserTestService tests;
         private readonly IUserCategoryService categories;
@@ -18,7 +19,7 @@ namespace iTest.Web.Areas.Users.Controllers
         private readonly UserManager<User> userManager;
         private readonly IToastNotification toastr;
 
-        public UserTestsController(IUserTestService tests, IUserCategoryService categories, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
+        public DashboardController(IUserTestService tests, IUserCategoryService categories, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
         {
             this.tests = tests;
             this.categories = categories;
@@ -39,18 +40,26 @@ namespace iTest.Web.Areas.Users.Controllers
             var categories = this.categories.All();
             model.Categories = this.mapper.ProjectTo<UserCategoryViewModel>(categories);
 
-            var tests = this.tests.GetRandomTest(1);
-            model.Tests = this.mapper.ProjectTo<UserTestViewModel>(tests);
+            var tests = this.tests.All();
+            model.Tests = this.mapper.ProjectTo<UserTestViewModel>(categories);
 
+            foreach (var category in model.Categories)
+            {
+                var testsToAdd = this.tests.AllByCategory(category.Name);
+                if (testsToAdd.Any())
+                {
+                    category.Tests.AddRange(testsToAdd);
+                }
+            }
             return await Task.Run(() => View(model));
         }
 
         public async Task<IActionResult> Details(int id)
         {
-            var model = new DetailsViewModel();
+            var model = new UserTestDetailsViewModel();
 
-            var test = this.tests.FindByNameAsync(id);
-            model.Test = this.mapper.MapTo<UserTestDetailsViewModel>(test);
+            var test = this.tests.FindByIdAsync(id);
+            //model.Test = this.mapper.MapTo<UserTestDetailsViewModel>(test);
 
             // model.Questions = this.mapper.ProjectTo<QuestionViewModel>(test.Questions).ToList();
 

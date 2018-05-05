@@ -6,12 +6,12 @@ namespace iTest.Services.Data.User.Contracts
 {
     public interface IUserTestService
     {
-        Task<IEnumerable<TestDTO>> AllAsync();
+        IEnumerable<TestDTO> All();
 
-        IEnumerable<TestDTO> GetRandomTest(int count = 1);
+        IEnumerable<TestDTO> AllByCategory(string category);
 
         Task<TestDTO> FindByNameAsync(string name);
 
-        Task<TestDTO> FindByNameAsync(int id);
+        Task<TestDTO> FindByIdAsync(int id);
     }
 }

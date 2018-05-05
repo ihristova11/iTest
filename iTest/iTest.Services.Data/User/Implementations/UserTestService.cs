@@ -1,5 +1,6 @@
 ﻿using iTest.Data.Models;
 using iTest.Data.Repository;
+using iTest.Data.UnitsOfWork;
 using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.User.Contracts;
@@ -8,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using iTest.Data.UnitsOfWork;
 
 namespace iTest.Services.Data.User.Implementations
 {
@@ -16,37 +16,34 @@ namespace iTest.Services.Data.User.Implementations
     {
         private readonly IMappingProvider mapper;
         private readonly IRepository<Test> tests;
+        private readonly IRepository<Category> categories;
         private readonly ISaver saver;
 
-        public UserTestService(IMappingProvider mapper, IRepository<Test> tests, ISaver saver)
+        public UserTestService(IMappingProvider mapper, IRepository<Test> tests, IRepository<Category> categories, ISaver saver)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.tests = tests ?? throw new ArgumentNullException(nameof(tests));
+            this.categories = categories ?? throw new ArgumentNullException(nameof(categories));
             this.saver = saver ?? throw new ArgumentNullException(nameof(saver));
         }
 
-        public async Task<IEnumerable<TestDTO>> AllAsync()
+        public IEnumerable<TestDTO> All()
         {
-            var tests = await this.tests
-                                  .All
-                                  .ToListAsync();
-
-            if (!tests.Any())
-            {
-                throw new ArgumentException("No tests created yet! Please create one first!");
-            }
+            var tests = this.tests.All;
 
             return this.mapper.ProjectTo<TestDTO>(tests);
         }
 
-        public IEnumerable<TestDTO> GetRandomTest(int count = 1)
+        public IEnumerable<TestDTO> AllByCategory(string category)
         {
-            Random rnd = new Random();
+            //Random rnd = new Random();
 
             var tests = this.tests
                                 .All
-                                .OrderBy(x => rnd.Next())
-                                .Take(count);
+                                .Where(x => x.Category.Name == category);
+            //.OrderBy(x => rnd.Next())
+            //.Take(count)
+            //.FirstOrDefault();
 
             return this.mapper.ProjectTo<TestDTO>(tests);
         }
@@ -65,7 +62,7 @@ namespace iTest.Services.Data.User.Implementations
             return this.mapper.MapTo<TestDTO>(test);
         }
 
-        public async Task<TestDTO> FindByNameAsync(int id)
+        public async Task<TestDTO> FindByIdAsync(int id)
         {
             var test = await this.tests
                                   .All
