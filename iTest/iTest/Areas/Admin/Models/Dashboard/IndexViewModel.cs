@@ -1,4 +1,7 @@
-﻿namespace iTest.Web.Areas.Admin.Models.Dashboard
+﻿using iTest.Web.Areas.Users.Models.Dashboard;
+using System.Collections.Generic;
+
+namespace iTest.Web.Areas.Admin.Models.Dashboard
 {
     public class IndexViewModel
     {
@@ -6,6 +9,6 @@
 
         //public IList<TestViewModel> Tests { get; set; }
 
-        //public IList<UserTestViewModel> UserResults { get; set; }
+        public IList<UserTestViewModel> UserResults { get; set; }
     }
 }

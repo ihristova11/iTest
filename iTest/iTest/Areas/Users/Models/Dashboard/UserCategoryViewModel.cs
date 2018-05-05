@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace iTest.Web.Areas.Users.Models
+namespace iTest.Web.Areas.Users.Models.Dashboard
 {
     public class UserCategoryViewModel
     {

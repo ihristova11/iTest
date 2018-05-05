@@ -1,4 +1,4 @@
-﻿@using iTest.Web.Areas.Users.Models
+﻿@using iTest.Web.Areas.Users.Models.Dashboard
 @model UserDashboardViewModel
 
 @{
@@ -44,7 +44,7 @@
                             <label>
                                 @test.Name
                             </label>
-                            <a asp-route="/Users/UserTests/Details/@test.Id" method="get" class="btn btn-sm pull-right">Start</a>
+                            <a asp-controller="Dashboard" asp-action="Details" asp-route-id="@test.Id" method="get" class="btn btn-sm pull-right">Start</a>
                         }
                     </div>
                 }
@@ -60,7 +60,7 @@
                             <label>
                                 @test.Name
                             </label>
-                            <a asp-route="/Users/UserTests/Details/@test.Id" method="get" class="btn btn-sm pull-right">Start</a>
+                            <a asp-controller="Dashboard" asp-action="Details" asp-route-id="@test.Id" method="post" class="btn btn-sm pull-right">Start</a>
                         }
                     </div>
                 }
@@ -68,31 +68,6 @@
         </div>
     </div>
 </div>
-
-@*<h2>Dashboard</h2>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel with-nav-tabs panel-default">
-                <div class="panel-heading">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#1" data-toggle="tab">.NET</a></li>
-                        <li><a href="#2" data-toggle="tab">Java</a></li>
-                    </ul>
-                </div>
-                <div class="panel-body">
-                    <div class="tab-content">
-                        <div class="tab-pane fade in active" id="tab1default">
-                            <table class="table table-striped table-bordered tests" style="width:100%" data-page-length='10'></table>
-                        </div>
-                        <div class="tab-pane fade" id="tab2default">
-                            <table style="width: 100%" class="table table-striped custab" data-page-length='10'></table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>*@
-
 
 @section Scripts {
     @Html.Partial("_ValidationScriptsPartial")

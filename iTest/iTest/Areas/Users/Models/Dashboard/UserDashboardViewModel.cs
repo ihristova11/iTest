@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace iTest.Web.Areas.Users.Models
+namespace iTest.Web.Areas.Users.Models.Dashboard
 {
     public class UserDashboardViewModel
     {

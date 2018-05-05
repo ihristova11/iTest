@@ -9,7 +9,7 @@ namespace iTest.DTO
 
         public string Name { get; set; }
 
-        public int RequestedTime { get; set; }
+        public int ExecutedTime { get; set; }
 
         public int ExecutionTime { get; set; }
 

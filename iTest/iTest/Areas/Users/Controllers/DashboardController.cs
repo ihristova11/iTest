@@ -1,11 +1,14 @@
 ﻿using iTest.Data.Models;
+using iTest.Data.Models.Enums;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.User.Contracts;
 using iTest.Web.Areas.Users.Controllers.Abstract;
-using iTest.Web.Areas.Users.Models;
+using iTest.Web.Areas.Users.Models.Dashboard;
+using iTest.Web.Areas.Users.Models.Details;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,7 +31,7 @@ namespace iTest.Web.Areas.Users.Controllers
             this.toastr = toastr;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var user = this.userManager.GetUserName(this.HttpContext.User);
 
@@ -41,7 +44,7 @@ namespace iTest.Web.Areas.Users.Controllers
             model.Categories = this.mapper.ProjectTo<UserCategoryViewModel>(categories);
 
             var tests = this.tests.All();
-            model.Tests = this.mapper.ProjectTo<UserTestViewModel>(categories);
+            model.Tests = this.mapper.ProjectTo<UserTestViewModel>(tests);
 
             foreach (var category in model.Categories)
             {
@@ -51,19 +54,67 @@ namespace iTest.Web.Areas.Users.Controllers
                     category.Tests.AddRange(testsToAdd);
                 }
             }
-            return await Task.Run(() => View(model));
+
+            return View(model);
         }
 
         public async Task<IActionResult> Details(int id)
         {
+
+            var test = this.tests.FindById(id);
+            var user = await this.userManager.GetUserAsync(HttpContext.User);
+
+            var startedTest = this.tests.MapStartedTestData(user.Id, test.Id);
+
+            if (startedTest.ResultStatus != ResultStatus.Default)
+            {
+                return this.RedirectToAction("Index", "Dashboard");
+            }
+
+            startedTest.StartedOn = DateTime.Now;
+
             var model = new UserTestDetailsViewModel();
+            model = this.mapper.MapTo<UserTestDetailsViewModel>(startedTest);
 
-            var test = this.tests.FindByIdAsync(id);
-            //model.Test = this.mapper.MapTo<UserTestDetailsViewModel>(test);
+            this.mapper.ProjectTo<UserQuestionViewModel>(model.Questions).ToList();
 
-            // model.Questions = this.mapper.ProjectTo<QuestionViewModel>(test.Questions).ToList();
+            return await Task.Run(() => View(model));
+        }
 
-            return await Task.Run(() => View());
+        [HttpPost]
+        public IActionResult Details(UserTestDetailsViewModel model)
+        {
+            model.SubmittedOn = DateTime.Now;
+            model.ExecutedTime = model.SubmittedOn.Subtract(model.StartedOn);
+
+            var allowedTimeInSeconds = model.ExecutedTime.TotalSeconds;
+
+            //var startedTest = this.tests.MapStartedTestData(model.UserId, model.TestId);
+
+            var countCorrectQuestions = 0;
+
+            foreach (var question in model.Questions)
+            {
+                if (question.IsCorrect)
+                {
+                    countCorrectQuestions++;
+                }
+            }
+
+            double result = (countCorrectQuestions / model.Questions.Count()) * 100;
+
+            if (result >= 80.0)
+            {
+                model.ResultStatus = ResultStatus.Passed;
+            }
+            else
+            {
+                model.ResultStatus = ResultStatus.Failed;
+            }
+
+            this.mapper.MapTo<UserTestDetailsViewModel>(model);
+
+            return RedirectToAction("Index", "Dashboard", new { area = "users" });
         }
     }
 }

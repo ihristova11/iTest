@@ -1,6 +1,5 @@
 ﻿using iTest.DTO;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace iTest.Services.Data.User.Contracts
 {
@@ -10,8 +9,8 @@ namespace iTest.Services.Data.User.Contracts
 
         IEnumerable<TestDTO> AllByCategory(string category);
 
-        Task<TestDTO> FindByNameAsync(string name);
+        TestDTO FindById(int id);
 
-        Task<TestDTO> FindByIdAsync(int id);
+        UserTestDTO MapStartedTestData(string userId, int testId);
     }
 }

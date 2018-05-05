@@ -1,0 +1,107 @@
+﻿@using iTest.Web.Areas.Users.Models.Details
+@model UserTestDetailsViewModel
+@{
+    ViewData["Title"] = "Take Test";
+}
+
+
+<div class="row">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group col-xs-4 col-md-4">
+        <h6>@Model.Name</h6>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="col-md-2 pull-right" id="display">
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <form id="submit-form">
+        <div class="panel panel-default" id="questions">
+            @foreach (var question in Model.Questions)
+            {
+                <div class="panel-body">
+                    <p>@question.Description</p>
+                    <div class="row-md-2">
+                        <div class="answers">
+                            @foreach (var answer in question.Answers)
+                            {
+                                <div class="form-group has-feedback">
+                                    <input asp-for="@Model.Questions" type="radio" value="@answer.Id">
+                                    <label>@answer.Description</label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <hr />
+        <div class="row text-right">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#submit">Submit</button>
+        </div>
+    </form>
+</div>
+
+<!-- Modal confirm submit -->
+<div id="submit" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Your test is about to be Submitted?</h4>
+            </div>
+            <div class="modal-body">
+                <hr />
+            </div>
+            <div class="modal-footer">
+                <form asp-controller="Dashboard" asp-action="Details" method="post">
+                    <input asp-for="@Model.Name" type="hidden" value="@Model.Name">
+                    <input asp-for="@Model.StartedOn" type="hidden" value="@Model.StartedOn">
+                    <input asp-for="@Model.SubmittedOn" type="hidden" value="@Model.SubmittedOn">
+                    <input asp-for="@Model.ExecutedTime" type="hidden" value="@Model.ExecutedTime">
+                    <input asp-for="@Model.Questions" type="hidden" value="@Model.Questions">
+                    <input asp-for="@Model.ResultStatus" type="hidden" value="@Model.ResultStatus">
+                    <button type="submit" class="btn btn-danger">Confirm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Html.Partial("_ValidationScriptsPartial")
+}
+
+<script>
+    function CountDown(duration, display) {
+        if (!isNaN(duration)) {
+            var timer = duration, minutes, seconds;
+
+            var interVal = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                $(display).html("<h6>" + "Time: " + minutes + ":" + seconds + "<h6>");
+                if (--timer < 0) {
+                    timer = duration;
+                    SubmitFunction();
+                    $('#display').empty();
+                    clearInterval(interVal)
+                }
+            }, 1000);
+        }
+    }
+
+    function SubmitFunction() {
+        $('form').submit();
+    }
+
+    CountDown(500, $('#display'));
+</script>

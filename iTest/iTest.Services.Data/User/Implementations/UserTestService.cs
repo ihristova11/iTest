@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace iTest.Services.Data.User.Implementations
 {
@@ -16,13 +15,15 @@ namespace iTest.Services.Data.User.Implementations
     {
         private readonly IMappingProvider mapper;
         private readonly IRepository<Test> tests;
+        private readonly IRepository<UserTest> userTests;
         private readonly IRepository<Category> categories;
         private readonly ISaver saver;
 
-        public UserTestService(IMappingProvider mapper, IRepository<Test> tests, IRepository<Category> categories, ISaver saver)
+        public UserTestService(IMappingProvider mapper, IRepository<Test> tests, IRepository<UserTest> userTests, IRepository<Category> categories, ISaver saver)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.tests = tests ?? throw new ArgumentNullException(nameof(tests));
+            this.userTests = userTests ?? throw new ArgumentNullException(nameof(userTests));
             this.categories = categories ?? throw new ArgumentNullException(nameof(categories));
             this.saver = saver ?? throw new ArgumentNullException(nameof(saver));
         }
@@ -36,37 +37,21 @@ namespace iTest.Services.Data.User.Implementations
 
         public IEnumerable<TestDTO> AllByCategory(string category)
         {
-            //Random rnd = new Random();
-
             var tests = this.tests
-                                .All
-                                .Where(x => x.Category.Name == category);
-            //.OrderBy(x => rnd.Next())
-            //.Take(count)
-            //.FirstOrDefault();
+                                 .All
+                                 .Where(x => x.Category.Name == category);
 
             return this.mapper.ProjectTo<TestDTO>(tests);
         }
 
-        public async Task<TestDTO> FindByNameAsync(string name)
+        public TestDTO FindById(int id)
         {
-            var test = await this.tests
-                                  .All
-                                  .FirstOrDefaultAsync(x => x.Name == name);
-
-            if (test == null)
-            {
-                throw new ArgumentException($"Test with name:{name} couldn't be found!");
-            }
-
-            return this.mapper.MapTo<TestDTO>(test);
-        }
-
-        public async Task<TestDTO> FindByIdAsync(int id)
-        {
-            var test = await this.tests
-                                  .All
-                                  .FirstOrDefaultAsync(x => x.Id == id);
+            var test = this.tests
+                            .All
+                            .Where(t => t.Id == id)
+                            .Include(q => q.Questions)
+                            .ThenInclude(a => a.Answers)
+                            .FirstOrDefault();
 
             if (test == null)
             {
@@ -74,6 +59,17 @@ namespace iTest.Services.Data.User.Implementations
             }
 
             return this.mapper.MapTo<TestDTO>(test);
+        }
+
+        public UserTestDTO MapStartedTestData(string userId, int testId)
+        {
+            var test = userTests.All
+                                .Where(t => t.UserId == userId && t.TestId == testId)
+                                .FirstOrDefault();
+
+            var dto = mapper.MapTo<UserTestDTO>(test);
+
+            return dto;
         }
     }
 }
