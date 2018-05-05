@@ -12,9 +12,10 @@ using System;
 namespace iTest.Data.Migrations
 {
     [DbContext(typeof(iTestDbContext))]
-    partial class iTestDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180505201227_AddedTestToQuestions")]
+    partial class AddedTestToQuestions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -8,6 +8,8 @@ namespace iTest.Web.Areas.Users.Models.Details
     {
         public string Name { get; set; }
 
+        public string CategoryName { get; set; }
+
         public DateTime StartedOn { get; set; }
 
         public DateTime SubmittedOn { get; set; }
@@ -16,6 +18,6 @@ namespace iTest.Web.Areas.Users.Models.Details
 
         public TimeSpan ExecutedTime { get; set; }
 
-        public List<UserQuestionViewModel> Questions { get; set; }
+        public IEnumerable<UserQuestionViewModel> Questions { get; set; }
     }
 }

@@ -60,23 +60,14 @@ namespace iTest.Web.Areas.Users.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
+            var model = new UserTestDetailsViewModel();
 
             var test = this.tests.FindById(id);
-            var user = await this.userManager.GetUserAsync(HttpContext.User);
 
-            var startedTest = this.tests.MapStartedTestData(user.Id, test.Id);
+            model.StartedOn = DateTime.Now;
+            model.CategoryName = test.Category.Name;
 
-            if (startedTest.ResultStatus != ResultStatus.Default)
-            {
-                return this.RedirectToAction("Index", "Dashboard");
-            }
-
-            startedTest.StartedOn = DateTime.Now;
-
-            var model = new UserTestDetailsViewModel();
-            model = this.mapper.MapTo<UserTestDetailsViewModel>(startedTest);
-
-            this.mapper.ProjectTo<UserQuestionViewModel>(model.Questions).ToList();
+            model = this.mapper.MapTo<UserTestDetailsViewModel>(test);
 
             return await Task.Run(() => View(model));
         }
@@ -91,6 +82,23 @@ namespace iTest.Web.Areas.Users.Controllers
 
             //var startedTest = this.tests.MapStartedTestData(model.UserId, model.TestId);
 
+            //startedTest.StartedOn = DateTime.Now;
+            //startedTest.UserId = user.Id;
+            //startedTest.TestId = test.Id;
+            //startedTest.Duration = TimeSpan.FromMinutes(test.RequiredTime);
+            //startedTest.CategoryName = test.Category.Name;
+            //startedTest.TimeLeft = TimeSpan.FromMinutes(test.RequiredTime) - (DateTime.Now.Subtract(takenTest.StartOn));
+            //Questions = mapper.ProjectTo<QuestionViewModel>(test.Questions.AsQueryable()).ToList();
+
+            //if (startedTest.ResultStatus != ResultStatus.Default)
+            //{
+            //    return this.RedirectToAction("Index", "Dashboard");
+            //}
+
+            //startedTest.StartedOn = DateTime.Now;
+
+            //var model = new UserTestDetailsViewModel();
+            //model = this.mapper.MapTo<UserTestDetailsViewModel>(startedTest);
             var countCorrectQuestions = 0;
 
             foreach (var question in model.Questions)

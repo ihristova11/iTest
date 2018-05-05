@@ -11,6 +11,6 @@ namespace iTest.Services.Data.User.Contracts
 
         TestDTO FindById(int id);
 
-        UserTestDTO MapStartedTestData(string userId, int testId);
+        UserTestDTO MapStartedTest(string userId, int testId);
     }
 }

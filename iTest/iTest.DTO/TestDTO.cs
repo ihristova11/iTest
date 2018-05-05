@@ -9,22 +9,20 @@ namespace iTest.DTO
 
         public string Name { get; set; }
 
-        public int ExecutedTime { get; set; }
+        public int RequestedTime { get; set; }
 
         public int ExecutionTime { get; set; }
 
         public Status Status { get; set; }
 
+        public int CategoryId { get; set; }
+        public CategoryDTO Category { get; set; }
+
         public string CategoryName { get; set; }
 
         public string AuthorId { get; set; }
-
         public UserDTO Author { get; set; }
 
-        public ICollection<UserTestDTO> Users { get; set; } = new List<UserTestDTO>();
-
-        public ICollection<QuestionDTO> Questions { get; set; } = new List<QuestionDTO>();
-
-        public ICollection<ResultDTO> Results { get; set; } = new List<ResultDTO>();
+        public IEnumerable<QuestionDTO> Questions { get; set; }
     }
 }

@@ -12,9 +12,10 @@ using System;
 namespace iTest.Data.Migrations
 {
     [DbContext(typeof(iTestDbContext))]
-    partial class iTestDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180505180013_TestDTOUpdate")]
+    partial class TestDTOUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,7 +91,7 @@ namespace iTest.Data.Migrations
 
                     b.Property<DateTime?>("ModifiedOn");
 
-                    b.Property<int>("TestId");
+                    b.Property<int?>("TestId");
 
                     b.HasKey("Id");
 
@@ -116,7 +117,11 @@ namespace iTest.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
+                    b.Property<int?>("TestId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TestId");
 
                     b.ToTable("Results");
                 });
@@ -367,10 +372,16 @@ namespace iTest.Data.Migrations
 
             modelBuilder.Entity("iTest.Data.Models.Question", b =>
                 {
-                    b.HasOne("iTest.Data.Models.Test", "Test")
+                    b.HasOne("iTest.Data.Models.Test")
                         .WithMany("Questions")
-                        .HasForeignKey("TestId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TestId");
+                });
+
+            modelBuilder.Entity("iTest.Data.Models.Result", b =>
+                {
+                    b.HasOne("iTest.Data.Models.Test")
+                        .WithMany("Results")
+                        .HasForeignKey("TestId");
                 });
 
             modelBuilder.Entity("iTest.Data.Models.Test", b =>
@@ -389,7 +400,7 @@ namespace iTest.Data.Migrations
             modelBuilder.Entity("iTest.Data.Models.UserTest", b =>
                 {
                     b.HasOne("iTest.Data.Models.Test", "Test")
-                        .WithMany("UserTests")
+                        .WithMany("Users")
                         .HasForeignKey("TestId")
                         .OnDelete(DeleteBehavior.Restrict);
 

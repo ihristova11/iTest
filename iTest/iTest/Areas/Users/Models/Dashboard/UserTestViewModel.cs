@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using iTest.Web.Areas.Users.Models.Details;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace iTest.Web.Areas.Users.Models.Dashboard
 {
@@ -11,6 +13,6 @@ namespace iTest.Web.Areas.Users.Models.Dashboard
         [MaxLength(50)]
         public string Name { get; set; }
 
-        public string Category { get; set; }
+        public IEnumerable<UserQuestionViewModel> Questions { get; set; }
     }
 }

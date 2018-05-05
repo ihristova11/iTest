@@ -26,10 +26,10 @@ namespace iTest.Data.Models
         [Required]
         public User Author { get; set; }
 
-        public ICollection<UserTest> Users { get; set; } = new List<UserTest>();
+        public ICollection<UserTest> UserTests { get; set; } = new List<UserTest>();
 
         public ICollection<Question> Questions { get; set; } = new List<Question>();
 
-        public ICollection<Result> Results { get; set; } = new List<Result>();
+        // public ICollection<Result> Results { get; set; } = new List<Result>();
     }
 }

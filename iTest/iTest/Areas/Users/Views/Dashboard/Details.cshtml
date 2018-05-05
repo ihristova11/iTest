@@ -4,12 +4,17 @@
     ViewData["Title"] = "Take Test";
 }
 
-
 <div class="row">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group col-xs-4 col-md-4">
         <h6>@Model.Name</h6>
-        <span asp-validation-for="Name" class="text-danger"></span>
+        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-xs-4 col-md-4">
+        <h6>@Model.CategoryName</h6>
+        <span asp-validation-for="@Model.CategoryName" class="text-danger"></span>
     </div>
     <div class="col-md-2 pull-right" id="display">
     </div>

@@ -13,7 +13,7 @@ namespace iTest.Web.Areas.Users.Models.Details
         [DataType(DataType.Text)]
         public string Description { get; set; }
 
-        public List<UserAnswerViewModel> Answers { get; set; }
+        public IEnumerable<UserAnswerViewModel> Answers { get; set; }
 
         public bool IsCorrect { get; set; }
     }

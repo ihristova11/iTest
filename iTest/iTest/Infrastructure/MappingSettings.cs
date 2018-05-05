@@ -20,10 +20,7 @@ namespace iTest.Web.Infrastructure
         {
             //Test:
             //From ViewModel to Dto
-            this.CreateMap<CreateTestViewModel, TestDTO>(MemberList.Source)
-                .ForMember(t => t.Questions, o => o.MapFrom(t => t.Questions))
-                .ForPath(t => t.CategoryName, o => o.MapFrom(t => t.CategoryName))
-                .ReverseMap();
+            this.CreateMap<CreateTestViewModel, TestDTO>(MemberList.Source).ReverseMap();
 
             this.CreateMap<CreateQuestionViewModel, QuestionDTO>()
                 .ForMember(q => q.Description, o => o.MapFrom((q => q.Description)))
@@ -36,10 +33,14 @@ namespace iTest.Web.Infrastructure
                 .ForMember(a => a.Name, o => o.MapFrom(a => a.Name))
                 .ReverseMap();
 
-            this.CreateMap<UserTestViewModel, TestDTO>(MemberList.Source).ReverseMap();
-            this.CreateMap<UserTestDetailsViewModel, TestDTO>(MemberList.Source).ReverseMap();
+            // User Details
+            this.CreateMap<UserTestDetailsViewModel, UserTestDTO>(MemberList.Source).ReverseMap();
+            this.CreateMap<TestDTO, UserTestDetailsViewModel>(MemberList.Source).ReverseMap();
+
+            // User Dashboard
+            this.CreateMap<UserTestViewModel, UserTestDTO>(MemberList.Source);
             this.CreateMap<UserQuestionViewModel, QuestionDTO>(MemberList.Source).ReverseMap();
-            this.CreateMap<UserAnswerViewModel, AnswerDTO>(MemberList.Source).ReverseMap();
+            this.CreateMap<UserAnswerViewModel, AnswerDTO>(MemberList.Source);
         }
 
         private void DtosAndDataModelsMappings()
@@ -54,7 +55,8 @@ namespace iTest.Web.Infrastructure
                 .ForMember(t => t.Questions, o => o.MapFrom(t => t.Questions))
                 .ReverseMap();
 
-            this.CreateMap<UserTest, UserTestDTO>().ReverseMap();
+            this.CreateMap<UserTest, UserTestDTO>().ReverseMap().MaxDepth(3);
+            this.CreateMap<Test, UserTestDTO>().ReverseMap().MaxDepth(3);
 
             this.CreateMap<Question, QuestionDTO>(MemberList.Source)
                 .ForMember(q => q.Description, o => o.MapFrom((q => q.Description)))

@@ -32,6 +32,11 @@ namespace iTest.Services.Data.User.Implementations
         {
             var tests = this.tests.All;
 
+            if (tests == null)
+            {
+                throw new ArgumentException("No tests were found!");
+            }
+
             return this.mapper.ProjectTo<TestDTO>(tests);
         }
 
@@ -41,6 +46,11 @@ namespace iTest.Services.Data.User.Implementations
                                  .All
                                  .Where(x => x.Category.Name == category);
 
+            if (tests == null)
+            {
+                throw new ArgumentException("No tests were found!");
+            }
+
             return this.mapper.ProjectTo<TestDTO>(tests);
         }
 
@@ -49,6 +59,7 @@ namespace iTest.Services.Data.User.Implementations
             var test = this.tests
                             .All
                             .Where(t => t.Id == id)
+                            .Include(c => c.Category)
                             .Include(q => q.Questions)
                             .ThenInclude(a => a.Answers)
                             .FirstOrDefault();
@@ -61,11 +72,17 @@ namespace iTest.Services.Data.User.Implementations
             return this.mapper.MapTo<TestDTO>(test);
         }
 
-        public UserTestDTO MapStartedTestData(string userId, int testId)
+
+
+        public UserTestDTO MapStartedTest(string userId, int testId)
         {
-            var test = userTests.All
-                                .Where(t => t.UserId == userId && t.TestId == testId)
+            var test = this.tests.All
+                                .Where(t => t.Id == testId)
                                 .FirstOrDefault();
+            if (test == null)
+            {
+                throw new ArgumentException($"Test with name:{testId} couldn't be found!");
+            }
 
             var dto = mapper.MapTo<UserTestDTO>(test);
 
