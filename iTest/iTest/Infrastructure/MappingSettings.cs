@@ -3,6 +3,8 @@ using iTest.Data.Models;
 using iTest.DTO;
 using iTest.Web.Areas.Admin.Models.Categories;
 using iTest.Web.Areas.Admin.Models.ManageTest;
+using iTest.Web.Areas.Users.Models.Dashboard;
+using iTest.Web.Areas.Users.Models.Details;
 
 namespace iTest.Web.Infrastructure
 {
@@ -18,10 +20,7 @@ namespace iTest.Web.Infrastructure
         {
             //Test:
             //From ViewModel to Dto
-            this.CreateMap<CreateTestViewModel, TestDTO>(MemberList.Source)
-                .ForMember(t => t.Questions, o => o.MapFrom(t => t.Questions))
-                .ForPath(t => t.CategoryName, o => o.MapFrom(t => t.CategoryName))
-                .ReverseMap();
+            this.CreateMap<CreateTestViewModel, TestDTO>(MemberList.Source).ReverseMap();
 
             this.CreateMap<CreateQuestionViewModel, QuestionDTO>()
                 .ForMember(q => q.Description, o => o.MapFrom((q => q.Description)))
@@ -33,6 +32,15 @@ namespace iTest.Web.Infrastructure
             this.CreateMap<AdminCategoryViewModel, CategoryDTO>()
                 .ForMember(a => a.Name, o => o.MapFrom(a => a.Name))
                 .ReverseMap();
+
+            // User Details
+            this.CreateMap<UserTestDetailsViewModel, UserTestDTO>(MemberList.Source).ReverseMap();
+            this.CreateMap<TestDTO, UserTestDetailsViewModel>(MemberList.Source).ReverseMap();
+
+            // User Dashboard
+            this.CreateMap<UserTestViewModel, UserTestDTO>(MemberList.Source);
+            this.CreateMap<UserQuestionViewModel, QuestionDTO>(MemberList.Source).ReverseMap();
+            this.CreateMap<UserAnswerViewModel, AnswerDTO>(MemberList.Source);
         }
 
         private void DtosAndDataModelsMappings()
@@ -44,17 +52,25 @@ namespace iTest.Web.Infrastructure
                 .ReverseMap();
 
             this.CreateMap<Test, TestDTO>(MemberList.Source)
-                .ForMember(t => t.Questions, o => o.MapFrom(t => t.Questions));
-            
-            this.CreateMap<TestDTO, Test>()
-                .ForMember(t => t.Questions, o => o.MapFrom(t => t.Questions));
+                .ForMember(t => t.Questions, o => o.MapFrom(t => t.Questions))
+                .ReverseMap();
+
+            this.CreateMap<UserTest, UserTestDTO>().ReverseMap().MaxDepth(3);
+            this.CreateMap<Test, UserTestDTO>().ReverseMap().MaxDepth(3);
+
+            this.CreateMap<Question, QuestionDTO>(MemberList.Source)
+                .ForMember(q => q.Description, o => o.MapFrom((q => q.Description)))
+                .ForMember(q => q.Answers, o => o.MapFrom(q => q.Answers))
+                .ReverseMap();
 
             this.CreateMap<QuestionDTO, Question>(MemberList.Source)
-                .ForMember(q => q.Description, o => o.MapFrom((q => q.Description)))
-                .ForMember(q => q.Answers, o => o.MapFrom(q => q.Answers));
-            
-            this.CreateMap<AnswerDTO, Answer>(MemberList.Source);
-            this.CreateMap<ResultDTO, Result>(MemberList.Source);
+               .ForMember(q => q.Description, o => o.MapFrom((q => q.Description)))
+               .ForMember(q => q.Answers, o => o.MapFrom(q => q.Answers))
+               .ReverseMap();
+
+
+            this.CreateMap<AnswerDTO, Answer>(MemberList.Source).ReverseMap();
+            this.CreateMap<ResultDTO, Result>(MemberList.Source).ReverseMap();
         }
     }
 }

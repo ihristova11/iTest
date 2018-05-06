@@ -36,7 +36,7 @@ namespace iTest.Data
             builder
                 .Entity<UserTest>()
                 .HasOne(x => x.Test)
-                .WithMany(x => x.Users)
+                .WithMany(x => x.UserTests)
                 .HasForeignKey(x => x.TestId)
                 .OnDelete(DeleteBehavior.Restrict);
 

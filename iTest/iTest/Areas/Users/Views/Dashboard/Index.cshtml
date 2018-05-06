@@ -1,0 +1,76 @@
+﻿@using iTest.Web.Areas.Users.Models.Dashboard
+@model UserDashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+<h1>Dashboard</h1>
+<div class="category-tabs">
+    <div class="panel with-nav-tabs panel-default">
+        <div class="panel-heading">
+            <ul class="nav nav-tabs">
+                @foreach (var category in Model.Categories)
+                {
+                    if (category.Name == "Java")
+                    {
+                        <li class="active">
+                            <a data-toggle="tab" href="#@category.Id">@category.Name</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a data-toggle="tab" href="#@category.Id">@category.Name</a>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+            @foreach (var category in Model.Categories)
+            {
+                Random rnd = new Random();
+                @if (@category.Name == "Java")
+                {
+                    <div class="tab-pane fade in active" id="@category.Id">
+                        @if (@category.Tests.Any())
+                        {
+                            var test = @category.Tests
+                                .OrderBy(x => rnd.Next())
+                                .Take(1)
+                                .FirstOrDefault();
+                            <label>
+                                @test.Name
+                            </label>
+                            <a asp-controller="Dashboard" asp-action="Details" asp-route-id="@test.Id" method="get" class="btn btn-sm pull-right">Start</a>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="tab-pane" id="@category.Id">
+                        @if (@category.Tests.Any())
+                        {
+                            var test = @category.Tests
+                                .OrderBy(x => rnd.Next())
+                                .Take(1)
+                                .FirstOrDefault();
+                            <label>
+                                @test.Name
+                            </label>
+                            <a asp-controller="Dashboard" asp-action="Details" asp-route-id="@test.Id" method="post" class="btn btn-sm pull-right">Start</a>
+                        }
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Html.Partial("_ValidationScriptsPartial")
+    <script src="~/js/dashboard.js"></script>
+
+}

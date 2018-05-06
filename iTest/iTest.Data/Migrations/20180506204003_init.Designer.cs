@@ -12,7 +12,7 @@ using System;
 namespace iTest.Data.Migrations
 {
     [DbContext(typeof(iTestDbContext))]
-    [Migration("20180501190717_init")]
+    [Migration("20180506204003_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -117,11 +117,7 @@ namespace iTest.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<int?>("TestId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TestId");
 
                     b.ToTable("Results");
                 });
@@ -140,7 +136,7 @@ namespace iTest.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<int>("ExecutionTime");
+                    b.Property<TimeSpan>("ExecutionTime");
 
                     b.Property<bool>("IsDeleted");
 
@@ -228,7 +224,27 @@ namespace iTest.Data.Migrations
 
                     b.Property<int>("TestId");
 
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<TimeSpan>("ExecutionTime");
+
+                    b.Property<int>("Id");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("ModifiedOn");
+
+                    b.Property<TimeSpan>("RequestedTime");
+
+                    b.Property<int>("ResultStatus");
+
+                    b.Property<DateTime>("StartedOn");
+
                     b.HasKey("UserId", "TestId");
+
+                    b.HasAlternateKey("Id");
 
                     b.HasIndex("TestId");
 
@@ -357,13 +373,6 @@ namespace iTest.Data.Migrations
                         .HasForeignKey("TestId");
                 });
 
-            modelBuilder.Entity("iTest.Data.Models.Result", b =>
-                {
-                    b.HasOne("iTest.Data.Models.Test")
-                        .WithMany("Results")
-                        .HasForeignKey("TestId");
-                });
-
             modelBuilder.Entity("iTest.Data.Models.Test", b =>
                 {
                     b.HasOne("iTest.Data.Models.User", "Author")
@@ -380,7 +389,7 @@ namespace iTest.Data.Migrations
             modelBuilder.Entity("iTest.Data.Models.UserTest", b =>
                 {
                     b.HasOne("iTest.Data.Models.Test", "Test")
-                        .WithMany("Users")
+                        .WithMany("UserTests")
                         .HasForeignKey("TestId")
                         .OnDelete(DeleteBehavior.Restrict);
 

@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
 </head>
 <body>
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
                 <a src="#"><img style="width: 23%; height: 23%;" id="logo" src="https://media.itkonekt.com/2018/02/endava-logo.png" alt="http://judge.telerikacademy.com/static/icons/logo.45f6419f360e.png" /></a>
@@ -46,8 +46,15 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/Admin/Dashboard/Index">Dashboard</a></li>
-                    <li><a href="/Admin/ManageTest/Create">Create</a></li>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li><a href="/Admin/Dashboard/Index">Dashboard</a></li>
+                        <li><a href="/Admin/ManageTest/Create">Create</a></li>
+                    }
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+                    {
+                        <li><a href="/Users/Dashboard/Index">Dashboard</a></li>
+                    }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

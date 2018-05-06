@@ -1,17 +1,16 @@
 ﻿using iTest.DTO;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace iTest.Services.Data.User.Contracts
 {
     public interface IUserTestService
     {
-        Task<IEnumerable<TestDTO>> AllAsync();
+        IEnumerable<TestDTO> All();
 
-        IEnumerable<TestDTO> GetRandomTest(int count = 1);
+        IEnumerable<TestDTO> AllByCategory(string category);
 
-        Task<TestDTO> FindByNameAsync(string name);
+        TestDTO FindById(int id);
 
-        Task<TestDTO> FindByNameAsync(int id);
+        UserTestDTO MapStartedTest(string userId, int testId);
     }
 }

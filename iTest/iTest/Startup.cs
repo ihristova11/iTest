@@ -2,6 +2,7 @@
 using iTest.Data;
 using iTest.Data.Models;
 using iTest.Data.Repository;
+using iTest.Data.UnitsOfWork;
 using iTest.Infrastructure.Providers;
 using iTest.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -12,7 +13,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using iTest.Data.UnitsOfWork;
 
 namespace iTest.Web
 {
@@ -34,13 +34,15 @@ namespace iTest.Web
             this.RegisterAuthentication(services);
             this.RegisterServices(services);
             this.Routing(services);
+
+            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             //app.UseDatabaseMigration(); // auto migrations
 
-            //DataSeeder.InitializeAsync(app.ApplicationServices).Wait();
+            DataSeeder.InitializeAsync(app.ApplicationServices).Wait();
 
             if (env.IsDevelopment())
             {
@@ -56,6 +58,8 @@ namespace iTest.Web
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 
             app.UseMvc(routes =>
             {

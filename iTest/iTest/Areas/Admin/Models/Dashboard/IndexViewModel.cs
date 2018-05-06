@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using iTest.Web.Areas.Users.Models.Dashboard;
+using System.Collections.Generic;
 
 namespace iTest.Web.Areas.Admin.Models.Dashboard
 {
@@ -6,7 +7,7 @@ namespace iTest.Web.Areas.Admin.Models.Dashboard
     {
         public string AdminName { get; set; }
 
-        public IList<TestViewModel> Tests { get; set; }
+        //public IList<TestViewModel> Tests { get; set; }
 
         public IList<UserTestViewModel> UserResults { get; set; }
     }

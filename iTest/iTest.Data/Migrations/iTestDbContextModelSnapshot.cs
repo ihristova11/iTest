@@ -116,11 +116,7 @@ namespace iTest.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<int?>("TestId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TestId");
 
                     b.ToTable("Results");
                 });
@@ -139,7 +135,7 @@ namespace iTest.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<int>("ExecutionTime");
+                    b.Property<TimeSpan>("ExecutionTime");
 
                     b.Property<bool>("IsDeleted");
 
@@ -237,9 +233,11 @@ namespace iTest.Data.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<bool>("IsPassed");
-
                     b.Property<DateTime?>("ModifiedOn");
+
+                    b.Property<TimeSpan>("RequestedTime");
+
+                    b.Property<int>("ResultStatus");
 
                     b.Property<DateTime>("StartedOn");
 
@@ -397,7 +395,7 @@ namespace iTest.Data.Migrations
             modelBuilder.Entity("iTest.Data.Models.UserTest", b =>
                 {
                     b.HasOne("iTest.Data.Models.Test", "Test")
-                        .WithMany("Users")
+                        .WithMany("UserTests")
                         .HasForeignKey("TestId")
                         .OnDelete(DeleteBehavior.Restrict);
 

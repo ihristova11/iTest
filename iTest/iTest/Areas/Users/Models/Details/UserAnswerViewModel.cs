@@ -1,6 +1,6 @@
-﻿namespace iTest.DTO
+﻿namespace iTest.Web.Areas.Users.Models.Details
 {
-    public class AnswerDTO
+    public class UserAnswerViewModel
     {
         public int Id { get; set; }
 
