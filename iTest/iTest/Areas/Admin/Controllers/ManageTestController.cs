@@ -35,7 +35,6 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         [HttpGet]
         [Authorize]
-        //[Route("admin/create")]
         public async Task<IActionResult> Create()
         {
             return View(new CreateTestViewModel
@@ -60,8 +59,7 @@ namespace iTest.Web.Areas.Admin.Controllers
         
         [HttpPost]
         [Authorize]
-        //[Route("admin/create")] 
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public IActionResult Create([FromBody] CreateTestViewModel testViewModel)
         {
             bool isValidTest = true;

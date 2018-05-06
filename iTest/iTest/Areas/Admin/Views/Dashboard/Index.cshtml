@@ -147,5 +147,11 @@
 @section Scripts {
     @Html.Partial("_ValidationScriptsPartial")
     <script src="~/js/dashboard.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.tests').DataTable();
+            $('.results').DataTable();
 
+        });
+    </script>
 }

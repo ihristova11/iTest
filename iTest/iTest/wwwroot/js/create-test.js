@@ -102,7 +102,7 @@
         () => {
             if ($("#test-form").valid()) {
                 let data = {};
-
+                        
                 data.Name = $("#test-name").val();
                 data.RequestedTime = $("#test-time").val();
                 data.CategoryName = $("#CategoryName").find(":selected").text();
@@ -151,7 +151,7 @@
                     error: (err) => {
                         console.log(err);
                     }
-                })
+                });
             }
         });
 
