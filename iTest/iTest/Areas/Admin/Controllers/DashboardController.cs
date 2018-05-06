@@ -31,6 +31,8 @@ namespace iTest.Web.Areas.Admin.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
+            //var adminId = this.userManager.GetUserId(HttpContext.User);
+            //var adminTests = await this.tests.AllByAuthorAsync(adminId);
             return View("Index"); //, model);
         }
     }

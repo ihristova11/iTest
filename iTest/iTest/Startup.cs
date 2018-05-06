@@ -38,7 +38,7 @@ namespace iTest.Web
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseDatabaseMigration(); // auto migrations
+            //app.UseDatabaseMigration(); // auto migrations
 
             //DataSeeder.InitializeAsync(app.ApplicationServices).Wait();
 

@@ -40,6 +40,15 @@ namespace iTest.Services.Data.Admin.Implementations
             return this.mapper.ProjectTo<TestDTO>(tests);
         }
 
+        public async Task<IEnumerable<TestDTO>> AllAsync()
+        {
+            var tests = await this.tests
+                .All
+                .ToListAsync();
+
+            return this.mapper.ProjectTo<TestDTO>(tests);
+        }
+
         public async Task<TestDTO> FindByIdAsync(int id)
         {
             var test = await this.tests
