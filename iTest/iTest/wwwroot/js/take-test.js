@@ -2,27 +2,59 @@
     $("#confirm-btn").on("click",
         () => {
             if ($("#test-form").valid()) {
-                let data = {};
-
-                data.Name = $("#test-name").val();
-                data.RequestedTime = $("#test-time").val();
-                data.CategoryName = $("#category-name").val();
+                var data = {};
                 data.Questions = [];
+                var questions = $('#questions');
 
-                let question = {};
-                question.Answers = [];
+                $.each(questions,
+                    (i, q) => {
+                        let $q = $(q);
+                        let question = {};
 
-                var answers = document.getElementsByName('answers');
-                for (var i = 0; i < answers.length; i++) {
-                    if (answers[i].checked) {
-                        if (answer.IsCorrect = true) {
-                            question.Answers.push(answer);
-                        }
-                    }
-                }
+                        let qContent = $q.find(".question")
+
+                        question.Description = qContent;
+                        question.Answers = [];
+
+                        let qAnswers = $q.find(".allAnswers");
+
+                        console.log(qAnswers);
+
+                        $.each(qAnswers,
+                            (i, a) => {
+                                let $a = $(a);
+                                let answer = {};
+
+                                if ($a.find(".answer").is(":checked")) {
+                                    question.Answers.push(answer);
+                                }
+                            });
+
+                        data.Questions.push(question);
+                    });
+
+
+                //for (var i = 0; i < questions.length; i++) {
+                //    let question = questions[i];
+                //    var answers = $('#allAnswers');
+                //    for (var j = 0; j < answers.length; j++) {
+
+                //        //let selected = $('input:radio[name="answer"]:checked');
+                //        let selected2 = $('.answer').is(":checked")
+
+                //        console.log(selected);
+                //        console.log(selected2);
+
+                //        if (selected2) {
+                //            question.push(answers[j]);
+                //        }
+                //        data.Questions.push(question);
+                //        console.log(data.Questions)
+                //    }
+                //}
 
                 $.ajax({
-                    url: "/Users/Dashboard/Details",
+                    url: "/users/dashboard/details",
                     type: "POST",
                     contentType: "application/json",
                     data: JSON.stringify(data),
