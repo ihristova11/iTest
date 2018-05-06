@@ -1,43 +1,48 @@
 ﻿$(function () {
-    $("#confirm-btn").on("click",
-        () => {
-            if ($("#test-form").valid()) {
-                var data = {};
-                data.Questions = [];
+    $("#submit").on("click", function (e) {
+        e.preventDefault();
+        var url = this.action;
+        var data = $(this).serialize();
+        if ($("#test-form").valid()) {
+            var data = {};
+            data.Name = $("#test-name").val();
+            data.CategoryName = $("#category-name").val();
+            data.StartedOn = Date.now();
+            data.SubmittedOn = Date.now();
+            data.ExecutionTime = $("#ExecutionTime").val();
+            data.ResultStatus = $("#ResultStatus").val();
 
-                let questions = $('.currQuestion');
+            data.Questions = [];
 
-                for (var i = 0; i < questions.length; i++) {
+            let questions = $('.currQuestion');
 
-                    let question = questions[i];
-                    question.Answers = [];
+            for (var i = 0; i < questions.length; i++) {
 
-                    //let answers = $(questions[i]).children('.panel-body').children('.answerContainer').children('.has-feedback').children(':radio');
+                let question = questions[i];
+                question.Answers = [];
 
-                    //for (var j = 0; j < answers.length; j++) {
 
-                        let answerIsChecked = $(questions[i]).children('.panel-body').children('.answerContainer').children('.has-feedback').children(':radio:checked').val();
+                let answerIsChecked = $(questions[i]).children('.panel-body').children('.answerContainer').children('.has-feedback').children(':radio:checked').val();
 
-                        if (answerIsChecked === "True") {
-                            question.Answers.push($(questions[i]).children('.panel-body').children('.answerContainer').children('.has-feedback').children(':radio:checked'));
-                        }
-                    //}
-                   data.Questions.push(question)
+                if (answerIsChecked === "True") {
+                    question.Answers.push($(questions[i]).children('.panel-body').children('.answerContainer').children('.has-feedback').children(':radio:checked'));
                 }
 
-                $.ajax({
-                    url: "/users/dashboard/details",
-                    type: "POST",
-                    contentType: "application/json", //charset=utf-8
-                    //Accept: "application/json",
-                    //data: JSON.stringify(data),
-                    success: (response) => {
-                        window.location.href = response;
-                    },
-                    error: (err) => {
-                        console.log(err);
-                    }
-                })
+                data.Questions.push(question)
             }
-        });
+
+            $.ajax({
+                url: "/users/dashboard/details",
+                type: "POST",
+                contentType: "application/json", //charset=utf-8
+                data: JSON.stringify(data),
+                success: (response) => {
+                    window.location.href = response;
+                },
+                error: (err) => {
+                    console.log(err);
+                }
+            })
+        }
+    });
 });

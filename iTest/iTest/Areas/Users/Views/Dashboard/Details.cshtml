@@ -24,7 +24,14 @@
 <hr />
 
 <!--Questions & Answers-->
-<form id="test-form">
+<form asp-controller="Dashboard" asp-action="Details" method="post" id="test-form">
+    <input asp-for="@Model.Name" id="test-name" type="hidden" value="@Model.Name">
+    <input asp-for="@Model.CategoryName" type="hidden" value="@Model.CategoryName">
+    <input asp-for="@Model.StartedOn" type="hidden" value="@Model.StartedOn">
+    <input asp-for="@Model.SubmittedOn" type="hidden" value="@Model.SubmittedOn">
+    <input asp-for="@Model.ExecutionTime" type="hidden" value="@Model.ExecutionTime">
+    <input asp-for="@Model.Questions" type="hidden" value="@Model.Questions">
+    <input asp-for="@Model.ResultStatus" type="hidden" value="@Model.ResultStatus">
     <div class="row" id="questionContainer">
         @foreach (var question in Model.Questions)
         {
@@ -36,7 +43,7 @@
                         @foreach (var answer in question.Answers)
                         {
                             <div class="form-group has-feedback" name="@question.Id">
-                                <input type="radio" name="@question.Id" class="currAnswerIsCorrect" value="@answer.IsCorrect.ToString()" />
+                                <input asp-for="@Model.Questions" type="radio" name="@question.Id" class="currAnswerIsCorrect" value="@answer.IsCorrect.ToString()" />
                                 <label>@answer.Description</label>
                             </div>
                         }
@@ -49,64 +56,87 @@
 
         <!--Submit-->
         <div class="row text-right">
-            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#submit">Submit</button>
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#submit" id="submit">Submit</button>
         </div>
-
+        <button id="submit-test-button" class="btn btn-primary btn-lg">Submit</button>
     </div>
 </form>
 
 <!-- Modal confirm submit -->
-<div id="submit" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Your test is about to be Submitted?</h4>
+@*<div id="submit" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Your test is about to be Submitted?</h4>
+                </div>
+
+                <form asp-controller="Dashboard" asp-action="Details" method="post" id="test-form">
+                    <div class="modal-body">
+                        <hr />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info" id="confirm">Submit</button>
+                    </div>
+                </form>
             </div>
-
-            <form asp-controller="Dashboard" asp-action="Details" method="post">
-                <div class="modal-body">
-                    <hr />
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-info" id="confirm-btn">Submit</button>
-                </div>
-            </form>
         </div>
-    </div>
-</div>
+    </div>*@
 
-<script>
-    function CountDown(duration, display) {
-        if (!isNaN(duration)) {
-            var timer = duration, minutes, seconds;
 
-            var interVal = setInterval(function () {
-                minutes = parseInt(timer / 60, 10);
-                seconds = parseInt(timer % 60, 10);
-
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                $(display).html("<h6>" + "Time: " + minutes + ":" + seconds + "<h6>");
-                if (--timer < 0) {
-                    timer = duration;
-                    SubmitFunction();
-                    $('#display').empty();
-                    clearInterval(interVal)
-                }
-            }, 1000);
-        }
-    }
-
-    function SubmitFunction() {
-        $('form').submit();
-    }
-
-    CountDown(5000, $('#display'));
-</script>
 @section Scripts {
-    @Html.Partial("_ValidationScriptsPartial")
+    @*@Html.Partial("_ValidationScriptsPartial")*@
+    <script>
+        function CountDown(duration, display) {
+            if (!isNaN(duration)) {
+                var timer = duration, minutes, seconds;
+
+                var interVal = setInterval(function () {
+                    minutes = parseInt(timer / 60, 10);
+                    seconds = parseInt(timer % 60, 10);
+
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                    $(display).html("<h6>" + "Time: " + minutes + ":" + seconds + "<h6>");
+                    if (--timer < 0) {
+                        timer = duration;
+                        SubmitFunction();
+                        $('#display').empty();
+                        clearInterval(interVal)
+                    }
+                }, 1000);
+            }
+        }
+
+        function SubmitFunction() {
+            $('form').submit();
+        }
+
+        CountDown(5000, $('#display'));
+    </script>
+
     <script src="~/js/take-test.js"></script>
+    <script>
+        $('#test-form').on('submit', function (e) {
+            e.preventDefault();
+            var url = this.action;
+            var data = $(this).serialize();
+            $.confirm({
+                title: 'Confirm!',
+                content: 'Your test is about to be submitted!',
+                buttons: {
+                    confirm: function () {
+                        $.post(url, data, function (r) {
+                            console.log(r);
+                            window.location.href = r;
+                        });
+                    },
+                    cancel: function () {
+                    },
+                }
+            });
+        });
+    </script>
 }
 
