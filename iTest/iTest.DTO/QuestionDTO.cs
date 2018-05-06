@@ -4,7 +4,7 @@ namespace iTest.DTO
 {
     public class QuestionDTO
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string Description { get; set; }
 

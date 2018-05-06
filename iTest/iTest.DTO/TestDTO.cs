@@ -1,4 +1,5 @@
 ﻿using iTest.Data.Models.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace iTest.DTO
@@ -11,7 +12,7 @@ namespace iTest.DTO
 
         public int RequestedTime { get; set; }
 
-        public int ExecutionTime { get; set; }
+        public TimeSpan ExecutionTime { get; set; }
 
         public Status Status { get; set; }
 

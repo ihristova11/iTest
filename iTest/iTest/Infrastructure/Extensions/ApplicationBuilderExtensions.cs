@@ -62,13 +62,13 @@ namespace iTest.Web.Infrastructure.Extensions
                     }
 
                     // create test user
-                    var user = await userManager.FindByNameAsync("John");
+                    var user = await userManager.FindByNameAsync("user");
 
                     if (user == null)
                     {
                         user = new User
                         {
-                            UserName = "John"
+                            UserName = "user"
                         };
 
                         await userManager.CreateAsync(user, "user12");

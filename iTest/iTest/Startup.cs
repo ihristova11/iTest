@@ -42,7 +42,7 @@ namespace iTest.Web
         {
             app.UseDatabaseMigration(); // auto migrations
 
-            //DataSeeder.InitializeAsync(app.ApplicationServices).Wait();
+            DataSeeder.InitializeAsync(app.ApplicationServices).Wait();
 
             if (env.IsDevelopment())
             {

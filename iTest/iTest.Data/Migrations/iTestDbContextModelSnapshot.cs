@@ -90,7 +90,7 @@ namespace iTest.Data.Migrations
 
                     b.Property<DateTime?>("ModifiedOn");
 
-                    b.Property<int>("TestId");
+                    b.Property<int?>("TestId");
 
                     b.HasKey("Id");
 
@@ -135,7 +135,7 @@ namespace iTest.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<int>("ExecutionTime");
+                    b.Property<TimeSpan>("ExecutionTime");
 
                     b.Property<bool>("IsDeleted");
 
@@ -227,15 +227,15 @@ namespace iTest.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<TimeSpan>("ExecutedTime");
-
-                    b.Property<int>("ExecutionTime");
+                    b.Property<TimeSpan>("ExecutionTime");
 
                     b.Property<int>("Id");
 
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime?>("ModifiedOn");
+
+                    b.Property<TimeSpan>("RequestedTime");
 
                     b.Property<int>("ResultStatus");
 
@@ -367,10 +367,9 @@ namespace iTest.Data.Migrations
 
             modelBuilder.Entity("iTest.Data.Models.Question", b =>
                 {
-                    b.HasOne("iTest.Data.Models.Test", "Test")
+                    b.HasOne("iTest.Data.Models.Test")
                         .WithMany("Questions")
-                        .HasForeignKey("TestId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TestId");
                 });
 
             modelBuilder.Entity("iTest.Data.Models.Test", b =>

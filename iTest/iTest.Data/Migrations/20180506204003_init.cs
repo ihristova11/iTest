@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
+using System.Collections.Generic;
 
 namespace iTest.Data.Migrations
 {
@@ -66,6 +67,23 @@ namespace iTest.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Results",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOn = table.Column<DateTime>(nullable: true),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Results", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -184,7 +202,7 @@ namespace iTest.Data.Migrations
                     CategoryId = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: true),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    ExecutionTime = table.Column<int>(nullable: false),
+                    ExecutionTime = table.Column<TimeSpan>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
@@ -234,39 +252,25 @@ namespace iTest.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Results",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: true),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
-                    TestId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Results", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Results_Tests_TestId",
-                        column: x => x.TestId,
-                        principalTable: "Tests",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UserTest",
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    TestId = table.Column<int>(nullable: false)
+                    TestId = table.Column<int>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: true),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    ExecutionTime = table.Column<TimeSpan>(nullable: false),
+                    Id = table.Column<int>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    RequestedTime = table.Column<TimeSpan>(nullable: false),
+                    ResultStatus = table.Column<int>(nullable: false),
+                    StartedOn = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserTest", x => new { x.UserId, x.TestId });
+                    table.UniqueConstraint("AK_UserTest_Id", x => x.Id);
                     table.ForeignKey(
                         name: "FK_UserTest_Tests_TestId",
                         column: x => x.TestId,
@@ -353,11 +357,6 @@ namespace iTest.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_TestId",
                 table: "Questions",
-                column: "TestId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Results_TestId",
-                table: "Results",
                 column: "TestId");
 
             migrationBuilder.CreateIndex(

@@ -66,14 +66,14 @@ namespace iTest.Web.Areas.Users.Controllers
             model = this.mapper.MapTo<UserTestDetailsViewModel>(test);
             model.CategoryName = test.Category.Name;
             model.StartedOn = DateTime.Now;
-
-            this.toastr.AddSuccessToastMessage($"Toasrt already exits!");
+            TimeSpan requestedTime = TimeSpan.FromSeconds(test.RequestedTime);
+            model.RequestedTime = requestedTime;
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Details([FromBody] UserTestDetailsViewModel model)
+        public IActionResult Details([FromBody] UserTestDetailsViewModel model) //[FromBody]
         {
             if (model.ResultStatus != ResultStatus.Default)
             {
@@ -104,7 +104,7 @@ namespace iTest.Web.Areas.Users.Controllers
             //    model.ResultStatus = ResultStatus.Failed;
             //}
 
-            this.mapper.MapTo<UserTestDetailsViewModel>(model);
+            //this.mapper.MapTo<UserTestDetailsViewModel>(model);
 
             return Json(Url.Action("Index", "Dashboard", new { area = "Users" }));
         }
