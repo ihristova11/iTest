@@ -66,7 +66,7 @@ namespace iTest.Web.Areas.Users.Controllers
             model = this.mapper.MapTo<UserTestDetailsViewModel>(test);
             model.CategoryName = test.Category.Name;
             model.StartedOn = DateTime.Now;
-            TimeSpan requestedTime = TimeSpan.FromSeconds(test.RequestedTime);
+            TimeSpan requestedTime = TimeSpan.FromMinutes(test.RequestedTime);
             model.RequestedTime = requestedTime;
 
             return View(model);

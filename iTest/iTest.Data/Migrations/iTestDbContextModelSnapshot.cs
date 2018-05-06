@@ -372,13 +372,6 @@ namespace iTest.Data.Migrations
                         .HasForeignKey("TestId");
                 });
 
-            modelBuilder.Entity("iTest.Data.Models.Result", b =>
-                {
-                    b.HasOne("iTest.Data.Models.Test")
-                        .WithMany("Results")
-                        .HasForeignKey("TestId");
-                });
-
             modelBuilder.Entity("iTest.Data.Models.Test", b =>
                 {
                     b.HasOne("iTest.Data.Models.User", "Author")

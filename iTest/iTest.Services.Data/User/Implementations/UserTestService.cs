@@ -30,9 +30,9 @@ namespace iTest.Services.Data.User.Implementations
 
         public IEnumerable<TestDTO> All()
         {
-            var tests = this.tests.All;
+            var allTests = this.tests.All;
 
-            if (tests == null)
+            if (allTests == null)
             {
                 throw new ArgumentException("No tests were found!");
             }
@@ -42,16 +42,16 @@ namespace iTest.Services.Data.User.Implementations
 
         public IEnumerable<TestDTO> AllByCategory(string category)
         {
-            var tests = this.tests
+            var allTests = this.tests
                                  .All
                                  .Where(x => x.Category.Name == category);
 
-            if (tests == null)
+            if (allTests == null)
             {
                 throw new ArgumentException("No tests were found!");
             }
 
-            return this.mapper.ProjectTo<TestDTO>(tests);
+            return this.mapper.ProjectTo<TestDTO>(allTests);
         }
 
         public TestDTO FindById(int id)
@@ -76,9 +76,7 @@ namespace iTest.Services.Data.User.Implementations
 
         public UserTestDTO MapStartedTest(string userId, int testId)
         {
-            var test = this.tests.All
-                                .Where(t => t.Id == testId)
-                                .FirstOrDefault();
+            var test = this.tests.All.FirstOrDefault(t => t.Id == testId);
             if (test == null)
             {
                 throw new ArgumentException($"Test with name:{testId} couldn't be found!");
