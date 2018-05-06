@@ -56,7 +56,7 @@
                     }
                 }
 
-                // Validate number of asnwers for each question
+                // Validate number of answers for each question
                 for (var j = 0; j < data.Questions.length; j++) {
                     var answersPerQuestion = data.Questions[j].Answers.length;
                     if (answersPerQuestion < 2) {
@@ -65,14 +65,20 @@
                     }
 
                     var currQuestionAnswers = data.Questions[j].Answers;
-
+                    var isCheckedAnswerAsCorrect = true;
                     for (var l = 0; l < currQuestionAnswers.length; l++) {
                         var answer = currQuestionAnswers[l];
                         if (answer.Description.length === 0) {
-                            console.log('nqma description be batka');
                             toastr.error('Add description to your answer!');
                             return;
                         }
+
+                        isCheckedAnswerAsCorrect = answer.IsCorrect;
+                    }
+
+                    if (!isCheckedAnswerAsCorrect) {
+                        toastr.error('Check correct answer!');
+                        return;
                     }
                 }
 
