@@ -29,24 +29,22 @@ namespace iTest.Services.Data.Admin.Implementations
             this.categories = categories;
         }
 
-        public async Task<IEnumerable<TestDTO>> AllByAuthorAsync(string authorId)
+        public IEnumerable<TestDTO> AllByAuthor(string authorId)
         {
-            var tests = await this.tests
+            var allTests = this.tests
                                   .All
                                   .Include(x => x.Author)
-                                  .Where(x => x.AuthorId == authorId)
-                                  .ToListAsync();
+                                  .Where(x => x.AuthorId == authorId);
 
-            return this.mapper.ProjectTo<TestDTO>(tests);
+            return this.mapper.ProjectTo<TestDTO>(allTests);
         }
 
-        public async Task<IEnumerable<TestDTO>> AllAsync()
+        public IEnumerable<TestDTO> All()
         {
-            var tests = await this.tests
-                .All
-                .ToListAsync();
+            var allTests = this.tests
+                .All;
 
-            return this.mapper.ProjectTo<TestDTO>(tests);
+            return this.mapper.ProjectTo<TestDTO>(allTests);
         }
 
         public async Task<TestDTO> FindByIdAsync(int id)

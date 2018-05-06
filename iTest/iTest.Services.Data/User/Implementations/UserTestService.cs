@@ -27,16 +27,16 @@ namespace iTest.Services.Data.User.Implementations
 
         public async Task<IEnumerable<TestDTO>> AllAsync()
         {
-            var tests = await this.tests
+            var allTests = await this.tests
                                   .All
                                   .ToListAsync();
 
-            if (!tests.Any())
+            if (!allTests.Any())
             {
                 throw new ArgumentException("No tests created yet! Please create one first!");
             }
 
-            return this.mapper.ProjectTo<TestDTO>(tests);
+            return this.mapper.ProjectTo<TestDTO>(allTests);
         }
 
         public IEnumerable<TestDTO> GetRandomTest(int count = 1)

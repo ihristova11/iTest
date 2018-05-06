@@ -121,7 +121,7 @@ namespace iTest.Web
         private void RegisterData(IServiceCollection services)
         {
             services.AddDbContext<iTestDbContext>(options =>
-            {
+                {
                 var connectionString = Configuration.GetConnectionString("iTestDbConnection");
                 options.UseSqlServer(connectionString);
             });
