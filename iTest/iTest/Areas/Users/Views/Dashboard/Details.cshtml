@@ -23,20 +23,20 @@
 
 <hr />
 
+<!--Questions & Answers-->
 <form id="test-form">
-    <!--Questions-->
     <div class="row" id="questionContainer">
         @foreach (var question in Model.Questions)
         {
-            <div class="panel panel-default" id="currQuestion">
+            <div class="panel panel-default currQuestion">
                 <div class="panel-body">
                     <p>@question.Description</p>
 
-                    <div class="row-md-2" id="answerContainer">
+                    <div class="row-md-2 answerContainer">
                         @foreach (var answer in question.Answers)
                         {
-                            <div class="form-group has-feedback" id="currAnswer">
-                                <input type="radio" name="@question.Id" id="currAnswerIsCorrect" value="@answer.IsCorrect" />
+                            <div class="form-group has-feedback" name="@question.Id">
+                                <input type="radio" name="@question.Id" class="currAnswerIsCorrect" value="@answer.IsCorrect.ToString()" />
                                 <label>@answer.Description</label>
                             </div>
                         }
@@ -46,6 +46,7 @@
         }
 
         <hr />
+
         <!--Submit-->
         <div class="row text-right">
             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#submit">Submit</button>

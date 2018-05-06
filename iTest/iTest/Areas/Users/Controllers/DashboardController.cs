@@ -67,6 +67,8 @@ namespace iTest.Web.Areas.Users.Controllers
             model.CategoryName = test.Category.Name;
             model.StartedOn = DateTime.Now;
 
+            this.toastr.AddSuccessToastMessage($"Toasrt already exits!");
+
             return View(model);
         }
 
@@ -75,36 +77,36 @@ namespace iTest.Web.Areas.Users.Controllers
         {
             if (model.ResultStatus != ResultStatus.Default)
             {
-                return this.RedirectToAction("Index", "Dashboard");
+                return Json(Url.Action("Index", "Dashboard", new { area = "Users" }));
             }
 
             model.SubmittedOn = DateTime.Now;
             model.ExecutionTime = model.SubmittedOn.Subtract(model.StartedOn);
 
-            var countCorrectQuestions = 0;
+            //var countCorrectQuestions = 0;
 
-            foreach (var question in model.Questions)
-            {
-                if (question.IsCorrect)
-                {
-                    countCorrectQuestions++;
-                }
-            }
+            //foreach (var question in model.Questions)
+            //{
+            //    if (question.IsCorrect)
+            //    {
+            //        countCorrectQuestions++;
+            //    }
+            //}
 
-            double result = (countCorrectQuestions / model.Questions.Count()) * 100;
+            //double result = (countCorrectQuestions / model.Questions.Count()) * 100;
 
-            if (result >= 80.0)
-            {
-                model.ResultStatus = ResultStatus.Passed;
-            }
-            else
-            {
-                model.ResultStatus = ResultStatus.Failed;
-            }
+            //if (result >= 80.0)
+            //{
+            //    model.ResultStatus = ResultStatus.Passed;
+            //}
+            //else
+            //{
+            //    model.ResultStatus = ResultStatus.Failed;
+            //}
 
             this.mapper.MapTo<UserTestDetailsViewModel>(model);
 
-            return RedirectToAction("Index", "Dashboard", new { area = "users" });
+            return Json(Url.Action("Index", "Dashboard", new { area = "Users" }));
         }
     }
 }

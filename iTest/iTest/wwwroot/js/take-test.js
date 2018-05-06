@@ -5,32 +5,32 @@
                 var data = {};
                 data.Questions = [];
 
-                let questions = $('#questionContainer'); // currQuestion // questionContainer
+                let questions = $('.currQuestion');
 
                 for (var i = 0; i < questions.length; i++) {
 
                     let question = questions[i];
                     question.Answers = [];
 
-                    let answers = $('#answerContainer'); // currAnswer // answerContainer
+                    //let answers = $(questions[i]).children('.panel-body').children('.answerContainer').children('.has-feedback').children(':radio');
 
-                    for (var j = 0; j < answers.length; j++) {
+                    //for (var j = 0; j < answers.length; j++) {
 
-                        let answerIsChecked = $('input:radio[name="currAnswerIsCorrect"]:checked');
+                        let answerIsChecked = $(questions[i]).children('.panel-body').children('.answerContainer').children('.has-feedback').children(':radio:checked').val();
 
-                        if (answerIsChecked) {
-                            question.Answers.push(answers[j]);
+                        if (answerIsChecked === "True") {
+                            question.Answers.push($(questions[i]).children('.panel-body').children('.answerContainer').children('.has-feedback').children(':radio:checked'));
                         }
-                        data.Questions.push(question)
-                    }
+                    //}
+                   data.Questions.push(question)
                 }
 
                 $.ajax({
                     url: "/users/dashboard/details",
                     type: "POST",
-                    contentType: "application/json;charset=utf-8",
-                    Accept: "application/json",
-                    data: JSON.stringify(data),
+                    contentType: "application/json", //charset=utf-8
+                    //Accept: "application/json",
+                    //data: JSON.stringify(data),
                     success: (response) => {
                         window.location.href = response;
                     },
