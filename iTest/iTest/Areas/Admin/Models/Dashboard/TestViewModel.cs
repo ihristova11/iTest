@@ -2,7 +2,7 @@
 {
     public class TestViewModel
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string TestName { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿using iTest.Data.Models;
 using iTest.Data.Repository;
+using iTest.Data.UnitsOfWork;
 using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
@@ -8,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using iTest.Data.UnitsOfWork;
 
 namespace iTest.Services.Data.Admin.Implementations
 {
@@ -29,15 +29,22 @@ namespace iTest.Services.Data.Admin.Implementations
             this.categories = categories;
         }
 
-        public async Task<IEnumerable<TestDTO>> AllByAuthorAsync(string authorId)
+        public IEnumerable<TestDTO> AllByAuthor(string authorId)
         {
-            var tests = await this.tests
+            var allTests = this.tests
                                   .All
                                   .Include(x => x.Author)
-                                  .Where(x => x.AuthorId == authorId)
-                                  .ToListAsync();
+                                  .Where(x => x.AuthorId == authorId);
 
-            return this.mapper.ProjectTo<TestDTO>(tests);
+            return this.mapper.ProjectTo<TestDTO>(allTests);
+        }
+
+        public IEnumerable<TestDTO> All()
+        {
+            var allTests = this.tests
+                .All;
+
+            return this.mapper.ProjectTo<TestDTO>(allTests);
         }
 
         public async Task<TestDTO> FindByIdAsync(int id)

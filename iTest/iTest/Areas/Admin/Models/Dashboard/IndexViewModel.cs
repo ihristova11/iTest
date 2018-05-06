@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using iTest.Web.Areas.Users.Models.Dashboard;
+using System.Collections.Generic;
 
 namespace iTest.Web.Areas.Admin.Models.Dashboard
 {

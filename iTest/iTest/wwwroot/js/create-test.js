@@ -41,12 +41,54 @@
                         data.Questions.push(question);
                     });
 
+
+                // Validate number of questions 
+                if (data.Questions.length === 0) {
+                    toastr.error('Add at least one question!');
+                    return;
+                }
+
+                for (var k = 0; k < data.Questions.length; k++) {
+                    var question = data.Questions[k];
+                    if (question.Description.length === 0) {
+                        toastr.error('Add description to your question!');
+                        return;
+                    }
+                }
+
+                // Validate number of answers for each question
+                for (var j = 0; j < data.Questions.length; j++) {
+                    var answersPerQuestion = data.Questions[j].Answers.length;
+                    if (answersPerQuestion < 2) {
+                        toastr.error('Add at least two answers for your question!');
+                        return;
+                    }
+
+                    var currQuestionAnswers = data.Questions[j].Answers;
+                    var isCheckedAnswerAsCorrect = true;
+                    for (var l = 0; l < currQuestionAnswers.length; l++) {
+                        var answer = currQuestionAnswers[l];
+                        if (answer.Description.length === 0) {
+                            toastr.error('Add description to your answer!');
+                            return;
+                        }
+
+                        isCheckedAnswerAsCorrect = answer.IsCorrect;
+                    }
+
+                    if (!isCheckedAnswerAsCorrect) {
+                        toastr.error('Check correct answer!');
+                        return;
+                    }
+                }
+
                 $.ajax({
-                    url: "/Admin/ManageTest/SaveTest",
+                    url: "/Admin/ManageTest/Create",
                     type: "POST",
                     contentType: "application/json",
                     data: JSON.stringify(data),
                     success: (response) => {
+                        console.log('should redirect');
                         window.location.href = response;
                     },
                     error: (err) => {
@@ -99,7 +141,7 @@
                     });
 
                 $.ajax({
-                    url: "/Admin/ManageTest/SaveTest",
+                    url: "/Admin/ManageTest/Create",
                     type: "POST",
                     contentType: "application/json",
                     data: JSON.stringify(data),
@@ -115,6 +157,9 @@
 
     let $accordion = $("#question-container");
 
+    var nameCounter = 0;
+
+
     $('#add-question-btn').on("click",
         () => {
             $.ajax({
@@ -125,6 +170,7 @@
                     $accordion.append(html);
                     IncrementAnswers();
                     IncrementQuestions();
+                    //$('.correct-answer-cb').attr('name', ++nameCounter);
                     // get all radio buttons -> $('.answer-holder').children('.answer-content').children('.row').children('.text-right').children().attr('name', 'irina')
                     $accordion.accordion("refresh");
                     $accordion.accordion("option", "active", ($accordion.children("div").length - 1));
@@ -185,7 +231,6 @@
     });
 });
 
-
 function summernoteInit() {
     $(".summernote").summernote({
         height: 150,
@@ -208,6 +253,30 @@ function summernoteInit() {
 }
 
 summernoteInit();
+
+function toastrInit() {
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-center",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+};
+
+toastrInit();
+
+
 
 
 function IncrementAnswers() {
