@@ -8,7 +8,7 @@ namespace iTest.DTO
 
         public string Description { get; set; }
 
-        public List<AnswerDTO> Answers { get; set; } = new List<AnswerDTO>();
+        public IEnumerable<AnswerDTO> Answers { get; set; }
 
         public bool IsCorrect { get; set; }
     }

@@ -9,6 +9,6 @@ namespace iTest.DTO
 
         public string Name { get; set; }
 
-        public ICollection<Test> Tests { get; set; } = new List<Test>();
+        public ICollection<Test> Tests { get; set; }
     }
 }
