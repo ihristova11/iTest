@@ -28,14 +28,14 @@
         <div class="panel panel-default" id="questions">
             @foreach (var question in Model.Questions)
             {
-                <div class="panel-body">
+                <div class="panel-body" id="question">
                     <p>@question.Description</p>
                     <div class="row-md-2">
-                        <div class="allAnswers">
+                        <div id="allAnswers">
                             @foreach (var answer in question.Answers)
                             {
                                 <div class="form-group has-feedback">
-                                    <input asp-for="@Model.Questions" type="radio" name="answers" value="@answer.Id">
+                                    <input asp-for="@Model.Questions" type="radio" id="answer" value="@answer.IsCorrect">
                                     <label>@answer.Description</label>
                                 </div>
                             }
