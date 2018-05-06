@@ -11,5 +11,7 @@ namespace iTest.Web.Areas.Users.Models.Details
         [MaxLength(500)]
         [DataType(DataType.Text)]
         public string Description { get; set; }
+
+        public bool IsCorrect { get; set; }
     }
 }
