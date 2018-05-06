@@ -5,17 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - iTest</title>
 
-    @Html.Partial("_AddCssPartial");
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    @*@Html.Partial("_AddCssPartial");*@
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/jquery-ui/jquery-ui.css" />
+        <link rel="stylesheet" href="~/lib/summernote/dist/summernote.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+        <link rel="stylesheet" href="~/lib/toastr/toastr.min.css">
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"
+              asp-fallback-href="~/lib/jquery-ui/jquery-ui.css">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css"
+              asp-fallback-href="~/lib/summernote/dist/summernote.css">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"
+              asp-fallback-href="~/lib/toastr/toastr.min.css">
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
 </head>
 <body>
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <a src="#"><img style="width: 23%; height: 23%;" id="logo" src="https://media.itkonekt.com/2018/02/endava-logo.png" alt="http://judge.telerikacademy.com/static/icons/logo.45f6419f360e.png" /></a>
@@ -44,7 +61,24 @@
         </div>
     </nav>
     <div class="container body-content">
-        @RenderBody()
+        <div class="hidden-container">
+            @if (((string)(TempData["Success-Message"] ?? "")).Any())
+            {
+                <br />
+                <div class="alert alert-success">
+                    <strong>Success!</strong> @TempData["Success-Message"]
+                </div>
+            }
+
+            @if (((string)(TempData["Error-Message"] ?? "")).Any())
+            {
+                <br />
+                <div class="alert alert-danger">
+                    <strong>Error!</strong> @TempData["Error-Message"]
+                </div>
+            }
+            @RenderBody()
+        </div>
         <hr />
         <footer>
             <p>&copy; 2018 - iTest</p>
@@ -54,13 +88,13 @@
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+        <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+        <script src="~/lib/summernote/dist/summernote.js"></script>
+        <script src="~/lib/toastr/toastr.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                 asp-fallback-test="window.jQuery"
@@ -73,16 +107,15 @@
                 crossorigin="anonymous"
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"
+                asp-fallback-src="~/lib/summernote/dist/summernote.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+                asp-fallback-src="~/lib/jquery-ui/jquery-ui.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"
+                asp-fallback-src="~/lib/toastr/toastr.min.js"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
-
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
-
-    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
-    @*<script src="js/test.js"></script>*@
     @RenderSection("Scripts", required: false)
 </body>
 </html>

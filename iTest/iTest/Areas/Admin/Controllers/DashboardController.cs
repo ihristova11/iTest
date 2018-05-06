@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using iTest.Data.Models;
+using iTest.Data.Models.Enums;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
+using iTest.Services.Data.User.Contracts;
 using iTest.Web.Areas.Admin.Controllers.Abstract;
 using iTest.Web.Areas.Admin.Models.Dashboard;
 using Microsoft.AspNetCore.Authorization;
@@ -16,6 +18,7 @@ namespace iTest.Web.Areas.Admin.Controllers
     {
         private readonly IMappingProvider mapper;
         private readonly IAdminTestService tests;
+        private readonly IUserTestService userTests;
         private readonly IResultService resultService;
         private readonly UserManager<User> userManager;
 
@@ -31,7 +34,37 @@ namespace iTest.Web.Areas.Admin.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            return View("Index"); //, model);
+            // Get current user
+            var admin = await this.userManager.GetUserAsync(HttpContext.User);
+
+            var allTestsDto = this.tests.AllByAuthor(admin.Id);
+
+            var allTestsViewModel = new List<TestViewModel>();
+            
+            //TestViewModels creating
+            foreach (var testDto in allTestsDto)
+            {
+                var curr = new TestViewModel()
+                {
+                    Id = testDto.Id,
+                    TestName = testDto.Name, 
+                    CategoryName = testDto.CategoryName,
+                    Status = Enum.GetName(typeof(Status), testDto.Status)
+                };
+
+                allTestsViewModel.Add(curr);
+            }
+
+            // IndexViewModel creating
+            var model = new IndexViewModel()
+            {
+                AdminName = admin.UserName, 
+                Tests = allTestsViewModel
+            };
+
+            return View("Index", model);
+            //return View("Index"()//, model);
+
         }
     }
 }

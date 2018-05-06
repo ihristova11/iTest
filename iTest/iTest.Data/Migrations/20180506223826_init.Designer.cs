@@ -12,7 +12,7 @@ using System;
 namespace iTest.Data.Migrations
 {
     [DbContext(typeof(iTestDbContext))]
-    [Migration("20180506204003_init")]
+    [Migration("20180506223826_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

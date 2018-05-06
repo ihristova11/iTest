@@ -40,4 +40,8 @@
     <ProjectReference Include="..\iTest.Services.External\iTest.Services.External.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\" />
+  </ItemGroup>
+
 </Project>

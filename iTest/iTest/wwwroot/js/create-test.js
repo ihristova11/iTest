@@ -41,8 +41,107 @@
                         data.Questions.push(question);
                     });
 
+
+                // Validate number of questions 
+                if (data.Questions.length === 0) {
+                    toastr.error('Add at least one question!');
+                    return;
+                }
+
+                for (var k = 0; k < data.Questions.length; k++) {
+                    var question = data.Questions[k];
+                    if (question.Description.length === 0) {
+                        toastr.error('Add description to your question!');
+                        return;
+                    }
+                }
+
+                // Validate number of answers for each question
+                for (var j = 0; j < data.Questions.length; j++) {
+                    var answersPerQuestion = data.Questions[j].Answers.length;
+                    if (answersPerQuestion < 2) {
+                        toastr.error('Add at least two answers for your question!');
+                        return;
+                    }
+
+                    var currQuestionAnswers = data.Questions[j].Answers;
+                    var isCheckedAnswerAsCorrect = true;
+                    for (var l = 0; l < currQuestionAnswers.length; l++) {
+                        var answer = currQuestionAnswers[l];
+                        if (answer.Description.length === 0) {
+                            toastr.error('Add description to your answer!');
+                            return;
+                        }
+
+                        isCheckedAnswerAsCorrect = answer.IsCorrect;
+                    }
+
+                    if (!isCheckedAnswerAsCorrect) {
+                        toastr.error('Check correct answer!');
+                        return;
+                    }
+                }
+
                 $.ajax({
-                    url: "/Admin/ManageTest/SaveTest",
+                    url: "/Admin/ManageTest/Create",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: (response) => {
+                        console.log('should redirect');
+                        window.location.href = response;
+                    },
+                    error: (err) => {
+                        console.log(err);
+                    }
+                })
+            }
+        });
+
+    $("#draft-btn").on("click",
+        () => {
+            if ($("#test-form").valid()) {
+                let data = {};
+
+                data.Name = $("#test-name").val();
+                data.RequestedTime = $("#test-time").val();
+                data.CategoryName = $("#CategoryName").find(":selected").text();
+                data.Status = "Draft";
+                data.Questions = [];
+
+                let allQuestionHolders = $(".question-holder");
+
+                $.each(allQuestionHolders,
+                    (i, q) => {
+                        let $q = $(q);
+                        let question = {};
+
+                        let qContent = $q.find(".question-content .summernote").summernote("code")
+                            .replace(/<\/?[^>]+(>|$)/g, "");
+
+                        question.Description = qContent;
+                        question.Answers = [];
+
+                        let qAnswers = $q.find(".answer-holder .answer-content");
+
+                        $.each(qAnswers,
+                            (i, a) => {
+                                let $a = $(a);
+                                let answer = {};
+                                answer.Description =
+                                    $a.find(".summernote").summernote("code").replace(/<\/?[^>]+(>|$)/g, "");
+                                if ($a.find(".correct-answer-cb").is(":checked")) {
+                                    answer.IsCorrect = true;
+                                }
+
+                                question.Answers.push(answer);
+                            });
+
+                        data.Questions.push(question);
+                    });
+
+                $.ajax({
+                    url: "/Admin/ManageTest/Create",
                     type: "POST",
                     contentType: "application/json",
                     data: JSON.stringify(data),
@@ -56,8 +155,10 @@
             }
         });
 
-    // Add and delete questions
     let $accordion = $("#question-container");
+
+    var nameCounter = 0;
+
 
     $('#add-question-btn').on("click",
         () => {
@@ -69,8 +170,10 @@
                     $accordion.append(html);
                     IncrementAnswers();
                     IncrementQuestions();
-                    $accordion.accordion("refresh")
-                    $accordion.accordion("option", "active", ($accordion.children("div").length - 1))
+                    //$('.correct-answer-cb').attr('name', ++nameCounter);
+                    // get all radio buttons -> $('.answer-holder').children('.answer-content').children('.row').children('.text-right').children().attr('name', 'irina')
+                    $accordion.accordion("refresh");
+                    $accordion.accordion("option", "active", ($accordion.children("div").length - 1));
                     summernoteInit();
                 },
                 error: function (err) {
@@ -91,7 +194,7 @@
             IncrementQuestions();
         });
 
-    // Add and delete answers
+
     $('#question-container').on("click",
         '.add-answer-btn',
         (e) => {
@@ -121,14 +224,13 @@
             IncrementAnswers();
         });
 
-    // Accordion init
+
     $("#question-container").accordion({
         heightStyle: "content",
         collapsible: true
     });
 });
 
-// Summernote.js init
 function summernoteInit() {
     $(".summernote").summernote({
         height: 150,
@@ -152,7 +254,31 @@ function summernoteInit() {
 
 summernoteInit();
 
-// Answers and questions number incrementation
+function toastrInit() {
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-center",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+};
+
+toastrInit();
+
+
+
+
 function IncrementAnswers() {
 
     let $answerHolders = $(".answer-holder");

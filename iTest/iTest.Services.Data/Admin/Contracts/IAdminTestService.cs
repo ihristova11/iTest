@@ -6,7 +6,9 @@ namespace iTest.Services.Data.Admin.Contracts
 {
     public interface IAdminTestService
     {
-        Task<IEnumerable<TestDTO>> AllByAuthorAsync(string authorId);
+        IEnumerable<TestDTO> AllByAuthor(string authorId);
+
+        IEnumerable<TestDTO> All();
 
         Task<TestDTO> FindByIdAsync(int id);
 

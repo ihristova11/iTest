@@ -34,10 +34,10 @@ namespace iTest.Web.Controllers
 
         [TempData]
         public string ErrorMessage { get; set; }
-
+        
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(string returnUrl = null)
+        public async Task<IActionResult> Authorize(string returnUrl = null)
         {
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
@@ -84,12 +84,12 @@ namespace iTest.Web.Controllers
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
+                    return View(nameof(AccountController.Authorize), model);
                 }
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View(nameof(AccountController.Authorize), model);
         }
 
         [HttpGet]
@@ -208,15 +208,7 @@ namespace iTest.Web.Controllers
         {
             return View();
         }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Register(string returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
-        }
-
+        
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -243,7 +235,7 @@ namespace iTest.Web.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View(nameof(AccountController.Authorize), model);
         }
 
         [HttpPost]
