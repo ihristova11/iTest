@@ -45,8 +45,15 @@
                 // Validate number of questions 
                 if (data.Questions.length === 0) {
                     toastr.error('Add at least one question!');
-
                     return;
+                }
+
+                for (var k = 0; k < data.Questions.length; k++) {
+                    var question = data.Questions[k];
+                    if (question.Description.length === 0) {
+                        toastr.error('Add description to your question!');
+                        return;
+                    }
                 }
 
                 // Validate number of asnwers for each question
@@ -56,8 +63,18 @@
                         toastr.error('Add at least two answers for your question!');
                         return;
                     }
+
+                    var currQuestionAnswers = data.Questions[j].Answers;
+
+                    for (var l = 0; l < currQuestionAnswers.length; l++) {
+                        var answer = currQuestionAnswers[l];
+                        if (answer.Description.length === 0) {
+                            console.log('nqma description be batka');
+                            toastr.error('Add description to your answer!');
+                            return;
+                        }
+                    }
                 }
-                
 
                 $.ajax({
                     url: "/Admin/ManageTest/Create",
@@ -208,6 +225,28 @@
     });
 });
 
+function summernoteInit() {
+    $(".summernote").summernote({
+        height: 150,
+        disableResizeEditor: true,
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['fontsize', ['fontname', 'fontsize']],
+            ['color', ['color']],
+            ['font', ['strikethrough', 'superscript', 'subscript', 'height']],
+            ['para', ['ul', 'ol', 'paragraph', 'table']],
+            ['misc', ['fullscreen', 'codeview', 'help']]
+        ],
+        popover: {
+            image: [],
+            link: [],
+            air: []
+        }
+    }
+    );
+}
+
+summernoteInit();
 
 function toastrInit() {
     toastr.options = {
@@ -231,28 +270,7 @@ function toastrInit() {
 
 toastrInit();
 
-function summernoteInit() {
-    $(".summernote").summernote({
-        height: 150,
-        disableResizeEditor: true,
-        toolbar: [
-            ['style', ['bold', 'italic', 'underline', 'clear']],
-            ['fontsize', ['fontname', 'fontsize']],
-            ['color', ['color']],
-            ['font', ['strikethrough', 'superscript', 'subscript', 'height']],
-            ['para', ['ul', 'ol', 'paragraph', 'table']],
-            ['misc', ['fullscreen', 'codeview', 'help']]
-        ],
-        popover: {
-            image: [],
-            link: [],
-            air: []
-        }
-    }
-    );
-}
 
-summernoteInit();
 
 
 function IncrementAnswers() {
