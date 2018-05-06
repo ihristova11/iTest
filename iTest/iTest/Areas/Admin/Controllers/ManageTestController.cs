@@ -122,5 +122,12 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             return categoriesList;
         }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Edit()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

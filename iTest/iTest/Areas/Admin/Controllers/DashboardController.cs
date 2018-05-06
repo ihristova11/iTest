@@ -63,8 +63,28 @@ namespace iTest.Web.Areas.Admin.Controllers
             };
 
             return View("Index", model);
-            //return View("Index"()//, model);
 
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Publish()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Disable()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Delete()
+        {
+            throw new NotImplementedException();
         }
     }
 }
