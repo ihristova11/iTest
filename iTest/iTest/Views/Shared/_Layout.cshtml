@@ -29,9 +29,15 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @*<li><a asp-area="" asp-controller="Dashboard" asp-action="All">Dashboard</a></li>*@
-                    <li><a href="/Admin/Dashboard/Index">Dashboard</a></li>
-                    <li><a href="/Admin/ManageTest/Create">Create</a></li>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li><a href="/Admin/Dashboard/Index">Dashboard</a></li>
+                        <li><a href="/Admin/ManageTest/Create">Create</a></li>
+                    }
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+                    {
+                        <li><a href="/Users/Dashboard/Index">Dashboard</a></li>
+                    }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
