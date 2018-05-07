@@ -1,159 +1,158 @@
 ﻿$(function () {
-    $("#publish-btn").on("click",
-        () => {
-            if ($("#test-form").valid()) {
-                let data = {};
+    $("#publish-btn").on("click", function () {
+        if ($("#test-form").valid()) {
+            let data = {};
 
-                data.Name = $("#test-name").val();
-                data.RequestedTime = $("#test-time").val();
-                data.CategoryName = $("#CategoryName").find(":selected").text();
-                data.Status = "Published";
-                data.Questions = [];
+            data.Name = $("#test-name").val();
+            data.RequestedTime = $("#test-time").val();
+            data.CategoryName = $("#CategoryName").find(":selected").text();
+            data.Status = "Published";
+            data.Questions = [];
 
-                let allQuestionHolders = $(".question-holder");
+            let allQuestionHolders = $(".question-holder");
 
-                $.each(allQuestionHolders,
-                    (i, q) => {
-                        let $q = $(q);
-                        let question = {};
+            $.each(allQuestionHolders,
+                (i, q) => {
+                    let $q = $(q);
+                    let question = {};
 
-                        let qContent = $q.find(".question-content .summernote").summernote("code")
-                            .replace(/<\/?[^>]+(>|$)/g, "");
+                    let qContent = $q.find(".question-content .summernote").summernote("code")
+                        .replace(/<\/?[^>]+(>|$)/g, "");
 
-                        question.Description = qContent;
-                        question.Answers = [];
+                    question.Description = qContent;
+                    question.Answers = [];
 
-                        let qAnswers = $q.find(".answer-holder .answer-content");
+                    let qAnswers = $q.find(".answer-holder .answer-content");
 
-                        $.each(qAnswers,
-                            (i, a) => {
-                                let $a = $(a);
-                                let answer = {};
-                                answer.Description =
-                                    $a.find(".summernote").summernote("code").replace(/<\/?[^>]+(>|$)/g, "");
-                                if ($a.find(".correct-answer-cb").is(":checked")) {
-                                    answer.IsCorrect = true;
-                                }
+                    $.each(qAnswers,
+                        (i, a) => {
+                            let $a = $(a);
+                            let answer = {};
+                            answer.Description =
+                                $a.find(".summernote").summernote("code").replace(/<\/?[^>]+(>|$)/g, "");
+                            if ($a.find(".correct-answer-cb").is(":checked")) {
+                                answer.IsCorrect = true;
+                            }
 
-                                question.Answers.push(answer);
-                            });
+                            question.Answers.push(answer);
+                        });
 
-                        data.Questions.push(question);
-                    });
+                    data.Questions.push(question);
+                });
 
 
-                // Validate number of questions 
-                if (data.Questions.length === 0) {
-                    toastr.error('Add at least one question!');
+            // Validate number of questions 
+            if (data.Questions.length === 0) {
+                toastr.error('Add at least one question!');
+                return;
+            }
+
+            for (var k = 0; k < data.Questions.length; k++) {
+                var question = data.Questions[k];
+                if (question.Description.length === 0) {
+                    toastr.error('Add description to your question!');
+                    return;
+                }
+            }
+
+            // Validate number of answers for each question
+            for (var j = 0; j < data.Questions.length; j++) {
+                var answersPerQuestion = data.Questions[j].Answers.length;
+                if (answersPerQuestion < 2) {
+                    toastr.error('Add at least two answers for your question!');
                     return;
                 }
 
-                for (var k = 0; k < data.Questions.length; k++) {
-                    var question = data.Questions[k];
-                    if (question.Description.length === 0) {
-                        toastr.error('Add description to your question!');
+                var currQuestionAnswers = data.Questions[j].Answers;
+                var isCheckedAnswerAsCorrect = true;
+                for (var l = 0; l < currQuestionAnswers.length; l++) {
+                    var answer = currQuestionAnswers[l];
+                    if (answer.Description.length === 0) {
+                        toastr.error('Add description to your answer!');
                         return;
                     }
+
+                    isCheckedAnswerAsCorrect = answer.IsCorrect;
                 }
 
-                // Validate number of answers for each question
-                for (var j = 0; j < data.Questions.length; j++) {
-                    var answersPerQuestion = data.Questions[j].Answers.length;
-                    if (answersPerQuestion < 2) {
-                        toastr.error('Add at least two answers for your question!');
-                        return;
-                    }
-
-                    var currQuestionAnswers = data.Questions[j].Answers;
-                    var isCheckedAnswerAsCorrect = true;
-                    for (var l = 0; l < currQuestionAnswers.length; l++) {
-                        var answer = currQuestionAnswers[l];
-                        if (answer.Description.length === 0) {
-                            toastr.error('Add description to your answer!');
-                            return;
-                        }
-
-                        isCheckedAnswerAsCorrect = answer.IsCorrect;
-                    }
-
-                    if (!isCheckedAnswerAsCorrect) {
-                        toastr.error('Check correct answer!');
-                        return;
-                    }
+                if (!isCheckedAnswerAsCorrect) {
+                    toastr.error('Check correct answer!');
+                    return;
                 }
-
-                $.ajax({
-                    url: "/Admin/ManageTest/Create",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify(data),
-                    success: (response) => {
-                        console.log('should redirect');
-                        window.location.href = response;
-                    },
-                    error: (err) => {
-                        console.log(err);
-                    }
-                })
             }
-        });
 
-    $("#draft-btn").on("click",
-        () => {
-            if ($("#test-form").valid()) {
-                let data = {};
-                        
-                data.Name = $("#test-name").val();
-                data.RequestedTime = $("#test-time").val();
-                data.CategoryName = $("#CategoryName").find(":selected").text();
-                data.Status = "Draft";
-                data.Questions = [];
+            $.ajax({
+                url: "/Admin/ManageTest/Create",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: (response) => {
+                    console.log('should redirect');
+                    window.location.href = response;
+                },
+                error: (err) => {
+                    console.log(err);
+                }
+            });
+        }
+    });
 
-                let allQuestionHolders = $(".question-holder");
+    $("#draft-btn").on("click", function () {
+        if ($("#test-form").valid()) {
+            let data = {};
 
-                $.each(allQuestionHolders,
-                    (i, q) => {
-                        let $q = $(q);
-                        let question = {};
+            data.Name = $("#test-name").val();
+            data.RequestedTime = $("#test-time").val();
+            data.CategoryName = $("#CategoryName").find(":selected").text();
+            data.Status = "Draft";
+            data.Questions = [];
 
-                        let qContent = $q.find(".question-content .summernote").summernote("code")
-                            .replace(/<\/?[^>]+(>|$)/g, "");
+            let allQuestionHolders = $(".question-holder");
 
-                        question.Description = qContent;
-                        question.Answers = [];
+            $.each(allQuestionHolders,
+                (i, q) => {
+                    let $q = $(q);
+                    let question = {};
 
-                        let qAnswers = $q.find(".answer-holder .answer-content");
+                    let qContent = $q.find(".question-content .summernote").summernote("code")
+                        .replace(/<\/?[^>]+(>|$)/g, "");
 
-                        $.each(qAnswers,
-                            (i, a) => {
-                                let $a = $(a);
-                                let answer = {};
-                                answer.Description =
-                                    $a.find(".summernote").summernote("code").replace(/<\/?[^>]+(>|$)/g, "");
-                                if ($a.find(".correct-answer-cb").is(":checked")) {
-                                    answer.IsCorrect = true;
-                                }
+                    question.Description = qContent;
+                    question.Answers = [];
 
-                                question.Answers.push(answer);
-                            });
+                    let qAnswers = $q.find(".answer-holder .answer-content");
 
-                        data.Questions.push(question);
-                    });
+                    $.each(qAnswers,
+                        (i, a) => {
+                            let $a = $(a);
+                            let answer = {};
+                            answer.Description =
+                                $a.find(".summernote").summernote("code").replace(/<\/?[^>]+(>|$)/g, "");
+                            if ($a.find(".correct-answer-cb").is(":checked")) {
+                                answer.IsCorrect = true;
+                            }
 
-                $.ajax({
-                    url: "/Admin/ManageTest/Create",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify(data),
-                    success: (response) => {
-                        window.location.href = response;
-                    },
-                    error: (err) => {
-                        console.log(err);
-                    }
+                            question.Answers.push(answer);
+                        });
+
+                    data.Questions.push(question);
                 });
-            }
-        });
+
+            $.ajax({
+                url: "/Admin/ManageTest/Create",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: (response) => {
+                    window.location.href = response;
+                },
+                error: (err) => {
+                    console.log(err);
+                    alert('neshto sprq');
+                }
+            });
+        }
+    });
 
     let $accordion = $("#question-container");
 
