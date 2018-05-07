@@ -1,4 +1,5 @@
 ﻿using iTest.Data.Models;
+using iTest.Data.Models.Enums;
 using iTest.Data.Repository;
 using iTest.Data.UnitsOfWork;
 using iTest.DTO;
@@ -109,6 +110,13 @@ namespace iTest.Services.Data.User.Implementations
             this.userTests.Add(domainTest);
 
             this.saver.SaveChanges();
+        }
+
+        public ResultStatus GetTestResultByUser(string userId, int testId)
+        {
+            var test = this.userTests.All.FirstOrDefault(x => x.UserId == userId && x.TestId == testId);
+
+            return test.ResultStatus;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using iTest.DTO;
+﻿using iTest.Data.Models.Enums;
+using iTest.DTO;
 using System.Collections.Generic;
 
 namespace iTest.Services.Data.User.Contracts
@@ -11,8 +12,8 @@ namespace iTest.Services.Data.User.Contracts
 
         TestDTO FindById(int id);
 
-        UserTestDTO MapStartedTest(string userId, int testId);
-
         void SaveResult(UserTestDTO dto);
+
+        ResultStatus GetTestResultByUser(string userId, int testId);
     }
 }

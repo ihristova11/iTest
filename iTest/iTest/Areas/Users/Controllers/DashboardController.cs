@@ -60,6 +60,15 @@ namespace iTest.Web.Areas.Users.Controllers
             var userId = this.userManager.GetUserId(this.HttpContext.User);
             var test = this.tests.FindById(id);
 
+            var resultStatus = this.tests.GetTestResultByUser(userId, test.Id);
+
+            if (resultStatus != ResultStatus.Default)
+            {
+                TempData["Success-Message"] = "You have already submitted this test.";
+                return RedirectToAction("Index", "Dashboard", new { area = "Users" });
+
+            }
+
             var model = new UserTestDetailsViewModel();
 
             model = this.mapper.MapTo<UserTestDetailsViewModel>(test);
@@ -119,7 +128,7 @@ namespace iTest.Web.Areas.Users.Controllers
 
             this.tests.SaveResult(dto);
 
-            return RedirectToAction("Index", "Dashboard", new { area = "Users" }); // working but why!
+            return RedirectToAction("Index", "Dashboard", new { area = "Users" });
             //return Json(Url.Action("Index", "Dashboard", new { area = "Users" }));
         }
     }
