@@ -28,7 +28,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             this.tests = tests ?? throw new ArgumentNullException("Tests service cannot be null");
             this.userManager = userManager ?? throw new ArgumentNullException("User manager cannot be null");
         }
-        
+
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> Index()
@@ -39,14 +39,14 @@ namespace iTest.Web.Areas.Admin.Controllers
             var allTestsDto = this.tests.AllByAuthor(admin.Id);
 
             var allTestsViewModel = new List<TestViewModel>();
-            
+
             //TestViewModels creating
             foreach (var testDto in allTestsDto)
             {
                 var curr = new TestViewModel()
                 {
                     Id = testDto.Id,
-                    TestName = testDto.Name, 
+                    TestName = testDto.Name,
                     CategoryName = testDto.CategoryName,
                     Status = Enum.GetName(typeof(Status), testDto.Status)
                 };
@@ -57,7 +57,7 @@ namespace iTest.Web.Areas.Admin.Controllers
             // IndexViewModel creating
             var model = new IndexViewModel()
             {
-                AdminName = admin.UserName, 
+                AdminName = admin.UserName,
                 Tests = allTestsViewModel
             };
 
@@ -65,11 +65,22 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         }
 
-        [HttpGet]
+        [HttpPost]
         [Authorize]
-        public IActionResult Publish()
+        [ValidateAntiForgeryToken]
+        public IActionResult Publish(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                this.tests.PublishExistingTest(id);
+                TempData["Success-Message"] = "You successfully published a test!";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error-Message"] = string.Format("Publishing test failed! {0}", ex.Message);
+            }
+
+            return Json(Url.Action("Index", "Dashboard", new { area = "Admin" }));
         }
 
         [HttpGet]
@@ -81,9 +92,21 @@ namespace iTest.Web.Areas.Admin.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult Delete()
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                this.tests.DeleteAsync(id);
+                TempData["Success-Message"] = "You successfully deleted a test!";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error-Message"] = string.Format("Deliting test failed! {0}", ex.Message);
+            }
+
+
+            return Json(Url.Action("Index", "Dashboard", new { area = "Admin" }));
         }
     }
 }
