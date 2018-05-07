@@ -77,6 +77,7 @@ namespace iTest.Services.Data.User.Implementations
         public UserTestDTO MapStartedTest(string userId, int testId)
         {
             var test = this.tests.All.FirstOrDefault(t => t.Id == testId);
+
             if (test == null)
             {
                 throw new ArgumentException($"Test with name:{testId} couldn't be found!");
@@ -85,6 +86,12 @@ namespace iTest.Services.Data.User.Implementations
             var dto = mapper.MapTo<UserTestDTO>(test);
 
             return dto;
+        }
+
+        public void SaveResult(TestDTO dto)
+        {
+            var model = this.mapper.MapTo<Test>(dto);
+            // update in database
         }
     }
 }

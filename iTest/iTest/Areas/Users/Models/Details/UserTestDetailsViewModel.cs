@@ -20,8 +20,12 @@ namespace iTest.Web.Areas.Users.Models.Details
 
         public ResultStatus ResultStatus { get; set; }
 
-        public IList<UserQuestionViewModel> Questions { get; set; }
+        public IEnumerable<UserQuestionViewModel> Questions { get; set; }
 
         public int CorrectAnswers { get; set; }
+
+        public int QuestionsCount { get; set; }
+
+        public string UserId { get; set; }
     }
 }

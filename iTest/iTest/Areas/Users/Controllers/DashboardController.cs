@@ -1,5 +1,6 @@
 ﻿using iTest.Data.Models;
 using iTest.Data.Models.Enums;
+using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.User.Contracts;
 using iTest.Web.Areas.Users.Controllers.Abstract;
@@ -59,22 +60,30 @@ namespace iTest.Web.Areas.Users.Controllers
 
         public IActionResult Details(int id)
         {
-            var model = new UserTestDetailsViewModel();
-
+            var userId = this.userManager.GetUserId(this.HttpContext.User);
             var test = this.tests.FindById(id);
 
+            var model = new UserTestDetailsViewModel();
             model = this.mapper.MapTo<UserTestDetailsViewModel>(test);
+
+            TimeSpan requestedTime = TimeSpan.FromMinutes(test.RequestedTime);
+
+            model.Name = test.Name;
             model.CategoryName = test.Category.Name;
             model.StartedOn = DateTime.Now;
-            TimeSpan requestedTime = TimeSpan.FromMinutes(test.RequestedTime);
             model.RequestedTime = requestedTime;
+            model.QuestionsCount = test.Questions.ToList().Count();
+            model.UserId = userId;
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Details(UserTestDetailsViewModel model) //[FromBody]
+        public IActionResult Details(UserTestDetailsViewModel model)
         {
+            var dto = this.mapper.MapTo<TestDTO>(model);
+            var dto2 = this.mapper.MapTo<UserTestDTO>(model);
+
             if (model.ResultStatus != ResultStatus.Default)
             {
                 return Json(Url.Action("Index", "Dashboard", new { area = "Users" }));
@@ -83,28 +92,27 @@ namespace iTest.Web.Areas.Users.Controllers
             model.SubmittedOn = DateTime.Now;
             model.ExecutionTime = model.SubmittedOn.Subtract(model.StartedOn);
 
-            //var countCorrectQuestions = 0;
+            if (model.CorrectAnswers == 0)
+            {
+                model.ResultStatus = ResultStatus.Failed;
+            }
 
-            //foreach (var question in model.Questions)
-            //{
-            //    if (question.IsCorrect)
-            //    {
-            //        countCorrectQuestions++;
-            //    }
-            //}
+            else
+            {
+                double result = (model.CorrectAnswers / model.QuestionsCount) * 100;
 
-            //double result = (countCorrectQuestions / model.Questions.Count()) * 100;
+                if (result >= 80.0)
+                {
+                    model.ResultStatus = ResultStatus.Passed;
+                }
+                else
+                {
+                    model.ResultStatus = ResultStatus.Failed;
+                }
+            }
 
-            //if (result >= 80.0)
-            //{
-            //    model.ResultStatus = ResultStatus.Passed;
-            //}
-            //else
-            //{
-            //    model.ResultStatus = ResultStatus.Failed;
-            //}
 
-            //this.mapper.MapTo<UserTestDetailsViewModel>(model);
+            this.tests.SaveResult(dto);
 
             return Json(Url.Action("Index", "Dashboard", new { area = "Users" }));
         }

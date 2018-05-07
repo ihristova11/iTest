@@ -8,6 +8,7 @@ using iTest.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +35,7 @@ namespace iTest.Web
             this.RegisterServices(services);
             this.Routing(services);
 
-            services.AddCors();
+            //services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -58,7 +59,7 @@ namespace iTest.Web
 
             app.UseAuthentication();
 
-            app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+            //app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 
             app.UseMvc(routes =>
             {
@@ -111,7 +112,7 @@ namespace iTest.Web
 
             services.AddMvc(options =>
             {
-                //options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
             });
 
             services.AddAutoMapper();

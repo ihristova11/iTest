@@ -1,25 +1,30 @@
 ﻿$(function () {
-    $("#confirm").on("submit", function (e) {
-        var data = {};
-        //data.Questions = [];
+    $("#confirm").on("click", function (e) {
+
+        // get correct answers
         var correctAnswers = 0;
         let questions = $('.currQuestion');
-        for (var i = 0; i < questions.length; i++) {
-            let question = questions[i];
-            question.Answers = [];
+        for (let i = 0; i < questions.length; i++) {
 
             let answerIsChecked = $(questions[i]).children('.panel-body').children('.answerContainer').children('.has-feedback').children(':radio:checked').val();
 
             if (answerIsChecked === "True") {
-                //question.Answers.push($(questions[i]).children('.panel-body').children('.answerContainer').children('.has-feedback').children(':radio:checked'));
                 correctAnswers++;
             }
-            //data.Questions.push(question)
         }
 
-        data.correctAnswers = correctAnswers;
+            // data binding
+            let data = {};
+            data.Name = $("#Name").val();
+            data.CategoryName = $("#CategoryName").val();
+            data.QuestionsCount = $("#QuestionsCount").val();
+            data.StartedOn = $("#startedOn").val();
+            //data.SubmittedOn = $.now();
+            data.RequestedTime = $("#RequestedTime").val();
+            data.CorrectAnswers = $("#CorrectAnswers").val(parseInt(correctAnswers));
 
-        $("#confirm").on("click", function (e) {
+
+            // post request
             $.ajax({
                 url: "/users/dashboard/details",
                 type: "POST",
@@ -31,51 +36,6 @@
                 error: (err) => {
                     console.log(err);
                 }
-            })
-        });
+            });
     });
 });
-
-
-
-// Var 2
-//$(function () {
-//    $("#confirm").on("submit", function (e) {
-        //e.preventDefault();
-        //var url = this.action;
-        //var data = $(this).serialize();
-
-        //if ($("#test-form").valid()) {
-            //data.Questions = [];
-            //let questions = $('.currQuestion');
-
-            //for (var i = 0; i < questions.length; i++) {
-
-            //    let question = questions[i];
-            //    question.Answers = [];
-
-
-            //    let answerIsChecked = $(questions[i]).children('.panel-body').children('.answerContainer').children('.has-feedback').children(':radio:checked').val();
-
-            //    if (answerIsChecked === "True") {
-            //        question.Answers.push($(questions[i]).children('.panel-body').children('.answerContainer').children('.has-feedback').children(':radio:checked'));
-            //    }
-
-            //    data.Questions.push(question)
-            //}
-
-            //$.ajax({
-            //    url: "/users/dashboard/details",
-            //    type: "POST",
-            //    contentType: "application/json",
-            //    data: JSON.stringify(data),
-            //    success: (response) => {
-            //        window.location.href = response;
-            //    },
-            //    error: (err) => {
-            //        console.log(err);
-            //    }
-            //})
-        //}
-//    });
-//});
