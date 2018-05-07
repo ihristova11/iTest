@@ -83,28 +83,38 @@ namespace iTest.Web.Areas.Admin.Controllers
             return Json(Url.Action("Index", "Dashboard", new { area = "Admin" }));
         }
 
-        [HttpGet]
-        [Authorize]
-        public IActionResult Disable()
-        {
-            throw new NotImplementedException();
-        }
-
-        [HttpGet]
+        [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public IActionResult Disable(int id)
         {
             try
             {
-                this.tests.DeleteAsync(id);
+                this.tests.Disable(id);
+                TempData["Success-Message"] = "You successfully set test status as Draft!";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error-Message"] = string.Format("Disable test failed! {0}", ex.Message);
+            }
+
+            return Json(Url.Action("Index", "Dashboard", new { area = "Admin" }));
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await this.tests.DeleteAsync(id);
                 TempData["Success-Message"] = "You successfully deleted a test!";
             }
             catch (Exception ex)
             {
                 TempData["Error-Message"] = string.Format("Deliting test failed! {0}", ex.Message);
             }
-
 
             return Json(Url.Action("Index", "Dashboard", new { area = "Admin" }));
         }

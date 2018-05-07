@@ -20,6 +20,7 @@ namespace iTest.Services.Data.Admin.Implementations
         private readonly IRepository<Question> questions;
         private readonly IRepository<Category> categories;
         private readonly IRepository<Answer> answers;
+        private readonly IRepository<UserTest> userTests;
         private readonly ISaver saver;
 
         public AdminTestService(IMappingProvider mapper, IRepository<Test> tests, IRepository<Question> questions, IRepository<Category> categories, ISaver saver, IRepository<Answer> answers)
@@ -128,6 +129,35 @@ namespace iTest.Services.Data.Admin.Implementations
             this.saver.SaveChangesAsync();
         }
 
+        public void Disable(int id)
+        {
+            var test = this.tests.All
+                .FirstOrDefault(t => t.Status != Status.Disabled && t.Id == id);
+
+            //var usersTest = this.userTests.All
+            //    .Where(ut => ut.StartedOn + ut.RequestedTime > DateTime.Now.AddSeconds(10));
+
+            //if (usersTest == null)
+            //{
+            //    test.Status = Status.Draft;
+
+            //    this.tests.Update(test);
+            //    saver.SaveChanges();
+            //}
+            //else
+            if (test != null)
+            {
+                test.Status = Status.Draft;
+
+                this.tests.Update(test);
+                saver.SaveChanges();
+            }
+            else
+            {
+                throw new InvalidTestException("Cannot set test status as Draft cause it been used right now by users.");
+            }
+        }
+
         public async Task DeleteAsync(int id)
         {
             var test = await this.tests.All.SingleOrDefaultAsync(x => x.Id == id);
@@ -143,7 +173,7 @@ namespace iTest.Services.Data.Admin.Implementations
             {
                 foreach (var answer in question.Answers)
                 {
-                   this.answers.Delete(answer);
+                    this.answers.Delete(answer);
                 }
                 this.questions.Delete(question);
             }
