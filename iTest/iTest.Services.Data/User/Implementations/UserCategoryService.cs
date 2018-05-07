@@ -20,10 +20,10 @@ namespace iTest.Services.Data.User.Implementations
 
         public UserCategoryService(IMappingProvider mapper, IRepository<Category> categories, IRepository<Test> tests, ISaver saver)
         {
-            this.mapper = mapper;
-            this.categories = categories;
-            this.tests = tests;
-            this.saver = saver;
+            this.mapper = mapper ?? throw new ArgumentNullException();
+            this.categories = categories ?? throw new ArgumentNullException();
+            this.tests = tests ?? throw new ArgumentNullException();
+            this.saver = saver ?? throw new ArgumentNullException();
         }
 
         public IEnumerable<CategoryDTO> All()

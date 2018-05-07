@@ -34,7 +34,6 @@ namespace iTest.Web
             this.RegisterAuthentication(services);
             this.RegisterServices(services);
             this.Routing(services);
-
             services.AddCors();
         }
 
@@ -120,6 +119,7 @@ namespace iTest.Web
 
             services.AddMvc().AddNToastNotifyNoty(); // toastr
             services.AddAntiforgery(options => options.HeaderName = "__RequestVerificationToken");
+            services.AddMemoryCache();
         }
 
         private void RegisterData(IServiceCollection services)
