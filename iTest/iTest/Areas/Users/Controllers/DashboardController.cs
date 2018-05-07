@@ -73,7 +73,7 @@ namespace iTest.Web.Areas.Users.Controllers
         }
 
         [HttpPost]
-        public IActionResult Details([FromBody] UserTestDetailsViewModel model) //[FromBody]
+        public IActionResult Details(UserTestDetailsViewModel model) //[FromBody]
         {
             if (model.ResultStatus != ResultStatus.Default)
             {

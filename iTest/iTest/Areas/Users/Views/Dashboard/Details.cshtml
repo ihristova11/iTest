@@ -71,8 +71,8 @@
                     <input asp-for="@Model.Name" id="test-name" type="hidden" value="@Model.Name">
                     <input asp-for="@Model.CategoryName" type="hidden" value="@Model.CategoryName">
                     <input asp-for="@Model.StartedOn" type="hidden" value="@Model.StartedOn">
-                    <input asp-for="@Model.SubmittedOn" type="hidden" value="@Model.SubmittedOn">
-                    <input asp-for="@Model.CorrectAnswers" type="hidden" value="correctAnswers">
+                    <input asp-for="@Model.SubmittedOn" type="hidden" value="@Model.SubmittedOn" />
+                    <input asp-for="@Model.CorrectAnswers" type="hidden" value="data.correctAnswers">
                     <button type="submit" class="btn btn-info" id="confirm">Submit</button>
                 </div>
             </form>

@@ -8,7 +8,6 @@ using iTest.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -112,7 +111,7 @@ namespace iTest.Web
 
             services.AddMvc(options =>
             {
-                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+                //options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
             });
 
             services.AddAutoMapper();
@@ -126,9 +125,9 @@ namespace iTest.Web
         {
             services.AddDbContext<iTestDbContext>(options =>
                 {
-                var connectionString = Configuration.GetConnectionString("iTestDbConnection");
-                options.UseSqlServer(connectionString);
-            });
+                    var connectionString = Configuration.GetConnectionString("iTestDbConnection");
+                    options.UseSqlServer(connectionString);
+                });
 
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<ISaver, EntitySaver>();

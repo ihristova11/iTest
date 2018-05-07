@@ -19,7 +19,7 @@
 
         data.correctAnswers = correctAnswers;
 
-        $("#confirm").on("submit", function (e) {
+        $("#confirm").on("click", function (e) {
             $.ajax({
                 url: "/users/dashboard/details",
                 type: "POST",
