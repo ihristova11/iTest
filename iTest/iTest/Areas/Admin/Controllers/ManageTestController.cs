@@ -22,15 +22,13 @@ namespace iTest.Web.Areas.Admin.Controllers
         private readonly IAdminCategoryService categoryService;
         private readonly IMappingProvider mapper;
         private readonly UserManager<User> userManager;
-        private readonly IToastNotification toastr;
 
-        public ManageTestController(IAdminTestService testServices, IAdminCategoryService categoryService, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
+        public ManageTestController(IAdminTestService testServices, IAdminCategoryService categoryService, IMappingProvider mapper, UserManager<User> userManager)
         {
             this.testService = testServices ?? throw new ArgumentNullException(nameof(testServices));
             this.categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-            this.toastr = toastr ?? throw new ArgumentNullException(nameof(toastr));
         }
 
         [HttpGet]

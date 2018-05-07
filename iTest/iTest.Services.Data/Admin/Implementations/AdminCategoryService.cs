@@ -20,10 +20,10 @@ namespace iTest.Services.Data.Admin.Implementations
 
         public AdminCategoryService(IMappingProvider mapper, IRepository<Category> categories, IRepository<Test> tests, ISaver saver)
         {
-            this.mapper = mapper;
-            this.categories = categories;
-            this.tests = tests;
-            this.saver = saver;
+            this.mapper = mapper ?? throw new ArgumentNullException("mapper null");
+            this.categories = categories ?? throw new ArgumentNullException("mapper null");
+            this.tests = tests ?? throw new ArgumentNullException("mapper null");
+            this.saver = saver ?? throw new ArgumentNullException("mapper null");
         }
 
         public async Task<IEnumerable<Category>> AllAsync()

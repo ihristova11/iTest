@@ -22,11 +22,11 @@ namespace iTest.Services.Data.Admin.Implementations
 
         public AdminTestService(IMappingProvider mapper, IRepository<Test> tests, IRepository<Question> questions, IRepository<Category> categories, ISaver saver)
         {
-            this.mapper = mapper;
-            this.tests = tests;
-            this.questions = questions;
-            this.saver = saver;
-            this.categories = categories;
+            this.mapper = mapper ?? throw new ArgumentNullException();
+            this.tests = tests ?? throw new ArgumentNullException();
+            this.questions = questions ?? throw new ArgumentNullException();
+            this.saver = saver ?? throw new ArgumentNullException();
+            this.categories = categories ?? throw new ArgumentNullException();
         }
 
         public IEnumerable<TestDTO> AllByAuthor(string authorId)
