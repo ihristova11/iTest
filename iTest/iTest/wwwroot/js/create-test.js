@@ -1,5 +1,6 @@
 ﻿$(function () {
-    $("#publish-btn").on("click", function () {
+    $("#publish-btn").on("click", function (e) {
+        e.preventDefault();
         if ($("#test-form").valid()) {
             let data = {};
 
@@ -81,11 +82,17 @@
                 }
             }
 
+            var token = $('input[name=__RequestVerificationToken]').val();
+            var headers = {};
+            headers['__RequestVerificationToken'] = token;
+
+
             $.ajax({
                 url: "/Admin/ManageTest/Create",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(data),
+                headers: headers,
                 success: (response) => {
                     console.log('should redirect');
                     window.location.href = response;
@@ -97,7 +104,8 @@
         }
     });
 
-    $("#draft-btn").on("click", function () {
+    $("#draft-btn").on("click", function (e) {
+        e.preventDefault();
         if ($("#test-form").valid()) {
             let data = {};
 
@@ -138,11 +146,17 @@
                     data.Questions.push(question);
                 });
 
+            var token = $('input[name=__RequestVerificationToken]').val();
+            var headers = {};
+            headers['__RequestVerificationToken'] = token;
+
+
             $.ajax({
                 url: "/Admin/ManageTest/Create",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(data),
+                headers: headers,
                 success: (response) => {
                     window.location.href = response;
                 },
