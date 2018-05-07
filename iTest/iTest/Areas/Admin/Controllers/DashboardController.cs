@@ -22,11 +22,10 @@ namespace iTest.Web.Areas.Admin.Controllers
         private readonly IResultService resultService;
         private readonly UserManager<User> userManager;
 
-        public DashboardController(IMappingProvider mapper, IAdminTestService tests, IResultService resultService, UserManager<User> userManager)
+        public DashboardController(IMappingProvider mapper, IAdminTestService tests, UserManager<User> userManager)
         {
             this.mapper = mapper ?? throw new ArgumentNullException("Mapper can not be null");
             this.tests = tests ?? throw new ArgumentNullException("Tests service cannot be null");
-            this.resultService = resultService ?? throw new ArgumentNullException("Result service cannot be null");
             this.userManager = userManager ?? throw new ArgumentNullException("User manager cannot be null");
         }
         
