@@ -16,14 +16,14 @@ namespace iTest.Services.Data.Admin.Implementations
     public class AdminTestService : IAdminTestService
     {
         private readonly IMappingProvider mapper;
-        private readonly IRepository<Test> tests;
-        private readonly IRepository<Question> questions;
-        private readonly IRepository<Category> categories;
-        private readonly IRepository<Answer> answers;
-        private readonly IRepository<UserTest> userTests;
+        private readonly IUserTestService<Test> tests;
+        private readonly IUserTestService<Question> questions;
+        private readonly IUserTestService<Category> categories;
+        private readonly IUserTestService<Answer> answers;
+        private readonly IUserTestService<UserTest> userTests;
         private readonly ISaver saver;
 
-        public AdminTestService(IMappingProvider mapper, IRepository<Test> tests, IRepository<Question> questions, IRepository<Category> categories, ISaver saver, IRepository<Answer> answers, IRepository<UserTest> userTests)
+        public AdminTestService(IMappingProvider mapper, IUserTestService<Test> tests, IUserTestService<Question> questions, IUserTestService<Category> categories, ISaver saver, IUserTestService<Answer> answers, IUserTestService<UserTest> userTests)
         {
             this.mapper = mapper ?? throw new ArgumentNullException();
             this.tests = tests ?? throw new ArgumentNullException();

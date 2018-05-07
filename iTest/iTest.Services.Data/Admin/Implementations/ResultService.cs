@@ -11,9 +11,9 @@ namespace iTest.Services.Data.Admin.Implementations
     {
         private readonly ISaver saver;
         private readonly IMappingProvider mapper;
-        private readonly IRepository<UserTest> userTests;
+        private readonly IUserTestService<UserTest> userTests;
 
-        public ResultService(ISaver saver, IMappingProvider mapper, IRepository<UserTest> userTests)
+        public ResultService(ISaver saver, IMappingProvider mapper, IUserTestService<UserTest> userTests)
         {
             this.saver = saver ?? throw new ArgumentNullException("Saver can not be null");
             this.mapper = mapper ?? throw new ArgumentNullException("Mapper can not be null"); ;

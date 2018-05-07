@@ -14,11 +14,11 @@ namespace iTest.Services.Data.Admin.Implementations
     public class AdminCategoryService : IAdminCategoryService
     {
         private readonly IMappingProvider mapper;
-        private readonly IRepository<Category> categories;
-        private readonly IRepository<Test> tests;
+        private readonly IUserTestService<Category> categories;
+        private readonly IUserTestService<Test> tests;
         private readonly ISaver saver;
 
-        public AdminCategoryService(IMappingProvider mapper, IRepository<Category> categories, IRepository<Test> tests, ISaver saver)
+        public AdminCategoryService(IMappingProvider mapper, IUserTestService<Category> categories, IUserTestService<Test> tests, ISaver saver)
         {
             this.mapper = mapper ?? throw new ArgumentNullException("mapper null");
             this.categories = categories ?? throw new ArgumentNullException("mapper null");
