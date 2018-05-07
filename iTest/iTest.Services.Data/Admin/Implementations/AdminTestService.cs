@@ -23,13 +23,14 @@ namespace iTest.Services.Data.Admin.Implementations
         private readonly IRepository<UserTest> userTests;
         private readonly ISaver saver;
 
-        public AdminTestService(IMappingProvider mapper, IRepository<Test> tests, IRepository<Question> questions, IRepository<Category> categories, ISaver saver, IRepository<Answer> answers)
+        public AdminTestService(IMappingProvider mapper, IRepository<Test> tests, IRepository<Question> questions, IRepository<Category> categories, ISaver saver, IRepository<Answer> answers, IRepository<UserTest> userTests)
         {
             this.mapper = mapper ?? throw new ArgumentNullException();
             this.tests = tests ?? throw new ArgumentNullException();
             this.questions = questions ?? throw new ArgumentNullException();
             this.saver = saver ?? throw new ArgumentNullException();
             this.answers = answers ?? throw new ArgumentNullException();
+            this.userTests = userTests ?? throw new ArgumentNullException(nameof(userTests));
             this.categories = categories ?? throw new ArgumentNullException();
         }
 

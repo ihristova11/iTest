@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace iTest.Services.Data.Admin.Implementations
+namespace iTest.Services.Data.Admin
 {
     [Serializable]
     internal class InvalidTestException : Exception

@@ -11,6 +11,7 @@ using iTest.Web.Areas.Admin.Models.Dashboard;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace iTest.Web.Areas.Admin.Controllers
 {
@@ -22,7 +23,7 @@ namespace iTest.Web.Areas.Admin.Controllers
         private readonly IResultService resultService;
         private readonly UserManager<User> userManager;
 
-        public DashboardController(IMappingProvider mapper, IAdminTestService tests, UserManager<User> userManager)
+        public DashboardController(IMappingProvider mapper, IAdminTestService tests, UserManager<User> userManager, IMemoryCache cache)
         {
             this.mapper = mapper ?? throw new ArgumentNullException("Mapper can not be null");
             this.tests = tests ?? throw new ArgumentNullException("Tests service cannot be null");
