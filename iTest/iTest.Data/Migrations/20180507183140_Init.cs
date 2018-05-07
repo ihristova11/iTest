@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using System.Collections.Generic;
 
 namespace iTest.Data.Migrations
 {
@@ -202,7 +201,6 @@ namespace iTest.Data.Migrations
                     CategoryId = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: true),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    ExecutionTime = table.Column<TimeSpan>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
@@ -260,7 +258,6 @@ namespace iTest.Data.Migrations
                     CreatedOn = table.Column<DateTime>(nullable: true),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     ExecutionTime = table.Column<TimeSpan>(nullable: false),
-                    Id = table.Column<int>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     RequestedTime = table.Column<TimeSpan>(nullable: false),
@@ -270,7 +267,6 @@ namespace iTest.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserTest", x => new { x.UserId, x.TestId });
-                    table.UniqueConstraint("AK_UserTest_Id", x => x.Id);
                     table.ForeignKey(
                         name: "FK_UserTest_Tests_TestId",
                         column: x => x.TestId,

@@ -12,7 +12,7 @@ using System;
 namespace iTest.Data.Migrations
 {
     [DbContext(typeof(iTestDbContext))]
-    [Migration("20180506232736_Init")]
+    [Migration("20180507183140_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -136,8 +136,6 @@ namespace iTest.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<TimeSpan>("ExecutionTime");
-
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime?>("ModifiedOn");
@@ -230,8 +228,6 @@ namespace iTest.Data.Migrations
 
                     b.Property<TimeSpan>("ExecutionTime");
 
-                    b.Property<int>("Id");
-
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime?>("ModifiedOn");
@@ -243,8 +239,6 @@ namespace iTest.Data.Migrations
                     b.Property<DateTime>("StartedOn");
 
                     b.HasKey("UserId", "TestId");
-
-                    b.HasAlternateKey("Id");
 
                     b.HasIndex("TestId");
 

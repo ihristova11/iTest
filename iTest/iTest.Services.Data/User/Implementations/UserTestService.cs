@@ -103,7 +103,6 @@ namespace iTest.Services.Data.User.Implementations
             userTest.RequestedTime = dto.RequestedTime;
             userTest.ExecutionTime = dto.ExecutionTime;
             userTest.ResultStatus = dto.ResultStatus;
-            userTest.Name = test.Name;
 
             var domainTest = this.mapper.MapTo<UserTest>(userTest);
 
