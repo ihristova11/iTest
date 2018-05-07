@@ -78,7 +78,7 @@ namespace iTest.Services.Data.User.Implementations
 
             if (test == null)
             {
-                throw new ArgumentException($"Test with name:{testId} couldn't be found!");
+                throw new ArgumentException($"Test with id:{testId} couldn't be found!");
             }
 
             var dto = mapper.MapTo<UserTestDTO>(test);
@@ -103,6 +103,7 @@ namespace iTest.Services.Data.User.Implementations
             userTest.RequestedTime = dto.RequestedTime;
             userTest.ExecutionTime = dto.ExecutionTime;
             userTest.ResultStatus = dto.ResultStatus;
+            userTest.Name = test.Name;
 
             var domainTest = this.mapper.MapTo<UserTest>(userTest);
 
