@@ -27,5 +27,7 @@ namespace iTest.Web.Areas.Users.Models.Details
         public int QuestionsCount { get; set; }
 
         public string UserId { get; set; }
+
+        public int TestId { get; set; }
     }
 }

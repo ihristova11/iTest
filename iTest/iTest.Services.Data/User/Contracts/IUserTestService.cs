@@ -13,6 +13,6 @@ namespace iTest.Services.Data.User.Contracts
 
         UserTestDTO MapStartedTest(string userId, int testId);
 
-        void SaveResult(TestDTO dto);
+        void SaveResult(UserTestDTO dto);
     }
 }

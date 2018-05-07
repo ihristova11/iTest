@@ -64,6 +64,7 @@ namespace iTest.Web.Areas.Users.Controllers
             var test = this.tests.FindById(id);
 
             var model = new UserTestDetailsViewModel();
+
             model = this.mapper.MapTo<UserTestDetailsViewModel>(test);
 
             TimeSpan requestedTime = TimeSpan.FromMinutes(test.RequestedTime);
@@ -74,46 +75,63 @@ namespace iTest.Web.Areas.Users.Controllers
             model.RequestedTime = requestedTime;
             model.QuestionsCount = test.Questions.ToList().Count();
             model.UserId = userId;
+            model.TestId = test.Id;
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Details(UserTestDetailsViewModel model)
+        public IActionResult Details([FromForm] UserTestDetailsViewModel model)
         {
-            var dto = this.mapper.MapTo<TestDTO>(model);
-            var dto2 = this.mapper.MapTo<UserTestDTO>(model);
-
-            if (model.ResultStatus != ResultStatus.Default)
+            var dto = new UserTestDTO
             {
-                return Json(Url.Action("Index", "Dashboard", new { area = "Users" }));
+                UserId = model.UserId,
+                TestId = model.TestId,
+                RequestedTime = model.RequestedTime,
+                StartedOn = model.StartedOn,
+                SubmittedOn = DateTime.Now,
+                ExecutionTime = DateTime.Now.Subtract(model.StartedOn),
+                ResultStatus = ResultStatus.Default,
+                CorrectAnswers = model.CorrectAnswers,
+                QuestionsCount = model.QuestionsCount
+            };
+
+            //var dto = this.mapper.MapTo<UserTestDTO>(model);
+
+            if (dto.ResultStatus != ResultStatus.Default)
+            {
+                return RedirectToAction("Index", "Dashboard", new { area = "Users" });
             }
 
-            model.SubmittedOn = DateTime.Now;
-            model.ExecutionTime = model.SubmittedOn.Subtract(model.StartedOn);
+            //dto.SubmittedOn = DateTime.Now;
+            //dto.ExecutionTime = dto.SubmittedOn.Subtract(dto.StartedOn);
 
-            if (model.CorrectAnswers == 0)
+            var correctAsnwers = dto.CorrectAnswers;
+            var questionsCount = dto.QuestionsCount;
+
+
+            if (correctAsnwers == 0)
             {
-                model.ResultStatus = ResultStatus.Failed;
+                dto.ResultStatus = ResultStatus.Failed;
             }
 
             else
             {
-                double result = (model.CorrectAnswers / model.QuestionsCount) * 100;
+                var result = (correctAsnwers / questionsCount) * 100;
 
                 if (result >= 80.0)
                 {
-                    model.ResultStatus = ResultStatus.Passed;
+                    dto.ResultStatus = ResultStatus.Passed;
                 }
                 else
                 {
-                    model.ResultStatus = ResultStatus.Failed;
+                    dto.ResultStatus = ResultStatus.Failed;
                 }
             }
 
-
             this.tests.SaveResult(dto);
 
+            //return RedirectToAction("Index", "Dashboard", new { area = "Users" });
             return Json(Url.Action("Index", "Dashboard", new { area = "Users" }));
         }
     }

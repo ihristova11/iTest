@@ -72,8 +72,6 @@ namespace iTest.Services.Data.User.Implementations
             return this.mapper.MapTo<TestDTO>(test);
         }
 
-
-
         public UserTestDTO MapStartedTest(string userId, int testId)
         {
             var test = this.tests.All.FirstOrDefault(t => t.Id == testId);
@@ -88,10 +86,29 @@ namespace iTest.Services.Data.User.Implementations
             return dto;
         }
 
-        public void SaveResult(TestDTO dto)
+        public void SaveResult(UserTestDTO dto)
         {
-            var model = this.mapper.MapTo<Test>(dto);
-            // update in database
+            var test = this.tests.All.FirstOrDefault(x => x.Id == dto.TestId);
+
+            if (test == null)
+            {
+                throw new ArgumentException("Test was not found!");
+            }
+
+            var userTest = this.mapper.MapTo<UserTestDTO>(test);
+
+            // map props
+            userTest.UserId = dto.UserId;
+            userTest.TestId = dto.TestId;
+            userTest.RequestedTime = dto.RequestedTime;
+            userTest.ExecutionTime = dto.ExecutionTime;
+            userTest.ResultStatus = dto.ResultStatus;
+
+            var domainTest = this.mapper.MapTo<UserTest>(userTest);
+
+            this.userTests.Add(domainTest);
+
+            this.saver.SaveChanges();
         }
     }
 }

@@ -13,29 +13,29 @@
             }
         }
 
-            // data binding
-            let data = {};
-            data.Name = $("#Name").val();
-            data.CategoryName = $("#CategoryName").val();
-            data.QuestionsCount = $("#QuestionsCount").val();
-            data.StartedOn = $("#startedOn").val();
-            //data.SubmittedOn = $.now();
-            data.RequestedTime = $("#RequestedTime").val();
-            data.CorrectAnswers = $("#CorrectAnswers").val(parseInt(correctAnswers));
+        // data binding
+        let data = {};
+        data.Name = $("#Name").val();
+        data.CategoryName = $("#CategoryName").val();
+        data.QuestionsCount = $("#QuestionsCount").val();
+        data.StartedOn = $("#startedOn").val();
+        data.TestId = $("#TestId").val();
+        data.RequestedTime = $("#RequestedTime").val();
+        data.CorrectAnswers = $("#CorrectAnswers").val(parseInt(correctAnswers));
 
 
-            // post request
-            $.ajax({
-                url: "/users/dashboard/details",
-                type: "POST",
-                contentType: "application/json;charset=utf-8",
-                data: JSON.stringify(data),
-                success: (response) => {
-                    window.location.href = response;
-                },
-                error: (err) => {
-                    console.log(err);
-                }
-            });
+        // post request
+        $.ajax({
+            url: "/users/dashboard/details",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(data),
+            success: (response) => {
+                window.location.href = response;
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        });
     });
 });

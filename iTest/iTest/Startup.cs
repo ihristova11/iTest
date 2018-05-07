@@ -35,7 +35,7 @@ namespace iTest.Web
             this.RegisterServices(services);
             this.Routing(services);
 
-            //services.AddCors();
+            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -59,7 +59,7 @@ namespace iTest.Web
 
             app.UseAuthentication();
 
-            //app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 
             app.UseMvc(routes =>
             {
