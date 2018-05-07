@@ -103,9 +103,6 @@ namespace iTest.Web.Areas.Users.Controllers
                 return RedirectToAction("Index", "Dashboard", new { area = "Users" });
             }
 
-            //dto.SubmittedOn = DateTime.Now;
-            //dto.ExecutionTime = dto.SubmittedOn.Subtract(dto.StartedOn);
-
             var correctAsnwers = dto.CorrectAnswers;
             var questionsCount = dto.QuestionsCount;
 
@@ -131,8 +128,8 @@ namespace iTest.Web.Areas.Users.Controllers
 
             this.tests.SaveResult(dto);
 
-            //return RedirectToAction("Index", "Dashboard", new { area = "Users" });
-            return Json(Url.Action("Index", "Dashboard", new { area = "Users" }));
+            return RedirectToAction("Index", "Dashboard", new { area = "Users" }); // working but why!
+            //return Json(Url.Action("Index", "Dashboard", new { area = "Users" }));
         }
     }
 }

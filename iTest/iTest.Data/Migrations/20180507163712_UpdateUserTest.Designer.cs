@@ -12,9 +12,10 @@ using System;
 namespace iTest.Data.Migrations
 {
     [DbContext(typeof(iTestDbContext))]
-    partial class iTestDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180507163712_UpdateUserTest")]
+    partial class UpdateUserTest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,8 +233,6 @@ namespace iTest.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<TimeSpan>("RequestedTime");
-
-                    b.Property<int>("ResultStatus");
 
                     b.Property<DateTime>("StartedOn");
 
