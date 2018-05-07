@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using iTest.Data.Models.Enums;
 
 namespace iTest.Services.Data.Admin.Implementations
 {
@@ -18,14 +19,16 @@ namespace iTest.Services.Data.Admin.Implementations
         private readonly IRepository<Test> tests;
         private readonly IRepository<Question> questions;
         private readonly IRepository<Category> categories;
+        private readonly IRepository<Answer> answers;
         private readonly ISaver saver;
 
-        public AdminTestService(IMappingProvider mapper, IRepository<Test> tests, IRepository<Question> questions, IRepository<Category> categories, ISaver saver)
+        public AdminTestService(IMappingProvider mapper, IRepository<Test> tests, IRepository<Question> questions, IRepository<Category> categories, ISaver saver, IRepository<Answer> answers)
         {
             this.mapper = mapper ?? throw new ArgumentNullException();
             this.tests = tests ?? throw new ArgumentNullException();
             this.questions = questions ?? throw new ArgumentNullException();
             this.saver = saver ?? throw new ArgumentNullException();
+            this.answers = answers ?? throw new ArgumentNullException();
             this.categories = categories ?? throw new ArgumentNullException();
         }
 
@@ -45,6 +48,38 @@ namespace iTest.Services.Data.Admin.Implementations
                 .All;
 
             return this.mapper.ProjectTo<TestDTO>(allTests);
+        }
+
+        public void PublishExistingTest(int id)
+        {
+            var test = this.tests.All
+                .Where(t => t.Status != Status.Published && t.Id == id)
+                .Include(q => q.Questions)
+                .ThenInclude(a => a.Answers)
+                .FirstOrDefault();
+
+            if (!test.Questions.Any())
+            {
+                throw new InvalidTestException("Cannot publish a test with no questions!");
+            }
+            else
+            {
+                foreach (var question in test.Questions)
+                {
+                    if (question.Answers.Count < 2)
+                    {
+                        throw new InvalidTestException("Cannot publish a test with a question with less than 2 answers!");
+                    }
+                }
+            }
+
+            if (test != null)
+            {
+                test.Status = Status.Published;
+
+                tests.Update(test);
+                saver.SaveChanges();
+            }
         }
 
         public async Task<TestDTO> FindByIdAsync(int id)
@@ -106,6 +141,10 @@ namespace iTest.Services.Data.Admin.Implementations
 
             foreach (var question in test.Questions)
             {
+                foreach (var answer in question.Answers)
+                {
+                   this.answers.Delete(answer);
+                }
                 this.questions.Delete(question);
             }
 

@@ -45,9 +45,19 @@
                                                 }
                                                 else if (test.Status == "Draft")
                                                 {
-                                                    <a class="btn btn-primary" id="@test.Id" asp-action="Publish" asp-controller="Dashboard" asp-area="Admin" asp-route-id="@test.Id" name="publish">Publish</a>
-                                                    <a class="btn btn-primary" asp-action="Edit" asp-controller="ManageTest" asp-area="Admin" asp-route-id="@test.Id">Edit</a>
-                                                    <a class="btn btn-primary" asp-action="Delete" asp-controller="Dashboard" asp-area="Admin" asp-route-id="@test.Id" name="delete">Delete</a>
+                                                    <div class="row">
+                                                        <form class="col-xs-4" asp-action="Publish" asp-controller="Dashboard" asp-area="Admin" asp-route-id="@test.Id">
+                                                            <a class="btn btn-success col-xs-12 publish-btn" id="@test.Id" name="publish">Publish</a>
+                                                        </form>
+
+                                                        <form class="col-xs-4">
+                                                            <a class="btn btn-warning col-xs-12 edit-btn" asp-action="Edit" asp-controller="ManageTest" asp-area="Admin" asp-route-id="@test.Id">Edit</a>
+                                                        </form>
+
+                                                        <form class="col-xs-4" asp-action="Delete" asp-controller="Dashboard" asp-area="Admin" asp-route-id="@test.Id">
+                                                            <a class="btn btn-danger col-xs-12 delete-btn" name="delete">Delete</a>
+                                                        </form>
+                                                    </div>
                                                 }
 
                                             </div>
@@ -147,11 +157,4 @@
 @section Scripts {
     @Html.Partial("_ValidationScriptsPartial")
     <script src="~/js/dashboard.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('.tests').DataTable();
-            $('.results').DataTable();
-
-        });
-    </script>
 }

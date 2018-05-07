@@ -14,6 +14,8 @@ namespace iTest.Services.Data.Admin.Contracts
 
         void Create(TestDTO dto);
 
+        void PublishExistingTest(int id);
+
         Task UpdateAsync(TestDTO dto);
 
         Task DeleteAsync(int id);
