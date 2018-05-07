@@ -83,20 +83,10 @@ namespace iTest.Web.Areas.Users.Controllers
         [HttpPost]
         public IActionResult Details([FromForm] UserTestDetailsViewModel model)
         {
-            var dto = new UserTestDTO
-            {
-                UserId = model.UserId,
-                TestId = model.TestId,
-                RequestedTime = model.RequestedTime,
-                StartedOn = model.StartedOn,
-                SubmittedOn = DateTime.Now,
-                ExecutionTime = DateTime.Now.Subtract(model.StartedOn),
-                ResultStatus = ResultStatus.Default,
-                CorrectAnswers = model.CorrectAnswers,
-                QuestionsCount = model.QuestionsCount
-            };
+            model.SubmittedOn = DateTime.Now;
+            model.ExecutionTime = DateTime.Now.Subtract(model.StartedOn);
 
-            //var dto = this.mapper.MapTo<UserTestDTO>(model);
+            var dto = this.mapper.MapTo<UserTestDTO>(model);
 
             if (dto.ResultStatus != ResultStatus.Default)
             {
