@@ -6,9 +6,9 @@ using iTest.Services.Data.User.Contracts;
 using iTest.Web.Areas.Users.Controllers.Abstract;
 using iTest.Web.Areas.Users.Models.Dashboard;
 using iTest.Web.Areas.Users.Models.Details;
+using iTest.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using NToastNotify;
 using System;
 using System.Linq;
 
@@ -20,15 +20,13 @@ namespace iTest.Web.Areas.Users.Controllers
         private readonly IUserCategoryService categories;
         private readonly IMappingProvider mapper;
         private readonly UserManager<User> userManager;
-        private readonly IToastNotification toastr;
 
-        public DashboardController(IUserTestService tests, IUserCategoryService categories, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
+        public DashboardController(IUserTestService tests, IUserCategoryService categories, IMappingProvider mapper, UserManager<User> userManager)
         {
             this.tests = tests;
             this.categories = categories;
             this.mapper = mapper;
             this.userManager = userManager;
-            this.toastr = toastr;
         }
 
         public IActionResult Index()
@@ -109,10 +107,12 @@ namespace iTest.Web.Areas.Users.Controllers
                 if (result >= 80.0)
                 {
                     dto.ResultStatus = ResultStatus.Passed;
+                    TempData.AddSuccessMessage($"You passed the test. Please wait, your result is being saved");
                 }
                 else
                 {
                     dto.ResultStatus = ResultStatus.Failed;
+                    TempData.AddErrorMessage($"You score is not enough to pass the test. Please wait, your are being redirect to your dashboard");
                 }
             }
 

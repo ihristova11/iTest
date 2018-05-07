@@ -6,7 +6,6 @@ using iTest.Web.Areas.Users.Models.Dashboard;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using NToastNotify;
 
 namespace iTest.UnitTests.Controllers.Users.DashboardControllerTests
 {
@@ -21,9 +20,8 @@ namespace iTest.UnitTests.Controllers.Users.DashboardControllerTests
             var userTestServiceMock = new Mock<IUserTestService>();
             var mappingProviderMock = new Mock<IMappingProvider>();
             var userManagerMock = new Mock<UserManager<User>>(MockBehavior.Default);
-            var toastrMock = new Mock<IToastNotification>();
 
-            var controller = new DashboardController(userTestServiceMock.Object, categoriesServiceMock.Object, mappingProviderMock.Object, userManagerMock.Object, toastrMock.Object);
+            var controller = new DashboardController(userTestServiceMock.Object, categoriesServiceMock.Object, mappingProviderMock.Object, userManagerMock.Object);
 
             var userDashboardViewModelMock = new Mock<UserDashboardViewModel>().Object;
 

@@ -5,7 +5,6 @@ using iTest.Web.Areas.Users.Controllers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using NToastNotify;
 using System;
 
 namespace iTest.UnitTests.Controllers.Users.DashboardControllerTests
@@ -21,9 +20,9 @@ namespace iTest.UnitTests.Controllers.Users.DashboardControllerTests
             var userTestServiceMock = new Mock<IUserTestService>();
             var mappingProviderMock = new Mock<IMappingProvider>();
             var userManagerMock = new Mock<UserManager<User>>(MockBehavior.Default);
-            var toastrMock = new Mock<IToastNotification>();
 
-            Assert.ThrowsException<ArgumentNullException>(() => new DashboardController(userTestServiceMock.Object, categoriesServiceMock.Object, null, userManagerMock.Object, toastrMock.Object));
+
+            Assert.ThrowsException<ArgumentNullException>(() => new DashboardController(userTestServiceMock.Object, categoriesServiceMock.Object, null, userManagerMock.Object));
         }
 
         [TestMethod]
@@ -33,9 +32,8 @@ namespace iTest.UnitTests.Controllers.Users.DashboardControllerTests
             var userTestServiceMock = new Mock<IUserTestService>();
             var mappingProviderMock = new Mock<IMappingProvider>();
             var userManagerMock = new Mock<UserManager<User>>();
-            var toastrMock = new Mock<IToastNotification>();
 
-            Assert.ThrowsException<ArgumentNullException>(() => new DashboardController(userTestServiceMock.Object, null, mappingProviderMock.Object, userManagerMock.Object, toastrMock.Object));
+            Assert.ThrowsException<ArgumentNullException>(() => new DashboardController(userTestServiceMock.Object, null, mappingProviderMock.Object, userManagerMock.Object));
         }
 
         [TestMethod]
@@ -45,9 +43,8 @@ namespace iTest.UnitTests.Controllers.Users.DashboardControllerTests
             var userTestServiceMock = new Mock<IUserTestService>();
             var mappingProviderMock = new Mock<IMappingProvider>();
             var userManagerMock = new Mock<UserManager<User>>();
-            var toastrMock = new Mock<IToastNotification>();
 
-            Assert.ThrowsException<ArgumentNullException>(() => new DashboardController(null, categoriesServiceMock.Object, mappingProviderMock.Object, userManagerMock.Object, toastrMock.Object));
+            Assert.ThrowsException<ArgumentNullException>(() => new DashboardController(null, categoriesServiceMock.Object, mappingProviderMock.Object, userManagerMock.Object));
         }
 
         [TestMethod]
@@ -57,21 +54,8 @@ namespace iTest.UnitTests.Controllers.Users.DashboardControllerTests
             var userTestServiceMock = new Mock<IUserTestService>();
             var mappingProviderMock = new Mock<IMappingProvider>();
             var userManagerMock = new Mock<UserManager<User>>();
-            var toastrMock = new Mock<IToastNotification>();
 
-            Assert.ThrowsException<ArgumentNullException>(() => new DashboardController(userTestServiceMock.Object, categoriesServiceMock.Object, mappingProviderMock.Object, null, toastrMock.Object));
-        }
-
-        [TestMethod]
-        public void ThrowArgumentNullException_WhenToastrIsNull()
-        {
-            var categoriesServiceMock = new Mock<IUserCategoryService>();
-            var userTestServiceMock = new Mock<IUserTestService>();
-            var mappingProviderMock = new Mock<IMappingProvider>();
-            var userManagerMock = new Mock<UserManager<User>>();
-            var toastrMock = new Mock<IToastNotification>();
-
-            Assert.ThrowsException<ArgumentNullException>(() => new DashboardController(userTestServiceMock.Object, categoriesServiceMock.Object, mappingProviderMock.Object, userManagerMock.Object, null));
+            Assert.ThrowsException<ArgumentNullException>(() => new DashboardController(userTestServiceMock.Object, categoriesServiceMock.Object, mappingProviderMock.Object, null));
         }
     }
 }
