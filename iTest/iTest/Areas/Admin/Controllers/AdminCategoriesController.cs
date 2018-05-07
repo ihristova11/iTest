@@ -3,7 +3,6 @@ using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
 using iTest.Web.Areas.Admin.Controllers.Abstract;
 using iTest.Web.Areas.Admin.Models.Categories;
-using iTest.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -44,7 +43,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             if (await category)
             {
-                TempData.AddSuccessMessage($"Category {model.Name} aleready exits!");
+                TempData["Success-Message"] = $"Category {model.Name} aleready exits!";
 
                 return View();
             }
@@ -54,7 +53,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
                 await this.categories.CreateAsync(dto);
 
-                TempData.AddSuccessMessage($"Category {model.Name} created successfully!");
+                TempData["Success-Message"] = $"Category {model.Name} created successfully!";
 
                 return RedirectToAction("Index", "Dashboard", new { area = "admin" });
             }
@@ -73,7 +72,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             await this.categories.UpdateAsync(dto);
 
-            TempData.AddSuccessMessage($"Category {model.Name} updated successfully!");
+            TempData["Success-Message"] = $"Category {model.Name} updated successfully!";
 
             return RedirectToAction("Index", "Dashboard", new { area = "admin" });
         }

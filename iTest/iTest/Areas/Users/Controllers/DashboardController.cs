@@ -6,7 +6,6 @@ using iTest.Services.Data.User.Contracts;
 using iTest.Web.Areas.Users.Controllers.Abstract;
 using iTest.Web.Areas.Users.Models.Dashboard;
 using iTest.Web.Areas.Users.Models.Details;
-using iTest.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -75,6 +74,8 @@ namespace iTest.Web.Areas.Users.Controllers
             model.UserId = userId;
             model.TestId = test.Id;
 
+            TempData["Success-Message"] = "You have started the test. Good luck...";
+
             return View(model);
         }
 
@@ -107,12 +108,12 @@ namespace iTest.Web.Areas.Users.Controllers
                 if (result >= 80.0)
                 {
                     dto.ResultStatus = ResultStatus.Passed;
-                    TempData.AddSuccessMessage($"You passed the test. Please wait, your result is being saved");
+                    TempData["Success-Message"] = "You passed the test. Please wait, your result is being saved";
                 }
                 else
                 {
                     dto.ResultStatus = ResultStatus.Failed;
-                    TempData.AddErrorMessage($"You score is not enough to pass the test. Please wait, your are being redirect to your dashboard");
+                    TempData["Success-Message"] = "You score is not enough to pass the test. Please wait, your are being redirect to your dashboard";
                 }
             }
 
