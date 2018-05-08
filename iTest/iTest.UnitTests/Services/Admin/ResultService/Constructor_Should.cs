@@ -16,8 +16,9 @@ namespace iTest.UnitTests.Services.Admin.ResultService
         {
             var saverMock = new Mock<ISaver>();
             var userTestRepoMock = new Mock<IUserTestService<UserTest>>();
+            var testsMock = new Mock<IUserTestService<Test>>();
 
-            Assert.ThrowsException<ArgumentNullException>(() => new iTest.Services.Data.Admin.Implementations.ResultService(saverMock.Object, null, userTestRepoMock.Object));
+            Assert.ThrowsException<ArgumentNullException>(() => new iTest.Services.Data.Admin.Implementations.ResultService(saverMock.Object, null, testsMock.Object, userTestRepoMock.Object));
         }
 
         [TestMethod]
@@ -25,8 +26,9 @@ namespace iTest.UnitTests.Services.Admin.ResultService
         {
             var mappingProviderMock = new Mock<IMappingProvider>();
             var userTestRepoMock = new Mock<IUserTestService<UserTest>>();
-
-            Assert.ThrowsException<ArgumentNullException>(() => new iTest.Services.Data.Admin.Implementations.ResultService(null, mappingProviderMock.Object, userTestRepoMock.Object));
+            var testsMock = new Mock<IUserTestService<Test>>();
+            
+            Assert.ThrowsException<ArgumentNullException>(() => new iTest.Services.Data.Admin.Implementations.ResultService(null, mappingProviderMock.Object, testsMock.Object, userTestRepoMock.Object));
         }
 
         [TestMethod]
@@ -34,9 +36,9 @@ namespace iTest.UnitTests.Services.Admin.ResultService
         {
             var saverMock = new Mock<ISaver>();
             var mappingProviderMock = new Mock<IMappingProvider>();
-            
+            var testsMock = new Mock<IUserTestService<Test>>();
 
-            Assert.ThrowsException<ArgumentNullException>(() => new iTest.Services.Data.Admin.Implementations.ResultService(saverMock.Object, mappingProviderMock.Object, null));
+            Assert.ThrowsException<ArgumentNullException>(() => new iTest.Services.Data.Admin.Implementations.ResultService(saverMock.Object, mappingProviderMock.Object, testsMock.Object, null));
         }
     }
 }
