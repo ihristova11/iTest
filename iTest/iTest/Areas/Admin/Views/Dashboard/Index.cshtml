@@ -83,29 +83,28 @@
                     <div class="tab-pane fade" id="tab2default">
                         <table style="width:100%" class="table table-striped custab results" data-page-length='10'>
                             <thead>
-                            <tr>
-                                <th>Test Name</th>
-                                <th>User Name</th>
-                                <th>Category</th>
-                                <th>Requested Time</th>
-                                <th>Execution Time</th>
-                                <th>Results</th>
-                            </tr>
+                                <tr>
+                                    <th>Test Name</th>
+                                    <th>User Name</th>
+                                    <th>Category</th>
+                                    <th>Requested Time</th>
+                                    <th>Execution Time</th>
+                                    <th>Results</th>
+                                </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                @foreach (var userResult in Model.UserResults)
-                                {
-                                    <td>@userResult.TestName</td>
-                                    <td>@userResult.UserName</td>
-                                    <td>@userResult.Category</td>
-                                    <td>@userResult.RequestedTime</td>
-                                    <td>@userResult.ExecutionTime</td>
-                                    <td>@userResult.Result</td>
-                                }
-                            </tr>
-
-                            </tbody>
+                            @foreach (var userResult in Model.UserResults)
+                            {
+                                <tbody>
+                                    <tr>
+                                        <td>@userResult.TestName</td>
+                                        <td>@userResult.UserName</td>
+                                        <td>@userResult.Category</td>
+                                        <td>@userResult.RequestedTime</td>
+                                        <td>@userResult.ExecutionTime</td>
+                                        <td>@userResult.Result</td>
+                                    </tr>
+                                </tbody>
+                            }
                         </table>
                     </div>
                 </div>
