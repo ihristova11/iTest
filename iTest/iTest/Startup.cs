@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using iTest.Services.Data.Admin.Contracts;
+using iTest.Services.Data.Admin.Implementations;
 
 namespace iTest.Web
 {
@@ -33,6 +35,7 @@ namespace iTest.Web
             this.RegisterData(services);
             this.RegisterAuthentication(services);
             this.RegisterServices(services);
+            services.AddScoped<IResultService, ResultService>();
             this.Routing(services);
             services.AddCors();
         }
