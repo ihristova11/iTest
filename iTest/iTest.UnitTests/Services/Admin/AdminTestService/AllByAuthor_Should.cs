@@ -20,11 +20,11 @@ namespace iTest.UnitTests.Services.Admin.AdminTestService
             //Arrange
             var mapperMock = new Mock<IMappingProvider>();
             var saverMock = new Mock<ISaver>();
-            var testsRepoMock = new Mock<IUserTestService<Test>>();
-            var questionRepoMock = new Mock<IUserTestService<Question>>();
-            var categoryRepoMock = new Mock<IUserTestService<Category>>();
-            var answerRepoMock = new Mock<IUserTestService<Answer>>();
-            var userTestsRepoMock = new Mock<IUserTestService<UserTest>>();
+            var testsRepoMock = new Mock<IRepository<Test>>();
+            var questionRepoMock = new Mock<IRepository<Question>>();
+            var categoryRepoMock = new Mock<IRepository<Category>>();
+            var answerRepoMock = new Mock<IRepository<Answer>>();
+            var userTestsRepoMock = new Mock<IRepository<UserTest>>();
 
             var author = new Data.Models.User() {UserName = "a@a.com", Id = "1"};
             var data = new List<Test>()
@@ -64,11 +64,11 @@ namespace iTest.UnitTests.Services.Admin.AdminTestService
             //Arrange
             var mapperMock = new Mock<IMappingProvider>();
             var saverMock = new Mock<ISaver>();
-            var testsRepoMock = new Mock<IUserTestService<Test>>();
-            var questionRepoMock = new Mock<IUserTestService<Question>>();
-            var categoryRepoMock = new Mock<IUserTestService<Category>>();
-            var answerRepoMock = new Mock<IUserTestService<Answer>>();
-            var userTestsRepoMock = new Mock<IUserTestService<UserTest>>();
+            var testsRepoMock = new Mock<IRepository<Test>>();
+            var questionRepoMock = new Mock<IRepository<Question>>();
+            var categoryRepoMock = new Mock<IRepository<Category>>();
+            var answerRepoMock = new Mock<IRepository<Answer>>();
+            var userTestsRepoMock = new Mock<IRepository<UserTest>>();
 
             var author = new Data.Models.User() { UserName = "a@a.com", Id = "1" };
             var data = new List<Test>()
@@ -108,11 +108,11 @@ namespace iTest.UnitTests.Services.Admin.AdminTestService
             //Arrange
             var mapperMock = new Mock<IMappingProvider>();
             var saverMock = new Mock<ISaver>();
-            var testsRepoMock = new Mock<IUserTestService<Test>>();
-            var questionRepoMock = new Mock<IUserTestService<Question>>();
-            var categoryRepoMock = new Mock<IUserTestService<Category>>();
-            var answerRepoMock = new Mock<IUserTestService<Answer>>();
-            var userTestsRepoMock = new Mock<IUserTestService<UserTest>>();
+            var testsRepoMock = new Mock<IRepository<Test>>();
+            var questionRepoMock = new Mock<IRepository<Question>>();
+            var categoryRepoMock = new Mock<IRepository<Category>>();
+            var answerRepoMock = new Mock<IRepository<Answer>>();
+            var userTestsRepoMock = new Mock<IRepository<UserTest>>();
 
             var author = new Data.Models.User() { UserName = "a@a.com", Id = "1" };
             var data = new List<Test>()
@@ -152,11 +152,11 @@ namespace iTest.UnitTests.Services.Admin.AdminTestService
             //Arrange
             var mapperMock = new Mock<IMappingProvider>();
             var saverMock = new Mock<ISaver>();
-            var testsRepoMock = new Mock<IUserTestService<Test>>();
-            var questionRepoMock = new Mock<IUserTestService<Question>>();
-            var categoryRepoMock = new Mock<IUserTestService<Category>>();
-            var answerRepoMock = new Mock<IUserTestService<Answer>>();
-            var userTestsRepoMock = new Mock<IUserTestService<UserTest>>();
+            var testsRepoMock = new Mock<IRepository<Test>>();
+            var questionRepoMock = new Mock<IRepository<Question>>();
+            var categoryRepoMock = new Mock<IRepository<Category>>();
+            var answerRepoMock = new Mock<IRepository<Answer>>();
+            var userTestsRepoMock = new Mock<IRepository<UserTest>>();
 
             var adminService = new iTest.Services.Data.Admin.Implementations.AdminTestService(mapperMock.Object,
                 testsRepoMock.Object, questionRepoMock.Object, categoryRepoMock.Object, saverMock.Object,
@@ -171,11 +171,11 @@ namespace iTest.UnitTests.Services.Admin.AdminTestService
             //Arrange
             var mapperMock = new Mock<IMappingProvider>();
             var saverMock = new Mock<ISaver>();
-            var testsRepoMock = new Mock<IUserTestService<Test>>();
-            var questionRepoMock = new Mock<IUserTestService<Question>>();
-            var categoryRepoMock = new Mock<IUserTestService<Category>>();
-            var answerRepoMock = new Mock<IUserTestService<Answer>>();
-            var userTestsRepoMock = new Mock<IUserTestService<UserTest>>();
+            var testsRepoMock = new Mock<IRepository<Test>>();
+            var questionRepoMock = new Mock<IRepository<Question>>();
+            var categoryRepoMock = new Mock<IRepository<Category>>();
+            var answerRepoMock = new Mock<IRepository<Answer>>();
+            var userTestsRepoMock = new Mock<IRepository<UserTest>>();
 
             var adminService = new iTest.Services.Data.Admin.Implementations.AdminTestService(mapperMock.Object,
                 testsRepoMock.Object, questionRepoMock.Object, categoryRepoMock.Object, saverMock.Object,
@@ -190,11 +190,11 @@ namespace iTest.UnitTests.Services.Admin.AdminTestService
             //Arrange
             var mapperMock = new Mock<IMappingProvider>();
             var saverMock = new Mock<ISaver>();
-            var testsRepoMock = new Mock<IUserTestService<Test>>();
-            var questionRepoMock = new Mock<IUserTestService<Question>>();
-            var categoryRepoMock = new Mock<IUserTestService<Category>>();
-            var answerRepoMock = new Mock<IUserTestService<Answer>>();
-            var userTestsRepoMock = new Mock<IUserTestService<UserTest>>();
+            var testsRepoMock = new Mock<IRepository<Test>>();
+            var questionRepoMock = new Mock<IRepository<Question>>();
+            var categoryRepoMock = new Mock<IRepository<Category>>();
+            var answerRepoMock = new Mock<IRepository<Answer>>();
+            var userTestsRepoMock = new Mock<IRepository<UserTest>>();
 
             var author = new Data.Models.User() { UserName = "a@a.com", Id = "1" };
             var data = new List<Test>()
