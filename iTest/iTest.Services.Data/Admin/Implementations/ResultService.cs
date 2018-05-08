@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using iTest.Data.Models;
+﻿using iTest.Data.Models;
 using iTest.Data.Repository;
 using iTest.Data.UnitsOfWork;
 using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
 using Microsoft.EntityFrameworkCore;
-using iTest.Data.Repository;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace iTest.Services.Data.Admin.Implementations
 {
@@ -45,7 +44,7 @@ namespace iTest.Services.Data.Admin.Implementations
         public IEnumerable<UserTestDTO> GetUserResults()
         {
             var userResults = userTests.All.Include(t => t.Test).Include(u => u.User);
-                //.Where(ur => ur.StartedOn + ur.RequestedTime < DateTime.Now.AddSeconds(5));
+            //.Where(ur => ur.StartedOn + ur.RequestedTime < DateTime.Now.AddSeconds(5));
 
             var dto = mapper.ProjectTo<UserTestDTO>(userResults);
 
