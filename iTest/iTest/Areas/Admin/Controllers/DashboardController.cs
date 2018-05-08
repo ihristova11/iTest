@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using iTest.Data.Models;
+﻿using iTest.Data.Models;
 using iTest.Data.Models.Enums;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
@@ -12,6 +9,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace iTest.Web.Areas.Admin.Controllers
 {

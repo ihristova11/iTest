@@ -8,12 +8,16 @@
   <ItemGroup>
     <Compile Remove="Areas\Admin\Data\**" />
     <Compile Remove="Areas\Users\Data\**" />
+    <Compile Remove="Pages\**" />
     <Content Remove="Areas\Admin\Data\**" />
     <Content Remove="Areas\Users\Data\**" />
+    <Content Remove="Pages\**" />
     <EmbeddedResource Remove="Areas\Admin\Data\**" />
     <EmbeddedResource Remove="Areas\Users\Data\**" />
+    <EmbeddedResource Remove="Pages\**" />
     <None Remove="Areas\Admin\Data\**" />
     <None Remove="Areas\Users\Data\**" />
+    <None Remove="Pages\**" />
   </ItemGroup>
 
 
@@ -23,7 +27,6 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" PrivateAssets="All" />
-    <PackageReference Include="NToastNotify" Version="5.0.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,10 +41,6 @@
     <ProjectReference Include="..\iTest.Infrastructure\iTest.Infrastructure.csproj" />
     <ProjectReference Include="..\iTest.Services.Data\iTest.Services.Data.csproj" />
     <ProjectReference Include="..\iTest.Services.External\iTest.Services.External.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\" />
   </ItemGroup>
 
 </Project>

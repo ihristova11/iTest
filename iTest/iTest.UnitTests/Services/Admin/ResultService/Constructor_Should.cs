@@ -15,7 +15,7 @@ namespace iTest.UnitTests.Services.Admin.ResultService
         public void ThrowArgumentNullException_WhenMappingProviderIsNull()
         {
             var saverMock = new Mock<ISaver>();
-            var userTestRepoMock = new Mock<IRepository<UserTest>>();
+            var userTestRepoMock = new Mock<IUserTestService<UserTest>>();
 
             Assert.ThrowsException<ArgumentNullException>(() => new iTest.Services.Data.Admin.Implementations.ResultService(saverMock.Object, null, userTestRepoMock.Object));
         }
@@ -24,7 +24,7 @@ namespace iTest.UnitTests.Services.Admin.ResultService
         public void ThrowArgumentNullException_WhenUnitOfWorkIsNull()
         {
             var mappingProviderMock = new Mock<IMappingProvider>();
-            var userTestRepoMock = new Mock<IRepository<UserTest>>();
+            var userTestRepoMock = new Mock<IUserTestService<UserTest>>();
 
             Assert.ThrowsException<ArgumentNullException>(() => new iTest.Services.Data.Admin.Implementations.ResultService(null, mappingProviderMock.Object, userTestRepoMock.Object));
         }

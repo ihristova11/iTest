@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace iTest.Data.Repository
 {
-    public interface IRepository<T> where T : class, IDeletable
+    public interface IUserTestService<T> where T : class, IDeletable
     {
         IQueryable<T> All { get; }
         IQueryable<T> AllAndDeleted { get; }

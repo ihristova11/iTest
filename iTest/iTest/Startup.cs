@@ -117,7 +117,6 @@ namespace iTest.Web
             services.AddAutoMapper();
             services.AddScoped<IMappingProvider, MappingProvider>();
 
-            services.AddMvc().AddNToastNotifyNoty(); // toastr
             services.AddAntiforgery(options => options.HeaderName = "__RequestVerificationToken");
             services.AddMemoryCache();
         }
@@ -130,7 +129,7 @@ namespace iTest.Web
                     options.UseSqlServer(connectionString);
                 });
 
-            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            services.AddScoped(typeof(IUserTestService<>), typeof(EfRepository<>));
             services.AddScoped<ISaver, EntitySaver>();
         }
 

@@ -8,7 +8,6 @@ using iTest.Web.Areas.Users.Models.Dashboard;
 using iTest.Web.Areas.Users.Models.Details;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using NToastNotify;
 using System;
 using System.Linq;
 
@@ -20,15 +19,13 @@ namespace iTest.Web.Areas.Users.Controllers
         private readonly IUserCategoryService categories;
         private readonly IMappingProvider mapper;
         private readonly UserManager<User> userManager;
-        private readonly IToastNotification toastr;
 
-        public DashboardController(IUserTestService tests, IUserCategoryService categories, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
+        public DashboardController(IUserTestService tests, IUserCategoryService categories, IMappingProvider mapper, UserManager<User> userManager)
         {
             this.tests = tests;
             this.categories = categories;
             this.mapper = mapper;
             this.userManager = userManager;
-            this.toastr = toastr;
         }
 
         public IActionResult Index()
@@ -63,6 +60,15 @@ namespace iTest.Web.Areas.Users.Controllers
             var userId = this.userManager.GetUserId(this.HttpContext.User);
             var test = this.tests.FindById(id);
 
+            var resultStatus = this.tests.GetTestResultByUser(userId, test.Id);
+
+            if (resultStatus != ResultStatus.Default)
+            {
+                TempData["Success-Message"] = "You have already submitted this test.";
+                return RedirectToAction("Index", "Dashboard", new { area = "Users" });
+
+            }
+
             var model = new UserTestDetailsViewModel();
 
             model = this.mapper.MapTo<UserTestDetailsViewModel>(test);
@@ -76,6 +82,8 @@ namespace iTest.Web.Areas.Users.Controllers
             model.QuestionsCount = test.Questions.ToList().Count();
             model.UserId = userId;
             model.TestId = test.Id;
+
+            TempData["Success-Message"] = "You have started the test. Good luck...";
 
             return View(model);
         }
@@ -109,16 +117,18 @@ namespace iTest.Web.Areas.Users.Controllers
                 if (result >= 80.0)
                 {
                     dto.ResultStatus = ResultStatus.Passed;
+                    TempData["Success-Message"] = "You passed the test. Please wait, your result is being saved";
                 }
                 else
                 {
                     dto.ResultStatus = ResultStatus.Failed;
+                    TempData["Success-Message"] = "You score is not enough to pass the test. Please wait, your are being redirect to your dashboard";
                 }
             }
 
             this.tests.SaveResult(dto);
 
-            return RedirectToAction("Index", "Dashboard", new { area = "Users" }); // working but why!
+            return RedirectToAction("Index", "Dashboard", new { area = "Users" });
             //return Json(Url.Action("Index", "Dashboard", new { area = "Users" }));
         }
     }

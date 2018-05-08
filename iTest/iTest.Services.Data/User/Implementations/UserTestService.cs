@@ -1,4 +1,5 @@
 ﻿using iTest.Data.Models;
+using iTest.Data.Models.Enums;
 using iTest.Data.Repository;
 using iTest.Data.UnitsOfWork;
 using iTest.DTO;
@@ -14,12 +15,12 @@ namespace iTest.Services.Data.User.Implementations
     public class UserTestService : IUserTestService
     {
         private readonly IMappingProvider mapper;
-        private readonly IRepository<Test> tests;
-        private readonly IRepository<UserTest> userTests;
-        private readonly IRepository<Category> categories;
+        private readonly IUserTestService<Test> tests;
+        private readonly IUserTestService<UserTest> userTests;
+        private readonly IUserTestService<Category> categories;
         private readonly ISaver saver;
 
-        public UserTestService(IMappingProvider mapper, IRepository<Test> tests, IRepository<UserTest> userTests, IRepository<Category> categories, ISaver saver)
+        public UserTestService(IMappingProvider mapper, IUserTestService<Test> tests, IUserTestService<UserTest> userTests, IUserTestService<Category> categories, ISaver saver)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.tests = tests ?? throw new ArgumentNullException(nameof(tests));
@@ -109,6 +110,13 @@ namespace iTest.Services.Data.User.Implementations
             this.userTests.Add(domainTest);
 
             this.saver.SaveChanges();
+        }
+
+        public ResultStatus GetTestResultByUser(string userId, int testId)
+        {
+            var test = this.userTests.All.FirstOrDefault(x => x.UserId == userId && x.TestId == testId);
+
+            return test.ResultStatus;
         }
     }
 }
