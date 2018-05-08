@@ -34,14 +34,13 @@ namespace iTest.Web
             this.RegisterAuthentication(services);
             this.RegisterServices(services);
             this.Routing(services);
-            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseDatabaseMigration(); // auto migrations
 
-            DataSeeder.InitializeAsync(app.ApplicationServices).Wait();
+            DataSeeder.InitializeAsync(app.ApplicationServices).Wait(); // seed categories
 
             if (env.IsDevelopment())
             {
@@ -57,8 +56,6 @@ namespace iTest.Web
             app.UseStaticFiles();
 
             app.UseAuthentication();
-
-            app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 
             app.UseMvc(routes =>
             {
