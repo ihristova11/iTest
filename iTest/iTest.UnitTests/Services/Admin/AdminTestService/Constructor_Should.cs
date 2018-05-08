@@ -96,8 +96,42 @@ namespace iTest.UnitTests.Services.Admin.AdminTestService
 
             Assert.ThrowsException<ArgumentNullException>(() =>
                 new iTest.Services.Data.Admin.Implementations.AdminTestService(mappingMock.Object, testRepoMock.Object,
-                    questionsRepoMock.Object, categoryRepoMock.Object,null, answersRepoMock.Object,
+                    questionsRepoMock.Object, categoryRepoMock.Object, null, answersRepoMock.Object,
                     userTestRepoMock.Object));
+        }
+
+        [TestMethod]
+        public void ThrowArgumentNullException_WhenAnswerRepokIsNull()
+        {
+            var categoryRepoMock = new Mock<IUserTestService<Category>>();
+            var mappingMock = new Mock<IMappingProvider>();
+            var testRepoMock = new Mock<IUserTestService<Test>>();
+            var saverMock = new Mock<ISaver>();
+            var questionsRepoMock = new Mock<IUserTestService<Question>>();
+            //var answersRepoMock = new Mock<IUserTestService<Answer>>();
+            var userTestRepoMock = new Mock<IUserTestService<UserTest>>();
+
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                new iTest.Services.Data.Admin.Implementations.AdminTestService(mappingMock.Object, testRepoMock.Object,
+                    questionsRepoMock.Object, categoryRepoMock.Object, saverMock.Object, null,
+                    userTestRepoMock.Object));
+        }
+
+        [TestMethod]
+        public void ThrowArgumentNullException_WhenUserTestRepokIsNull()
+        {
+            var categoryRepoMock = new Mock<IUserTestService<Category>>();
+            var mappingMock = new Mock<IMappingProvider>();
+            var testRepoMock = new Mock<IUserTestService<Test>>();
+            var saverMock = new Mock<ISaver>();
+            var questionsRepoMock = new Mock<IUserTestService<Question>>();
+            var answersRepoMock = new Mock<IUserTestService<Answer>>();
+            //var userTestRepoMock = new Mock<IUserTestService<UserTest>>();
+
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                new iTest.Services.Data.Admin.Implementations.AdminTestService(mappingMock.Object, testRepoMock.Object,
+                    questionsRepoMock.Object, categoryRepoMock.Object, saverMock.Object, answersRepoMock.Object,
+                    null));
         }
     }
 }
