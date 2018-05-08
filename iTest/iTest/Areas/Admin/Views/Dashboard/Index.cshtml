@@ -83,80 +83,28 @@
                     <div class="tab-pane fade" id="tab2default">
                         <table style="width:100%" class="table table-striped custab results" data-page-length='10'>
                             <thead>
-                                <tr>
-                                    <th>Test Name</th>
-                                    <th>User Name</th>
-                                    <th>Category</th>
-                                    <th>Requested Time</th>
-                                    <th>Execution Time</th>
-                                    <th>Passed</th>
-                                </tr>
+                            <tr>
+                                <th>Test Name</th>
+                                <th>User Name</th>
+                                <th>Category</th>
+                                <th>Requested Time</th>
+                                <th>Execution Time</th>
+                                <th>Results</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>.Net Advanced</td>
-                                    <td>Suzi May</td>
-                                    <td>.NET</td>
-                                    <td>30 min</td>
-                                    <td>20 min</td>
-                                    <td>Passed</td>
-                                </tr>
-                                <tr>
-                                    <td>.Net Advanced</td>
-                                    <td>Freddy Ray</td>
-                                    <td>.NET</td>
-                                    <td>30 min</td>
-                                    <td>30 min</td>
-                                    <td>Failed</td>
-                                </tr>
-                                <tr>
-                                    <td>.Net Advanced</td>
-                                    <td>Tod Miller</td>
-                                    <td>.NET</td>
-                                    <td>30 min</td>
-                                    <td>30 min</td>
-                                    <td>Passed</td>
-                                </tr>
-                                <tr>
-                                    <td>.Net Advanced</td>
-                                    <td>Mathew Raffel</td>
-                                    <td>.NET</td>
-                                    <td>30 min</td>
-                                    <td>22 min</td>
-                                    <td>Failed</td>
-                                </tr>
-                                <tr>
-                                    <td>.Net Advanced</td>
-                                    <td>Brat NotPit</td>
-                                    <td>.NET</td>
-                                    <td>30 min</td>
-                                    <td>17 min</td>
-                                    <td>Passed</td>
-                                </tr>
-                                <tr>
-                                    <td>Java Advanced</td>
-                                    <td>Hanna Montana</td>
-                                    <td>Java</td>
-                                    <td>30 min</td>
-                                    <td>15 min</td>
-                                    <td>Passed</td>
-                                </tr>
-                                <tr>
-                                    <td>Java Advanced</td>
-                                    <td>Jay Perry</td>
-                                    <td>Java</td>
-                                    <td>30 min</td>
-                                    <td>20 min</td>
-                                    <td>Failed</td>
-                                </tr>
-                                <tr>
-                                    <td>Java Advanced</td>
-                                    <td>Steffan Spassbird</td>
-                                    <td>Java</td>
-                                    <td>30 min</td>
-                                    <td>25 min</td>
-                                    <td>Passed</td>
-                                </tr>
+                            <tr>
+                                @foreach (var userResult in Model.UserResults)
+                                {
+                                    <td>@userResult.TestName</td>
+                                    <td>@userResult.UserName</td>
+                                    <td>@userResult.Category</td>
+                                    <td>@userResult.RequestedTime</td>
+                                    <td>@userResult.ExecutionTime</td>
+                                    <td>@userResult.Result</td>
+                                }
+                            </tr>
+
                             </tbody>
                         </table>
                     </div>

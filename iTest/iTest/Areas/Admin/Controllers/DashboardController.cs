@@ -23,11 +23,12 @@ namespace iTest.Web.Areas.Admin.Controllers
         private readonly IResultService resultService;
         private readonly UserManager<User> userManager;
 
-        public DashboardController(IMappingProvider mapper, IAdminTestService tests, UserManager<User> userManager, IMemoryCache cache)
+        public DashboardController(IMappingProvider mapper, IAdminTestService tests, UserManager<User> userManager, IMemoryCache cache, IResultService resultService)
         {
             this.mapper = mapper ?? throw new ArgumentNullException("Mapper can not be null");
             this.tests = tests ?? throw new ArgumentNullException("Tests service cannot be null");
             this.userManager = userManager ?? throw new ArgumentNullException("User manager cannot be null");
+            this.resultService = resultService ?? throw new ArgumentNullException(nameof(resultService));
         }
 
         [HttpGet]
@@ -39,7 +40,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             var allTestsDto = this.tests.AllByAuthor(admin.Id);
 
-           // var allResultsDto = this.resultService.GetUserResults();
+            var allResultsDto = this.resultService.GetUserResults();
 
             var allTestsViewModel = new List<TestViewModel>();
 
@@ -59,20 +60,20 @@ namespace iTest.Web.Areas.Admin.Controllers
                 allTestsViewModel.Add(curr);
             }
 
-            ////UserTest creating
-            //foreach (var result in allResultsDto)
-            //{
-            //    var curr = new UserTestViewModel()
-            //    {
-            //        TestName = result.Test.Name,
-            //        UserName = result.User.UserName,
-            //        Category = result.Test.Category.Name,
-            //        RequestedTime = result.RequestedTime,
-            //        ExecutionTime = result.ExecutionTime,
-            //        Result = Enum.GetName(typeof(ResultStatus), result.ResultStatus)
-            //    };
-            //    allResultsViewModel.Add(curr);
-            //}
+            //UserTest creating
+            foreach (var result in allResultsDto)
+            {
+                var curr = new UserTestViewModel()
+                {
+                    TestName = result.Test.Name,
+                    UserName = result.User.UserName,
+                    Category = result.Test.Category.Name,
+                    RequestedTime = result.RequestedTime,
+                    ExecutionTime = result.ExecutionTime,
+                    Result = Enum.GetName(typeof(ResultStatus), result.ResultStatus)
+                };
+                allResultsViewModel.Add(curr);
+            }
 
             // IndexViewModel creating
             var model = new IndexViewModel()
