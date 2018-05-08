@@ -15,12 +15,12 @@ namespace iTest.Services.Data.User.Implementations
     public class UserTestService : IUserTestService
     {
         private readonly IMappingProvider mapper;
-        private readonly IUserTestService<Test> tests;
-        private readonly IUserTestService<UserTest> userTests;
-        private readonly IUserTestService<Category> categories;
+        private readonly IRepository<Test> tests;
+        private readonly IRepository<UserTest> userTests;
+        private readonly IRepository<Category> categories;
         private readonly ISaver saver;
 
-        public UserTestService(IMappingProvider mapper, IUserTestService<Test> tests, IUserTestService<UserTest> userTests, IUserTestService<Category> categories, ISaver saver)
+        public UserTestService(IMappingProvider mapper, IRepository<Test> tests, IRepository<UserTest> userTests, IRepository<Category> categories, ISaver saver)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.tests = tests ?? throw new ArgumentNullException(nameof(tests));
@@ -45,7 +45,8 @@ namespace iTest.Services.Data.User.Implementations
         {
             var allTests = this.tests
                                  .All
-                                 .Where(x => x.Category.Name == category);
+                                 .Where(x => x.Category.Name == category
+                                             && x.Status == Status.Published);
 
             if (allTests == null)
             {
@@ -114,7 +115,9 @@ namespace iTest.Services.Data.User.Implementations
 
         public ResultStatus GetTestResultByUser(string userId, int testId)
         {
-            var test = this.userTests.All.FirstOrDefault(x => x.UserId == userId && x.TestId == testId);
+            var test = this.userTests.All
+                .FirstOrDefault(x => x.UserId == userId
+                                        && x.TestId == testId);
 
             if (test == null)
             {

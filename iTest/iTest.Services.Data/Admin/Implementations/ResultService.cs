@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using iTest.Data.Models;
+﻿using iTest.Data.Models;
 using iTest.Data.Repository;
 using iTest.Data.UnitsOfWork;
 using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
 using Microsoft.EntityFrameworkCore;
-using iTest.Data.Repository;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace iTest.Services.Data.Admin.Implementations
 {
@@ -16,10 +15,10 @@ namespace iTest.Services.Data.Admin.Implementations
     {
         private readonly ISaver saver;
         private readonly IMappingProvider mapper;
-        private readonly IUserTestService<Test> tests;
-        private readonly IUserTestService<UserTest> userTests;
+        private readonly IRepository<Test> tests;
+        private readonly IRepository<UserTest> userTests;
 
-        public ResultService(ISaver saver, IMappingProvider mapper, IUserTestService<Test> tests, IUserTestService<UserTest> userTests)
+        public ResultService(ISaver saver, IMappingProvider mapper, IRepository<Test> tests, IRepository<UserTest> userTests)
         {
             this.saver = saver ?? throw new ArgumentNullException("Saver can not be null");
             this.mapper = mapper ?? throw new ArgumentNullException("Mapper can not be null");
@@ -45,7 +44,7 @@ namespace iTest.Services.Data.Admin.Implementations
         public IEnumerable<UserTestDTO> GetUserResults()
         {
             var userResults = userTests.All.Include(t => t.Test).Include(u => u.User);
-                //.Where(ur => ur.StartedOn + ur.RequestedTime < DateTime.Now.AddSeconds(5));
+            //.Where(ur => ur.StartedOn + ur.RequestedTime < DateTime.Now.AddSeconds(5));
 
             var dto = mapper.ProjectTo<UserTestDTO>(userResults);
 
