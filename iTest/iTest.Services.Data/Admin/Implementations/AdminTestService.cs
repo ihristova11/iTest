@@ -36,6 +36,10 @@ namespace iTest.Services.Data.Admin.Implementations
 
         public IEnumerable<TestDTO> AllByAuthor(string authorId)
         {
+            if (string.IsNullOrEmpty(authorId))
+            {
+                throw new ArgumentException("AuthorId cannot be null");
+            }
             var allTests = this.tests
                                   .All
                                   .Include(x => x.Author)
