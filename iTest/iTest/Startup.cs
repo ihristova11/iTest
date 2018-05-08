@@ -37,14 +37,13 @@ namespace iTest.Web
             this.RegisterServices(services);
             services.AddScoped<IResultService, ResultService>();
             this.Routing(services);
-            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseDatabaseMigration(); // auto migrations
 
-            DataSeeder.InitializeAsync(app.ApplicationServices).Wait();
+            DataSeeder.InitializeAsync(app.ApplicationServices).Wait(); // seed categories
 
             if (env.IsDevelopment())
             {
@@ -60,8 +59,6 @@ namespace iTest.Web
             app.UseStaticFiles();
 
             app.UseAuthentication();
-
-            app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 
             app.UseMvc(routes =>
             {
@@ -132,7 +129,7 @@ namespace iTest.Web
                     options.UseSqlServer(connectionString);
                 });
 
-            services.AddScoped(typeof(IUserTestService<>), typeof(EfRepository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<ISaver, EntitySaver>();
         }
 

@@ -14,8 +14,8 @@ namespace iTest.UnitTests.Services.User.UserCategoryService
         [TestMethod]
         public void ThrowArgumentNullException_WhenMappingProviderIsNull()
         {
-            var categoryRepoMock = new Mock<IUserTestService<Category>>();
-            var testRepoMock = new Mock<IUserTestService<Test>>();
+            var categoryRepoMock = new Mock<IRepository<Category>>();
+            var testRepoMock = new Mock<IRepository<Test>>();
             var saverMock = new Mock<ISaver>();
 
             Assert.ThrowsException<ArgumentNullException>(() => new iTest.Services.Data.User.Implementations.UserCategoryService(null, categoryRepoMock.Object, testRepoMock.Object, saverMock.Object));
@@ -25,7 +25,7 @@ namespace iTest.UnitTests.Services.User.UserCategoryService
         public void ThrowArgumentNullException_WhenCategoryRepoIsNull()
         {
             var mappingProviderMock = new Mock<IMappingProvider>();
-            var testRepoMock = new Mock<IUserTestService<Test>>();
+            var testRepoMock = new Mock<IRepository<Test>>();
             var saverMock = new Mock<ISaver>();
 
             Assert.ThrowsException<ArgumentNullException>(() => new iTest.Services.Data.User.Implementations.UserCategoryService(mappingProviderMock.Object, null, testRepoMock.Object, saverMock.Object));
@@ -34,7 +34,7 @@ namespace iTest.UnitTests.Services.User.UserCategoryService
         [TestMethod]
         public void ThrowArgumentNullException_WhenTestRepoIsNull()
         {
-            var categoryRepoMock = new Mock<IUserTestService<Category>>();
+            var categoryRepoMock = new Mock<IRepository<Category>>();
             var mappingProviderMock = new Mock<IMappingProvider>();
             var saverMock = new Mock<ISaver>();
 
@@ -44,8 +44,8 @@ namespace iTest.UnitTests.Services.User.UserCategoryService
         [TestMethod]
         public void ThrowArgumentNullException_WhenUnitOfWorkIsNull()
         {
-            var testRepoMock = new Mock<IUserTestService<Test>>();
-            var categoryRepoMock = new Mock<IUserTestService<Category>>();
+            var testRepoMock = new Mock<IRepository<Test>>();
+            var categoryRepoMock = new Mock<IRepository<Category>>();
             var mappingProviderMock = new Mock<IMappingProvider>();
 
             Assert.ThrowsException<ArgumentNullException>(() => new iTest.Services.Data.User.Implementations.UserCategoryService(mappingProviderMock.Object, categoryRepoMock.Object, testRepoMock.Object, null));

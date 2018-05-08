@@ -93,17 +93,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    @foreach (var userResult in Model.UserResults)
-                                    {
+
+                                @foreach (var userResult in Model.UserResults)
+                                {
+                                    <tr>
                                         <td>@userResult.TestName</td>
                                         <td>@userResult.UserName</td>
                                         <td>@userResult.Category</td>
                                         <td>@userResult.RequestedTime</td>
                                         <td>@userResult.ExecutionTime</td>
                                         <td>@userResult.Result</td>
-                                    }
-                                </tr>
+                                    </tr>
+
+                                }
 
                             </tbody>
                         </table>

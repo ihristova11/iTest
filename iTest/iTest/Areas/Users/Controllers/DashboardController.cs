@@ -117,16 +117,16 @@ namespace iTest.Web.Areas.Users.Controllers
                 if (result >= 80.0)
                 {
                     dto.ResultStatus = ResultStatus.Passed;
-                    TempData["Success-Message"] = "You passed the test. Please wait, your result is being saved";
                 }
                 else
                 {
                     dto.ResultStatus = ResultStatus.Failed;
-                    TempData["Success-Message"] = "You score is not enough to pass the test. Please wait, your are being redirect to your dashboard";
                 }
             }
 
             this.tests.SaveResult(dto);
+
+            TempData["Success-Message"] = "Please wait, your test is being submitted"; // ViewData[]
 
             return RedirectToAction("Index", "Dashboard", new { area = "Users" });
             //return Json(Url.Action("Index", "Dashboard", new { area = "Users" }));
