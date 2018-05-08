@@ -22,12 +22,12 @@ namespace iTest.UnitTests.Services.Admin.AdminTestService
         [TestMethod]
         public void ThrowArgumentNullException_WhenMappingProviderIsNull()
         {
-            var categoryRepoMock = new Mock<IUserTestService<Category>>();
-            var testRepoMock = new Mock<IUserTestService<Test>>();
+            var categoryRepoMock = new Mock<IRepository<Category>>();
+            var testRepoMock = new Mock<IRepository<Test>>();
             var saverMock = new Mock<ISaver>();
-            var questionsRepoMock = new Mock<IUserTestService<Question>>();
-            var answersRepoMock = new Mock<IUserTestService<Answer>>();
-            var userTestRepoMock = new Mock<IUserTestService<UserTest>>();
+            var questionsRepoMock = new Mock<IRepository<Question>>();
+            var answersRepoMock = new Mock<IRepository<Answer>>();
+            var userTestRepoMock = new Mock<IRepository<UserTest>>();
 
             Assert.ThrowsException<ArgumentNullException>(() => new iTest.Services.Data.Admin.Implementations.AdminTestService(null, testRepoMock.Object, questionsRepoMock.Object, categoryRepoMock.Object, saverMock.Object, answersRepoMock.Object, userTestRepoMock.Object));
         }
@@ -37,11 +37,11 @@ namespace iTest.UnitTests.Services.Admin.AdminTestService
         {
             //var categoryRepoMock = new Mock<IUserTestService<Category>>();
             var mappingMock = new Mock<IMappingProvider>();
-            var testRepoMock = new Mock<IUserTestService<Test>>();
+            var testRepoMock = new Mock<IRepository<Test>>();
             var saverMock = new Mock<ISaver>();
-            var questionsRepoMock = new Mock<IUserTestService<Question>>();
-            var answersRepoMock = new Mock<IUserTestService<Answer>>();
-            var userTestRepoMock = new Mock<IUserTestService<UserTest>>();
+            var questionsRepoMock = new Mock<IRepository<Question>>();
+            var answersRepoMock = new Mock<IRepository<Answer>>();
+            var userTestRepoMock = new Mock<IRepository<UserTest>>();
 
             Assert.ThrowsException<ArgumentNullException>(() =>
                 new iTest.Services.Data.Admin.Implementations.AdminTestService(mappingMock.Object, testRepoMock.Object,
@@ -52,13 +52,13 @@ namespace iTest.UnitTests.Services.Admin.AdminTestService
         [TestMethod]
         public void ThrowArgumentNullException_WhenQuestionRepoIsNull()
         {
-            var categoryRepoMock = new Mock<IUserTestService<Category>>();
+            var categoryRepoMock = new Mock<IRepository<Category>>();
             var mappingMock = new Mock<IMappingProvider>();
-            var testRepoMock = new Mock<IUserTestService<Test>>();
+            var testRepoMock = new Mock<IRepository<Test>>();
             var saverMock = new Mock<ISaver>();
             //var questionsRepoMock = new Mock<IUserTestService<Question>>();
-            var answersRepoMock = new Mock<IUserTestService<Answer>>();
-            var userTestRepoMock = new Mock<IUserTestService<UserTest>>();
+            var answersRepoMock = new Mock<IRepository<Answer>>();
+            var userTestRepoMock = new Mock<IRepository<UserTest>>();
 
             Assert.ThrowsException<ArgumentNullException>(() =>
                 new iTest.Services.Data.Admin.Implementations.AdminTestService(mappingMock.Object, testRepoMock.Object,
@@ -69,13 +69,13 @@ namespace iTest.UnitTests.Services.Admin.AdminTestService
         [TestMethod]
         public void ThrowArgumentNullException_WhenTestRepoIsNull()
         {
-            var categoryRepoMock = new Mock<IUserTestService<Category>>();
+            var categoryRepoMock = new Mock<IRepository<Category>>();
             var mappingMock = new Mock<IMappingProvider>();
             //var testRepoMock = new Mock<IUserTestService<Test>>();
             var saverMock = new Mock<ISaver>();
-            var questionsRepoMock = new Mock<IUserTestService<Question>>();
-            var answersRepoMock = new Mock<IUserTestService<Answer>>();
-            var userTestRepoMock = new Mock<IUserTestService<UserTest>>();
+            var questionsRepoMock = new Mock<IRepository<Question>>();
+            var answersRepoMock = new Mock<IRepository<Answer>>();
+            var userTestRepoMock = new Mock<IRepository<UserTest>>();
 
             Assert.ThrowsException<ArgumentNullException>(() =>
                 new iTest.Services.Data.Admin.Implementations.AdminTestService(mappingMock.Object, null,
@@ -86,13 +86,13 @@ namespace iTest.UnitTests.Services.Admin.AdminTestService
         [TestMethod]
         public void ThrowArgumentNullException_WhenUnitOfWorkIsNull()
         {
-            var categoryRepoMock = new Mock<IUserTestService<Category>>();
+            var categoryRepoMock = new Mock<IRepository<Category>>();
             var mappingMock = new Mock<IMappingProvider>();
-            var testRepoMock = new Mock<IUserTestService<Test>>();
+            var testRepoMock = new Mock<IRepository<Test>>();
             //var saverMock = new Mock<ISaver>();
-            var questionsRepoMock = new Mock<IUserTestService<Question>>();
-            var answersRepoMock = new Mock<IUserTestService<Answer>>();
-            var userTestRepoMock = new Mock<IUserTestService<UserTest>>();
+            var questionsRepoMock = new Mock<IRepository<Question>>();
+            var answersRepoMock = new Mock<IRepository<Answer>>();
+            var userTestRepoMock = new Mock<IRepository<UserTest>>();
 
             Assert.ThrowsException<ArgumentNullException>(() =>
                 new iTest.Services.Data.Admin.Implementations.AdminTestService(mappingMock.Object, testRepoMock.Object,
@@ -103,13 +103,13 @@ namespace iTest.UnitTests.Services.Admin.AdminTestService
         [TestMethod]
         public void ThrowArgumentNullException_WhenAnswerRepokIsNull()
         {
-            var categoryRepoMock = new Mock<IUserTestService<Category>>();
+            var categoryRepoMock = new Mock<IRepository<Category>>();
             var mappingMock = new Mock<IMappingProvider>();
-            var testRepoMock = new Mock<IUserTestService<Test>>();
+            var testRepoMock = new Mock<IRepository<Test>>();
             var saverMock = new Mock<ISaver>();
-            var questionsRepoMock = new Mock<IUserTestService<Question>>();
+            var questionsRepoMock = new Mock<IRepository<Question>>();
             //var answersRepoMock = new Mock<IUserTestService<Answer>>();
-            var userTestRepoMock = new Mock<IUserTestService<UserTest>>();
+            var userTestRepoMock = new Mock<IRepository<UserTest>>();
 
             Assert.ThrowsException<ArgumentNullException>(() =>
                 new iTest.Services.Data.Admin.Implementations.AdminTestService(mappingMock.Object, testRepoMock.Object,
@@ -120,12 +120,12 @@ namespace iTest.UnitTests.Services.Admin.AdminTestService
         [TestMethod]
         public void ThrowArgumentNullException_WhenUserTestRepokIsNull()
         {
-            var categoryRepoMock = new Mock<IUserTestService<Category>>();
+            var categoryRepoMock = new Mock<IRepository<Category>>();
             var mappingMock = new Mock<IMappingProvider>();
-            var testRepoMock = new Mock<IUserTestService<Test>>();
+            var testRepoMock = new Mock<IRepository<Test>>();
             var saverMock = new Mock<ISaver>();
-            var questionsRepoMock = new Mock<IUserTestService<Question>>();
-            var answersRepoMock = new Mock<IUserTestService<Answer>>();
+            var questionsRepoMock = new Mock<IRepository<Question>>();
+            var answersRepoMock = new Mock<IRepository<Answer>>();
             //var userTestRepoMock = new Mock<IUserTestService<UserTest>>();
 
             Assert.ThrowsException<ArgumentNullException>(() =>

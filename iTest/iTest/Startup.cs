@@ -129,7 +129,7 @@ namespace iTest.Web
                     options.UseSqlServer(connectionString);
                 });
 
-            services.AddScoped(typeof(IUserTestService<>), typeof(EfRepository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<ISaver, EntitySaver>();
         }
 

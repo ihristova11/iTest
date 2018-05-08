@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace iTest.Data.Repository
 {
-    public class EfRepository<T> : IUserTestService<T>
+    public class EfRepository<T> : IRepository<T>
         where T : class, IDeletable
     {
         private readonly iTestDbContext context;
