@@ -1,18 +1,18 @@
-﻿using iTest.DTO;
+﻿using iTest.Data.Models;
+using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
 using iTest.Web.Areas.Admin.Controllers.Abstract;
+using iTest.Web.Areas.Admin.Models.ManageTest;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using iTest.Data.Models;
-using iTest.Web.Areas.Admin.Models.ManageTest;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace iTest.Web.Areas.Admin.Controllers
 {
@@ -48,18 +48,18 @@ namespace iTest.Web.Areas.Admin.Controllers
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
 
                     // Keep in cache for this time, reset time if accessed.
-                    .SetSlidingExpiration(TimeSpan.FromSeconds(60)); 
+                    .SetSlidingExpiration(TimeSpan.FromSeconds(60));
 
                 // Save data in cache.
                 cache.Set(CacheKey, allCategories, cacheEntryOptions);
             }
-            
+
             return View(new CreateTestViewModel
             {
                 Categories = allCategories
             });
         }
-        
+
         [HttpGet]
         [Authorize]
         public IActionResult AddQuestion(CreateQuestionViewModel model)
@@ -73,7 +73,7 @@ namespace iTest.Web.Areas.Admin.Controllers
         {
             return PartialView("_CreateAnswer", model);
         }
-        
+
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -97,7 +97,7 @@ namespace iTest.Web.Areas.Admin.Controllers
                     }
                 }
             }
-            
+
             testViewModel.AuthorId = this.userManager.GetUserId(this.HttpContext.User);
 
             if (this.ModelState.IsValid && isValidTest)
@@ -142,7 +142,7 @@ namespace iTest.Web.Areas.Admin.Controllers
         [Authorize]
         public IActionResult Edit()
         {
-            throw new NotImplementedException();
+            return View();
         }
     }
 }
