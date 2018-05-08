@@ -116,7 +116,15 @@ namespace iTest.Services.Data.User.Implementations
         {
             var test = this.userTests.All.FirstOrDefault(x => x.UserId == userId && x.TestId == testId);
 
-            return test.ResultStatus;
+            if (test == null)
+            {
+                return ResultStatus.Default;
+            }
+
+            else
+            {
+                return test.ResultStatus;
+            }
         }
     }
 }
