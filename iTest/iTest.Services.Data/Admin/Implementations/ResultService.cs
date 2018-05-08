@@ -8,6 +8,7 @@ using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.Admin.Contracts;
 using Microsoft.EntityFrameworkCore;
+using iTest.Data.Repository;
 
 namespace iTest.Services.Data.Admin.Implementations
 {
@@ -15,10 +16,10 @@ namespace iTest.Services.Data.Admin.Implementations
     {
         private readonly ISaver saver;
         private readonly IMappingProvider mapper;
-        private readonly IRepository<Test> tests;
-        private readonly IRepository<UserTest> userTests;
+        private readonly IUserTestService<Test> tests;
+        private readonly IUserTestService<UserTest> userTests;
 
-        public ResultService(ISaver saver, IMappingProvider mapper, IRepository<Test> tests, IRepository<UserTest> userTests)
+        public ResultService(ISaver saver, IMappingProvider mapper, IUserTestService<Test> tests, IUserTestService<UserTest> userTests)
         {
             this.saver = saver ?? throw new ArgumentNullException("Saver can not be null");
             this.mapper = mapper ?? throw new ArgumentNullException("Mapper can not be null");

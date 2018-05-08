@@ -39,7 +39,7 @@ namespace iTest.Web.Areas.Admin.Controllers
 
             var allTestsDto = this.tests.AllByAuthor(admin.Id);
 
-            var allResultsDto = this.resultService.GetUserResults();
+           // var allResultsDto = this.resultService.GetUserResults();
 
             var allTestsViewModel = new List<TestViewModel>();
 
@@ -59,20 +59,20 @@ namespace iTest.Web.Areas.Admin.Controllers
                 allTestsViewModel.Add(curr);
             }
 
-            //UserTest creating
-            foreach (var result in allResultsDto)
-            {
-                var curr = new UserTestViewModel()
-                {
-                    TestName = result.Test.Name,
-                    UserName = result.User.UserName,
-                    Category = result.Test.Category.Name,
-                    RequestedTime = result.RequestedTime,
-                    ExecutionTime = result.ExecutionTime,
-                    Result = Enum.GetName(typeof(ResultStatus), result.ResultStatus)
-                };
-                allResultsViewModel.Add(curr);
-            }
+            ////UserTest creating
+            //foreach (var result in allResultsDto)
+            //{
+            //    var curr = new UserTestViewModel()
+            //    {
+            //        TestName = result.Test.Name,
+            //        UserName = result.User.UserName,
+            //        Category = result.Test.Category.Name,
+            //        RequestedTime = result.RequestedTime,
+            //        ExecutionTime = result.ExecutionTime,
+            //        Result = Enum.GetName(typeof(ResultStatus), result.ResultStatus)
+            //    };
+            //    allResultsViewModel.Add(curr);
+            //}
 
             // IndexViewModel creating
             var model = new IndexViewModel()
