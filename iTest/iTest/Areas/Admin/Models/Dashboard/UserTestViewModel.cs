@@ -1,4 +1,7 @@
-﻿namespace iTest.Web.Areas.Admin.Models.Dashboard
+﻿using System;
+using iTest.Data.Models.Enums;
+
+namespace iTest.Web.Areas.Admin.Models.Dashboard
 {
     public class UserTestViewModel
     {
@@ -8,9 +11,9 @@
 
         public string Category { get; set; }
 
-        public int RequestedTime { get; set; }
+        public TimeSpan RequestedTime { get; set; }
 
-        public int ExecutionTime { get; set; }
+        public TimeSpan ExecutionTime { get; set; }
 
         public string Result { get; set; }
     }

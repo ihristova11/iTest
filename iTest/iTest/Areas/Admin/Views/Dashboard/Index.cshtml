@@ -13,7 +13,7 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#tab1default" data-toggle="tab">Your Test List</a></li>
                     <li><a href="#tab2default" data-toggle="tab">Test Results</a></li>
-                    <a asp-area="Admin" asp-controller="ManageTest" asp-action="Create" class="btn btn-primary pull-right">New Test</a>
+                    <a asp-area="Admin" asp-controller="ManageTest" asp-action="Create" class="btn btn-primary col-md-2 btn-lg pull-right">New Test</a>
                 </ul>
             </div>
             <div class="panel-body">
@@ -39,15 +39,38 @@
                                             <div class="text-center">
                                                 @if (test.Status == "Published")
                                                 {
-                                                    <a class="btn btn-primary" disabled="disabled">Publish</a>
-                                                    <a class="btn btn-primary" id="@test.Id" disabled="disabled">Edit</a>
-                                                    <a class="btn btn-primary" id="@test.Id" asp-action="Disable" asp-controller="Dashboard" asp-area="Administration" asp-route-id="@test.Id" name="disable">Disable</a>
+                                                    <div class="row">
+                                                        <form class="col-xs-4">
+                                                            <a class="btn btn-primary col-xs-12" disabled="disabled">Publish</a>
+
+                                                        </form>
+
+                                                        <form class="col-xs-4">
+                                                            <a class="btn btn-primary col-xs-12" id="@test.Id" disabled="disabled">Edit</a>
+
+                                                        </form>
+
+                                                        <form class="col-xs-4" asp-action="Disable" asp-controller="Dashboard" asp-area="Admin" asp-route-id="@test.Id">
+                                                            <a class="btn btn-primary col-xs-12 disable-btn" id="@test.Id" name="disable">Disable</a>
+                                                        </form>
+                                                    </div>
+
                                                 }
                                                 else if (test.Status == "Draft")
                                                 {
-                                                    <a class="btn btn-primary" id="@test.Id" asp-action="Publish" asp-controller="Dashboard" asp-area="Administration" asp-route-id="@test.Id" name="publish">Publish</a>
-                                                    <a class="btn btn-primary" asp-action="Edit" asp-controller="ManageTest" asp-area="Administration" asp-route-id="@test.Id">Edit</a>
-                                                    <a class="btn btn-primary" asp-action="Delete" asp-controller="Dashboard" asp-area="Administration" asp-route-id="@test.Id" name="delete">Delete</a>
+                                                    <div class="row">
+                                                        <form class="col-xs-4" asp-action="Publish" asp-controller="Dashboard" asp-area="Admin" asp-route-id="@test.Id">
+                                                            <a class="btn btn-primary col-xs-12 publish-btn" id="@test.Id" name="publish">Publish</a>
+                                                        </form>
+
+                                                        <form class="col-xs-4">
+                                                            <a class="btn btn-primary col-xs-12 edit-btn" asp-action="Edit" asp-controller="ManageTest" asp-area="Admin" asp-route-id="@test.Id">Edit</a>
+                                                        </form>
+
+                                                        <form class="col-xs-4" asp-action="Delete" asp-controller="Dashboard" asp-area="Admin" asp-route-id="@test.Id">
+                                                            <a class="btn btn-primary col-xs-12 delete-btn" name="delete">Delete</a>
+                                                        </form>
+                                                    </div>
                                                 }
 
                                             </div>
@@ -73,10 +96,10 @@
                                 <tr>
                                     <td>Tatyana Fitzpatrick</td>
                                     <td>Regional Director</td>
-                                    <td>London</td>
-                                    <td>19</td>
-                                    <td>2010/03/17</td>
-                                    <td>$385,750</td>
+                                    <td>NET</td>
+                                    <td>12 min</td>
+                                    <td>19 min</td>
+                                    <td>Passed</td>
                                 </tr>
                                 <tr>
                                     <td>Michael Silva</td>
@@ -147,5 +170,4 @@
 @section Scripts {
     @Html.Partial("_ValidationScriptsPartial")
     <script src="~/js/dashboard.js"></script>
-
 }

@@ -68,11 +68,15 @@
             </div>
             <form asp-controller="Dashboard" asp-action="Details" method="post">
                 <div class="modal-footer">
-                    <input asp-for="@Model.Name" id="test-name" type="hidden" value="@Model.Name">
-                    <input asp-for="@Model.CategoryName" type="hidden" value="@Model.CategoryName">
-                    <input asp-for="@Model.StartedOn" type="hidden" value="@Model.StartedOn">
-                    <input asp-for="@Model.SubmittedOn" type="hidden" value="@Model.SubmittedOn">
-                    <input asp-for="@Model.CorrectAnswers" type="hidden" value="correctAnswers">
+                    <input asp-for="@Model.Name" id="Name" type="hidden" value="@Model.Name">
+                    <input asp-for="@Model.CategoryName" id="CategoryName" type="hidden" value="@Model.CategoryName">
+                    <input asp-for="@Model.StartedOn" id="startedOn" type="hidden" value="@Model.StartedOn">
+                    <input asp-for="@Model.SubmittedOn" id="SubmittedOn" type="hidden" value="@Model.SubmittedOn">
+                    <input asp-for="@Model.RequestedTime" id="RequestedTime" type="hidden" value="@Model.RequestedTime">
+                    <input asp-for="@Model.QuestionsCount" id="QuestionsCount" type="hidden" value="@Model.QuestionsCount">
+                    <input asp-for="@Model.UserId" id="UserId" type="hidden" value="@Model.UserId">
+                    <input asp-for="@Model.TestId" id="TestId" type="hidden" value="@Model.TestId">
+                    <input asp-for="@Model.CorrectAnswers" id="CorrectAnswers" type="hidden" value="@Model.CorrectAnswers">
                     <button type="submit" class="btn btn-info" id="confirm">Submit</button>
                 </div>
             </form>

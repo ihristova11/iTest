@@ -1,4 +1,5 @@
 ﻿using iTest.Data.Models;
+using iTest.Data.Models.Enums;
 using iTest.Data.Repository;
 using iTest.Data.UnitsOfWork;
 using iTest.DTO;
@@ -14,12 +15,12 @@ namespace iTest.Services.Data.User.Implementations
     public class UserTestService : IUserTestService
     {
         private readonly IMappingProvider mapper;
-        private readonly IRepository<Test> tests;
-        private readonly IRepository<UserTest> userTests;
-        private readonly IRepository<Category> categories;
+        private readonly IUserTestService<Test> tests;
+        private readonly IUserTestService<UserTest> userTests;
+        private readonly IUserTestService<Category> categories;
         private readonly ISaver saver;
 
-        public UserTestService(IMappingProvider mapper, IRepository<Test> tests, IRepository<UserTest> userTests, IRepository<Category> categories, ISaver saver)
+        public UserTestService(IMappingProvider mapper, IUserTestService<Test> tests, IUserTestService<UserTest> userTests, IUserTestService<Category> categories, ISaver saver)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.tests = tests ?? throw new ArgumentNullException(nameof(tests));
@@ -72,19 +73,50 @@ namespace iTest.Services.Data.User.Implementations
             return this.mapper.MapTo<TestDTO>(test);
         }
 
-
-
         public UserTestDTO MapStartedTest(string userId, int testId)
         {
             var test = this.tests.All.FirstOrDefault(t => t.Id == testId);
+
             if (test == null)
             {
-                throw new ArgumentException($"Test with name:{testId} couldn't be found!");
+                throw new ArgumentException($"Test with id:{testId} couldn't be found!");
             }
 
             var dto = mapper.MapTo<UserTestDTO>(test);
 
             return dto;
+        }
+
+        public void SaveResult(UserTestDTO dto)
+        {
+            var test = this.tests.All.FirstOrDefault(x => x.Id == dto.TestId);
+
+            if (test == null)
+            {
+                throw new ArgumentException("Test was not found!");
+            }
+
+            var userTest = this.mapper.MapTo<UserTestDTO>(test);
+
+            // map props
+            userTest.UserId = dto.UserId;
+            userTest.TestId = dto.TestId;
+            userTest.RequestedTime = dto.RequestedTime;
+            userTest.ExecutionTime = dto.ExecutionTime;
+            userTest.ResultStatus = dto.ResultStatus;
+
+            var domainTest = this.mapper.MapTo<UserTest>(userTest);
+
+            this.userTests.Add(domainTest);
+
+            this.saver.SaveChanges();
+        }
+
+        public ResultStatus GetTestResultByUser(string userId, int testId)
+        {
+            var test = this.userTests.All.FirstOrDefault(x => x.UserId == userId && x.TestId == testId);
+
+            return test.ResultStatus;
         }
     }
 }

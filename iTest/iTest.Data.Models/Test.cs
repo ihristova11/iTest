@@ -1,6 +1,5 @@
 ﻿using iTest.Data.Models.Abstract;
 using iTest.Data.Models.Enums;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -14,8 +13,6 @@ namespace iTest.Data.Models
         public string Name { get; set; }
 
         public int RequestedTime { get; set; }
-
-        public TimeSpan ExecutionTime { get; set; }
 
         public Status Status { get; set; }
 

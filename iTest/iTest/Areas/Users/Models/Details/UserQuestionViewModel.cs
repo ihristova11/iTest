@@ -8,7 +8,7 @@ namespace iTest.Web.Areas.Users.Models.Details
 
         public string Description { get; set; }
 
-        public IList<UserAnswerViewModel> Answers { get; set; }
+        public IEnumerable<UserAnswerViewModel> Answers { get; set; }
 
         public bool IsCorrect { get; set; }
 

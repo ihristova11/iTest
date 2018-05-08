@@ -14,10 +14,15 @@ namespace iTest.DTO
 
         public TimeSpan RequestedTime { get; set; }
 
+        public DateTime SubmittedOn { get; set; }
         public DateTime StartedOn { get; set; }
 
         public TimeSpan ExecutionTime { get; set; }
 
+        public bool IsDeleted { get; set; }
         public ResultStatus ResultStatus { get; set; }
+        public int CorrectAnswers { get; set; }
+
+        public int QuestionsCount { get; set; }
     }
 }

@@ -5,7 +5,6 @@ using iTest.Web.Areas.Admin.Controllers.Abstract;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using NToastNotify;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,34 +12,51 @@ using System.Threading.Tasks;
 using iTest.Data.Models;
 using iTest.Web.Areas.Admin.Models.ManageTest;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace iTest.Web.Areas.Admin.Controllers
 {
     public class ManageTestController : AdminController
     {
+        private readonly string CacheKey = "cacheKey";
         private readonly IAdminTestService testService;
         private readonly IAdminCategoryService categoryService;
         private readonly IMappingProvider mapper;
         private readonly UserManager<User> userManager;
-        private readonly IToastNotification toastr;
+        private readonly IMemoryCache cache;
 
-        public ManageTestController(IAdminTestService testServices, IAdminCategoryService categoryService, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
+        public ManageTestController(IAdminTestService testServices, IAdminCategoryService categoryService, IMappingProvider mapper, UserManager<User> userManager, IMemoryCache cache)
         {
             this.testService = testServices ?? throw new ArgumentNullException(nameof(testServices));
             this.categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-            this.toastr = toastr ?? throw new ArgumentNullException(nameof(toastr));
+            this.cache = cache ?? throw new ArgumentNullException(nameof(cache));
         }
 
         [HttpGet]
         [Authorize]
-        //[Route("admin/create")]
         public async Task<IActionResult> Create()
         {
+            // Look for cache key.
+            if (!cache.TryGetValue(CacheKey, out IEnumerable<SelectListItem> allCategories))
+            {
+                // Key not in cache, so get data.
+                allCategories = await this.GetCategoriesAsync();
+
+                // Set cache options.
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+
+                    // Keep in cache for this time, reset time if accessed.
+                    .SetSlidingExpiration(TimeSpan.FromSeconds(60)); 
+
+                // Save data in cache.
+                cache.Set(CacheKey, allCategories, cacheEntryOptions);
+            }
+            
             return View(new CreateTestViewModel
             {
-                Categories = await this.GetCategoriesAsync()
+                Categories = allCategories
             });
         }
         
@@ -60,8 +76,7 @@ namespace iTest.Web.Areas.Admin.Controllers
         
         [HttpPost]
         [Authorize]
-        //[Route("admin/create")] 
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public IActionResult Create([FromBody] CreateTestViewModel testViewModel)
         {
             bool isValidTest = true;
@@ -121,6 +136,13 @@ namespace iTest.Web.Areas.Admin.Controllers
             .ToList();
 
             return categoriesList;
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Edit()
+        {
+            throw new NotImplementedException();
         }
     }
 }

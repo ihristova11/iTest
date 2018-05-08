@@ -1,5 +1,6 @@
 ﻿using iTest.Data.Models;
 using iTest.Data.Models.Enums;
+using iTest.DTO;
 using iTest.Infrastructure.Providers;
 using iTest.Services.Data.User.Contracts;
 using iTest.Web.Areas.Users.Controllers.Abstract;
@@ -7,7 +8,6 @@ using iTest.Web.Areas.Users.Models.Dashboard;
 using iTest.Web.Areas.Users.Models.Details;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using NToastNotify;
 using System;
 using System.Linq;
 
@@ -19,15 +19,13 @@ namespace iTest.Web.Areas.Users.Controllers
         private readonly IUserCategoryService categories;
         private readonly IMappingProvider mapper;
         private readonly UserManager<User> userManager;
-        private readonly IToastNotification toastr;
 
-        public DashboardController(IUserTestService tests, IUserCategoryService categories, IMappingProvider mapper, UserManager<User> userManager, IToastNotification toastr)
+        public DashboardController(IUserTestService tests, IUserCategoryService categories, IMappingProvider mapper, UserManager<User> userManager)
         {
             this.tests = tests;
             this.categories = categories;
             this.mapper = mapper;
             this.userManager = userManager;
-            this.toastr = toastr;
         }
 
         public IActionResult Index()
@@ -59,54 +57,79 @@ namespace iTest.Web.Areas.Users.Controllers
 
         public IActionResult Details(int id)
         {
-            var model = new UserTestDetailsViewModel();
-
+            var userId = this.userManager.GetUserId(this.HttpContext.User);
             var test = this.tests.FindById(id);
 
+            var resultStatus = this.tests.GetTestResultByUser(userId, test.Id);
+
+            if (resultStatus != ResultStatus.Default)
+            {
+                TempData["Success-Message"] = "You have already submitted this test.";
+                return RedirectToAction("Index", "Dashboard", new { area = "Users" });
+
+            }
+
+            var model = new UserTestDetailsViewModel();
+
             model = this.mapper.MapTo<UserTestDetailsViewModel>(test);
+
+            TimeSpan requestedTime = TimeSpan.FromMinutes(test.RequestedTime);
+
+            model.Name = test.Name;
             model.CategoryName = test.Category.Name;
             model.StartedOn = DateTime.Now;
-            TimeSpan requestedTime = TimeSpan.FromMinutes(test.RequestedTime);
             model.RequestedTime = requestedTime;
+            model.QuestionsCount = test.Questions.ToList().Count();
+            model.UserId = userId;
+            model.TestId = test.Id;
+
+            TempData["Success-Message"] = "You have started the test. Good luck...";
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Details([FromBody] UserTestDetailsViewModel model) //[FromBody]
+        public IActionResult Details([FromForm] UserTestDetailsViewModel model)
         {
-            if (model.ResultStatus != ResultStatus.Default)
+            model.SubmittedOn = DateTime.Now;
+            model.ExecutionTime = DateTime.Now.Subtract(model.StartedOn);
+
+            var dto = this.mapper.MapTo<UserTestDTO>(model);
+
+            if (dto.ResultStatus != ResultStatus.Default)
             {
-                return Json(Url.Action("Index", "Dashboard", new { area = "Users" }));
+                return RedirectToAction("Index", "Dashboard", new { area = "Users" });
             }
 
-            model.SubmittedOn = DateTime.Now;
-            model.ExecutionTime = model.SubmittedOn.Subtract(model.StartedOn);
+            var correctAsnwers = dto.CorrectAnswers;
+            var questionsCount = dto.QuestionsCount;
 
-            //var countCorrectQuestions = 0;
 
-            //foreach (var question in model.Questions)
-            //{
-            //    if (question.IsCorrect)
-            //    {
-            //        countCorrectQuestions++;
-            //    }
-            //}
+            if (correctAsnwers == 0)
+            {
+                dto.ResultStatus = ResultStatus.Failed;
+            }
 
-            //double result = (countCorrectQuestions / model.Questions.Count()) * 100;
+            else
+            {
+                var result = (correctAsnwers / questionsCount) * 100;
 
-            //if (result >= 80.0)
-            //{
-            //    model.ResultStatus = ResultStatus.Passed;
-            //}
-            //else
-            //{
-            //    model.ResultStatus = ResultStatus.Failed;
-            //}
+                if (result >= 80.0)
+                {
+                    dto.ResultStatus = ResultStatus.Passed;
+                    TempData["Success-Message"] = "You passed the test. Please wait, your result is being saved";
+                }
+                else
+                {
+                    dto.ResultStatus = ResultStatus.Failed;
+                    TempData["Success-Message"] = "You score is not enough to pass the test. Please wait, your are being redirect to your dashboard";
+                }
+            }
 
-            //this.mapper.MapTo<UserTestDetailsViewModel>(model);
+            this.tests.SaveResult(dto);
 
-            return Json(Url.Action("Index", "Dashboard", new { area = "Users" }));
+            return RedirectToAction("Index", "Dashboard", new { area = "Users" });
+            //return Json(Url.Action("Index", "Dashboard", new { area = "Users" }));
         }
     }
 }

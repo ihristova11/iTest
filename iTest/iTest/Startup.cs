@@ -34,7 +34,6 @@ namespace iTest.Web
             this.RegisterAuthentication(services);
             this.RegisterServices(services);
             this.Routing(services);
-
             services.AddCors();
         }
 
@@ -118,19 +117,19 @@ namespace iTest.Web
             services.AddAutoMapper();
             services.AddScoped<IMappingProvider, MappingProvider>();
 
-            services.AddMvc().AddNToastNotifyNoty(); // toastr
             services.AddAntiforgery(options => options.HeaderName = "__RequestVerificationToken");
+            services.AddMemoryCache();
         }
 
         private void RegisterData(IServiceCollection services)
         {
             services.AddDbContext<iTestDbContext>(options =>
                 {
-                var connectionString = Configuration.GetConnectionString("iTestDbConnection");
-                options.UseSqlServer(connectionString);
-            });
+                    var connectionString = Configuration.GetConnectionString("iTestDbConnection");
+                    options.UseSqlServer(connectionString);
+                });
 
-            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            services.AddScoped(typeof(IUserTestService<>), typeof(EfRepository<>));
             services.AddScoped<ISaver, EntitySaver>();
         }
 

@@ -55,7 +55,7 @@ namespace iTest.Web.Infrastructure
                 .ForMember(t => t.Questions, o => o.MapFrom(t => t.Questions))
                 .ReverseMap();
 
-            this.CreateMap<UserTest, UserTestDTO>().ReverseMap().MaxDepth(3);
+            this.CreateMap<UserTest, UserTestDTO>(MemberList.Source).ReverseMap().MaxDepth(3);
             this.CreateMap<Test, UserTestDTO>().ReverseMap().MaxDepth(3);
 
             this.CreateMap<Question, QuestionDTO>(MemberList.Source)

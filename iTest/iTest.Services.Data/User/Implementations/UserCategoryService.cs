@@ -14,16 +14,16 @@ namespace iTest.Services.Data.User.Implementations
     public class UserCategoryService : IUserCategoryService
     {
         private readonly IMappingProvider mapper;
-        private readonly IRepository<Category> categories;
-        private readonly IRepository<Test> tests;
+        private readonly IUserTestService<Category> categories;
+        private readonly IUserTestService<Test> tests;
         private readonly ISaver saver;
 
-        public UserCategoryService(IMappingProvider mapper, IRepository<Category> categories, IRepository<Test> tests, ISaver saver)
+        public UserCategoryService(IMappingProvider mapper, IUserTestService<Category> categories, IUserTestService<Test> tests, ISaver saver)
         {
-            this.mapper = mapper;
-            this.categories = categories;
-            this.tests = tests;
-            this.saver = saver;
+            this.mapper = mapper ?? throw new ArgumentNullException();
+            this.categories = categories ?? throw new ArgumentNullException();
+            this.tests = tests ?? throw new ArgumentNullException();
+            this.saver = saver ?? throw new ArgumentNullException();
         }
 
         public IEnumerable<CategoryDTO> All()
