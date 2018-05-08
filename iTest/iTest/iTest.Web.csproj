@@ -8,15 +8,19 @@
   <ItemGroup>
     <Compile Remove="Areas\Admin\Data\**" />
     <Compile Remove="Areas\Users\Data\**" />
+    <Compile Remove="Areas\Users\Views\UserTests\**" />
     <Compile Remove="Pages\**" />
     <Content Remove="Areas\Admin\Data\**" />
     <Content Remove="Areas\Users\Data\**" />
+    <Content Remove="Areas\Users\Views\UserTests\**" />
     <Content Remove="Pages\**" />
     <EmbeddedResource Remove="Areas\Admin\Data\**" />
     <EmbeddedResource Remove="Areas\Users\Data\**" />
+    <EmbeddedResource Remove="Areas\Users\Views\UserTests\**" />
     <EmbeddedResource Remove="Pages\**" />
     <None Remove="Areas\Admin\Data\**" />
     <None Remove="Areas\Users\Data\**" />
+    <None Remove="Areas\Users\Views\UserTests\**" />
     <None Remove="Pages\**" />
   </ItemGroup>
 
